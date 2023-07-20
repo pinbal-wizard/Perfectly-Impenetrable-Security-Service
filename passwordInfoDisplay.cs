@@ -9,14 +9,14 @@ namespace WinFormsApp1
     public class passwordInfoDisplay: Panel
     {
         private Form1 form;
-        public Label websitename { get; set; }
-        public Label divider { get; set; }
-        public Label websiteLinkLabel { get; set; }
-        public Label websiteLink { get; set; }
-        public Label usernameLabel { get; set; }
-        public Label username { get; set; }
-        public Label passwordLabel { get; set; }
-        public Label password { get; set; }
+        public TransparentLabel websitename { get; set; }
+        public TransparentLabel divider { get; set; }
+        public TransparentLabel websiteLinkLabel { get; set; }
+        public TransparentLabel websiteLink { get; set; }
+        public TransparentLabel usernameLabel { get; set; }
+        public TransparentLabel username { get; set; }
+        public TransparentLabel passwordLabel { get; set; }
+        public TransparentLabel password { get; set; }
         public Button hide { get; set; }
         public string realpassword { get; set; }
         public bool hidden { get; set; }
@@ -26,11 +26,11 @@ namespace WinFormsApp1
             this.form = form;
             hidden = true;
             realpassword = "wake up";
-            websitename = new Label();
+            websitename = new TransparentLabel();
             websitename.Text = "example.com";
             websitename.Location = new Point(0, 0);
 
-            divider = new Label();
+            divider = new TransparentLabel();
             divider.Text = string.Empty;
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
@@ -38,25 +38,25 @@ namespace WinFormsApp1
             divider.Width = 400;
             divider.Location = new Point(0, 30);
 
-            websiteLinkLabel = new Label();
+            websiteLinkLabel = new TransparentLabel();
             websiteLinkLabel.Text = "Website Address";
             websiteLinkLabel.Location = new Point(0, 40);
-            websiteLink = new Label();
+            websiteLink = new TransparentLabel();
             websiteLink.Text = "https://example.com";
             websiteLink.Location = new Point(0, 60);
             websiteLink.AutoSize = true;
 
-            usernameLabel = new Label();
+            usernameLabel = new TransparentLabel();
             usernameLabel.Text = "Username";
             usernameLabel.Location = new Point(0, 90);
-            username = new Label();
+            username = new TransparentLabel();
             username.Text = "Boe Jiden";
             username.Location = new Point(0, 110);
 
-            passwordLabel = new Label();
+            passwordLabel = new TransparentLabel();
             passwordLabel.Text = "Password";
             passwordLabel.Location = new Point(0, 140);
-            password = new Label();
+            password = new TransparentLabel();
             password.Text = "●●●●●●●●";
             password.Location = new Point(0, 160);
 

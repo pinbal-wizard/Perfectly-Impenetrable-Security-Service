@@ -6,6 +6,8 @@ namespace WinFormsApp1
         internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
         List<passwordInfo> passwords = new List<passwordInfo>();
+        string MasterPassword = "certainevenetwasaninsidejob";
+        string EnteredMasterPassword = "";
 
         public Form1()
         {
@@ -56,10 +58,10 @@ namespace WinFormsApp1
 
         
 
-        Label addDivider(int type)
+        TransparentLabel addDivider(int type)
         {
             //adds divider
-            Label divider = new Label();
+            TransparentLabel divider = new TransparentLabel();
             divider.Text = string.Empty;
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
@@ -87,5 +89,23 @@ namespace WinFormsApp1
 
        
 
+    }
+
+    public class TransparentLabel : Label
+    {
+        public TransparentLabel()
+        {
+            this.SetStyle(ControlStyles.Opaque, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
+        }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams parms = base.CreateParams;
+                parms.ExStyle |= 0x20;  // Turn on WS_EX_TRANSPARENT
+                return parms;
+            }
+        }
     }
 }
