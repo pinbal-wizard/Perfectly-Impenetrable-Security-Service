@@ -12,6 +12,11 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+        private void Form1_Deactivate(Object sender, EventArgs e)
+        {
+            Serializer.SaveToFile(this);
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
             sidePanel = new FlowLayoutPanel();
@@ -51,6 +56,7 @@ namespace WinFormsApp1
             infoDisplay = new passwordInfoDisplay(this);
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
+            this.FormClosing += Form1_Deactivate;
             
         }
 
