@@ -1,146 +1,67 @@
-namespace WinFormsApp1
+namespace UserData
 {
     public partial class Form1 : Form
     {
-        FlowLayoutPanel sidePanel;
-        public Panel infoDisplay;
-        public List<Control> infoDisplayItems = new List<Control>();
-        List<passwordInfo> passwords = new List<passwordInfo>();
+        private Label? lblWebsiteName;
+        private Label? lblUsername;
+        private Label? lblPassword;
+        private TextBox? txtWebsiteName;
+        private TextBox? txtUsername;
+        private TextBox? txtPassword;
+        private Button btnAdd;
 
         public Form1()
         {
             InitializeComponent();
+            CreateFormControls();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void CreateFormControls()
         {
-            sidePanel = new FlowLayoutPanel();
-            //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
-            sidePanel.Height = this.ClientSize.Height;
-            sidePanel.Width = 200;
-            //Disable horizontal scroll bars, setting autoscroll to false first is important
-            sidePanel.AutoScroll = false;
-            sidePanel.HorizontalScroll.Enabled = false;
-            sidePanel.HorizontalScroll.Visible = false;
-            sidePanel.HorizontalScroll.Maximum = 0;
-            sidePanel.AutoScroll = true;
-            //Right side divider
-            this.Controls.Add(addDivider(1));
-            //Example entrys
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
+            // Creating the labels
+            lblWebsiteName = new Label();
+            lblWebsiteName.Text = "Website Name: ";
+            lblWebsiteName.Location = new Point(20, 20);
+            this.Controls.Add(lblWebsiteName);
 
-            //Add password panels and dividers below them
-            foreach (passwordInfo pass in passwords)
-            {
-                sidePanel.Controls.Add(pass);
-                sidePanel.Controls.Add(addDivider(0));
+            lblUsername = new Label();
+            lblUsername.Text = "Username: ";
+            lblUsername.Location = new Point(20, 50);
+            this.Controls.Add(lblUsername);
 
-               
-            }
-            //if content is less than height disable scrolling, fixes anoying extra scrolling
-            if (calcHeight(sidePanel) < sidePanel.Height)
-            {
-                sidePanel.AutoScroll = false;   
-            }
+            lblPassword = new Label();
+            lblPassword.Text = "Password";
+            lblPassword.Location = new Point(20, 80);
+            this.Controls.Add(lblPassword);
 
-            infoDisplay = new Panel();
-            DisplayInfoInit();
-            this.Controls.Add(sidePanel);
-            this.Controls.Add(infoDisplay);
+            // Creating the text boxes
+            txtWebsiteName = new TextBox();
+            txtWebsiteName.Location = new Point(120, 20);
+            this.Controls.Add(txtWebsiteName);
+
+            txtUsername = new TextBox();
+            txtUsername.Location = new Point(120, 50);
+            this.Controls.Add(txtUsername);
+
+            txtPassword = new TextBox();
+            txtPassword.Location = new Point(120, 80);
+            this.Controls.Add(txtPassword);
+
+            btnAdd = new Button();
+            btnAdd.Text = "Add";
+            btnAdd.Location = new Point(20, 110);
+            btnAdd.Click += new EventHandler(BtnAdd_Click); // Assign the event handler for the button click
+            this.Controls.Add(btnAdd);
         }
 
-        Label addDivider(int type)
+        // Event handler for the "Add" button click
+        private void BtnAdd_Click(object sender, EventArgs e)
         {
-            //adds divider
-            Label divider = new Label();
-            divider.Text = string.Empty;
-            divider.BorderStyle = BorderStyle.Fixed3D;
-            divider.AutoSize = false;
-            if (type == 0)
-            {
-                
-                divider.Height = 2;
-                divider.Width = 198;
-                return divider;
-            }
-            divider.Height = this.Height;
-            divider.Width = 2;
-            divider.Location = new Point(201, 0);
-            return divider;
+            // You can access the entered data using the class-level fields directly.
+            string websiteName = txtWebsiteName.Text;
+            string username = txtUsername.Text;
+            string password = txtPassword.Text;
+            this.Close();
         }
-        int calcHeight(Control panel)
-        {   //returns height of a panels content, there may be a better way to get this
-            int height = 0;
-            foreach (Control ctr in panel.Controls)
-            {
-                height += ctr.Height;
-            }
-            return height;
-        }
-
-        void DisplayInfoInit()
-        {
-            infoDisplay.Width = this.ClientSize.Width - 200;
-            infoDisplay.Height = this.ClientSize.Height;
-            infoDisplay.Location = new Point(220, 10);
-
-            Label websitename = new Label();
-            Label divider = new Label();
-            Label websiteLinkLabel = new Label();
-            Label websiteLink = new Label();
-            Label usernameLabel = new Label();
-            Label username = new Label();
-            Label passwordLabel = new Label();
-            Label password = new Label();
-
-            websitename.Text = "example.com";
-            websitename.Location = new Point(0, 0);
-
-            divider.Text = string.Empty;
-            divider.BorderStyle = BorderStyle.Fixed3D;
-            divider.AutoSize = false;
-            divider.Height = 2;
-            divider.Width = 400;
-            divider.Location = new Point(0, 30);
-
-            websiteLinkLabel.Text = "Website Address";
-            websiteLinkLabel.Location = new Point(0, 40);
-            websiteLink.Text = "https://example.com";
-            websiteLink.Location = new Point(0, 60);
-            websiteLink.AutoSize = true;
-
-            usernameLabel.Text = "Username";
-            usernameLabel.Location = new Point(0, 90);
-            username.Text = "Boe Jiden";
-            username.Location = new Point(0, 110);
-
-            passwordLabel.Text = "Password";
-            passwordLabel.Location = new Point(0, 140);
-            password.Text = "wake up";
-            password.Location = new Point(0, 160);
-
-            //add to the infodisplay
-            infoDisplay.Controls.Add(websitename);
-            infoDisplay.Controls.Add(divider);
-            infoDisplay.Controls.Add(websiteLinkLabel);
-            infoDisplay.Controls.Add(websiteLink);
-            infoDisplay.Controls.Add(usernameLabel);
-            infoDisplay.Controls.Add(username);
-            infoDisplay.Controls.Add(passwordLabel);
-            infoDisplay.Controls.Add(password);
-
-            //add to list for easy modification
-            infoDisplayItems.Add(websitename);
-            infoDisplayItems.Add(websiteLink);;
-            infoDisplayItems.Add(username);
-            infoDisplayItems.Add(password);
-
-        }
-
     }
 }
