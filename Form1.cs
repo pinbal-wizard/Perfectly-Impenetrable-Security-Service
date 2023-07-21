@@ -8,6 +8,7 @@ namespace WinFormsApp1
         List<passwordInfo> passwords = new List<passwordInfo>();
         string MasterPassword = "certainevenetwasaninsidejob";
         string EnteredMasterPassword = "";
+        Button NewEntry;
 
         public Form1()
         {
@@ -54,15 +55,33 @@ namespace WinFormsApp1
             {
                 sidePanel.AutoScroll = false;   
             }
-
+            
             infoDisplay = new passwordInfoDisplay(this);
+
+            NewEntry = new Button();
+            NewEntry.Location = new Point(this.ClientSize.Width - 100, 10);
+            NewEntry.Click += NewEntry_Click;
+
+            this.Shown += Form1_Shown;
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
+            this.Controls.Add(NewEntry);
             this.FormClosing += Form1_Deactivate;
             
         }
 
-        
+        private void Form1_Shown(object? sender, EventArgs e)
+        {
+            Popup pop = new Popup();
+            pop.Show();
+            NewEntry.BringToFront();
+        }
+
+        private void NewEntry_Click(object? sender, EventArgs e)
+        {
+            PasswordEntry pwde = new PasswordEntry();
+            pwde.Show();
+        }
 
         TransparentLabel addDivider(int type)
         {
