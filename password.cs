@@ -6,8 +6,22 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal class passwordInfo:Panel
+    public struct password
     {
+        public string WebSite { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public password(string Website, string Username, string Password)
+        {
+            this.WebSite = Website;
+            this.Username = Username;
+            this.Password = Password;
+        }
+    }
+
+    public class passwordInfo : Panel
+    {
+
         private Form1 form;
         public string WebSite { get; set; }
         public string Username { get; set; }
@@ -15,23 +29,23 @@ namespace WinFormsApp1
         public TransparentLabel SiteLabel { get; set; }
         public TransparentLabel UsernameLabel { get; set; }
 
-        public passwordInfo(string WebSite,string Username,string Password, Form1 form)
+        public passwordInfo(password passwordbase, Form1 form)
         {
-            this.WebSite = WebSite;
-            this.Username = Username;
-            this.Password = Password;
+            this.WebSite = passwordbase.WebSite;
+            this.Username = passwordbase.Username;
+            this.Password = passwordbase.Password;
             this.form = form;
 
             SiteLabel = new TransparentLabel();
             SiteLabel.Text = WebSite;
-            SiteLabel.Location = new Point(0,0);
+            SiteLabel.Location = new Point(0, 0);
             SiteLabel.Margin = new Padding(4);
             SiteLabel.Font = new Font("Arial", 8, FontStyle.Bold);
             SiteLabel.Click += PasswordInfo_Click;
 
             UsernameLabel = new TransparentLabel();
             UsernameLabel.Text = Username;
-            UsernameLabel.Location = new Point(0,23);
+            UsernameLabel.Location = new Point(0, 23);
             UsernameLabel.Margin = new Padding(4);
             UsernameLabel.Click += PasswordInfo_Click;
 
@@ -40,7 +54,7 @@ namespace WinFormsApp1
             this.Click += PasswordInfo_Click;
             this.Controls.Add(this.SiteLabel);
             this.Controls.Add(this.UsernameLabel);
-            
+
         }
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
@@ -50,9 +64,6 @@ namespace WinFormsApp1
             form.infoDisplay.username.Text = Username;
             form.infoDisplay.password.Text = "●●●●●●●●";
             form.infoDisplay.realpassword = Password;
-
-            Form2 popup = new Form2(form);
-            popup.Show();
         }
     }
 }

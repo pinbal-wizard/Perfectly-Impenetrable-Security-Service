@@ -5,8 +5,9 @@ namespace WinFormsApp1
         FlowLayoutPanel sidePanel;
         internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
-        List<passwordInfo> passwords = new List<passwordInfo>();
+        List<password> passwords = new List<password>();
         string MasterPassword = "certainevenetwasaninsidejob";
+        
         string EnteredMasterPassword = "";
 
         public Form1()
@@ -29,17 +30,17 @@ namespace WinFormsApp1
             //Right side divider
             this.Controls.Add(addDivider(1));
             //Example entrys
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("yandex", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("outlook", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("github", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("typingclub", "thetruecool", "password123",this));
+            passwords.Add(new password("google", "thetruecool", "password123"));
+            passwords.Add(new password("yandex", "thetruecool", "password123"));
+            passwords.Add(new password("outlook", "thetruecool", "password123"));
+            passwords.Add(new password("github", "thetruecool", "password123"));
+            passwords.Add(new password("typingclub", "thetruecool", "password123"));
             //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
 
             //Add password panels and dividers below them
-            foreach (passwordInfo pass in passwords)
+            foreach (password pass in passwords)
             {
-                sidePanel.Controls.Add(pass);
+                sidePanel.Controls.Add(new passwordInfo(pass,this));
                 sidePanel.Controls.Add(addDivider(0));
 
                

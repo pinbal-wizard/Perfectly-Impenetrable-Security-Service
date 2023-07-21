@@ -29,6 +29,7 @@ namespace WinFormsApp1
             websitename = new TransparentLabel();
             websitename.Text = "example.com";
             websitename.Location = new Point(0, 0);
+            websitename.AutoSize = true;
 
             divider = new TransparentLabel();
             divider.Text = string.Empty;
@@ -41,6 +42,7 @@ namespace WinFormsApp1
             websiteLinkLabel = new TransparentLabel();
             websiteLinkLabel.Text = "Website Address";
             websiteLinkLabel.Location = new Point(0, 40);
+            websiteLinkLabel.AutoSize = true;
             websiteLink = new TransparentLabel();
             websiteLink.Text = "https://example.com";
             websiteLink.Location = new Point(0, 60);
@@ -49,16 +51,20 @@ namespace WinFormsApp1
             usernameLabel = new TransparentLabel();
             usernameLabel.Text = "Username";
             usernameLabel.Location = new Point(0, 90);
+            usernameLabel.AutoSize = true;
             username = new TransparentLabel();
             username.Text = "Boe Jiden";
             username.Location = new Point(0, 110);
+            username.AutoSize = true;
 
             passwordLabel = new TransparentLabel();
             passwordLabel.Text = "Password";
             passwordLabel.Location = new Point(0, 140);
+            passwordLabel.AutoSize = true;
             password = new TransparentLabel();
             password.Text = "●●●●●●●●";
             password.Location = new Point(0, 160);
+            password.AutoSize = true;
 
             hide = new Button();
             hide.Size = new Size(20, 20);
