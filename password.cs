@@ -50,9 +50,6 @@ namespace WinFormsApp1
             form.infoDisplay.username.Text = Username;
             form.infoDisplay.password.Text = "●●●●●●●●";
             form.infoDisplay.realpassword = Password;
-
-            Form2 popup = new Form2(form);
-            popup.Show();
         }
     }
 }
