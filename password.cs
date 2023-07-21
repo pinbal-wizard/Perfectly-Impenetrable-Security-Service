@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal class passwordInfo:Panel
+    public class passwordInfo:Panel
     {
         private Form1 form;
         public string WebSite { get; set; }
@@ -27,11 +27,13 @@ namespace WinFormsApp1
             SiteLabel.Location = new Point(0,0);
             SiteLabel.Padding = new Padding(4);
             SiteLabel.Font = new Font("Arial", 8, FontStyle.Bold);
+            SiteLabel.Click += PasswordInfo_Click;
 
             UsernameLabel = new Label();
             UsernameLabel.Text = Username;
             UsernameLabel.Location = new Point(0,23);
             UsernameLabel.Padding = new Padding(4);
+            UsernameLabel.Click += PasswordInfo_Click;
 
             this.Width = 200;
             this.Height = 75;
@@ -43,11 +45,11 @@ namespace WinFormsApp1
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
         {
-            form.infoDisplayItems[0].Text = WebSite;
-
-            form.infoDisplayItems[1].Text = WebSite.Split("://").Last();
-            form.infoDisplayItems[2].Text = Username;
-            form.infoDisplayItems[3].Text = Password;
+            form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
+            form.infoDisplay.websiteLink.Text = WebSite;
+            form.infoDisplay.username.Text = Username;
+            form.infoDisplay.password.Text = "●●●●●●●●";
+            form.infoDisplay.realpassword = Password;
         }
     }
 }

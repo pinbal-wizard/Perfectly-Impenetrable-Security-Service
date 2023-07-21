@@ -1,4 +1,4 @@
-namespace UserData
+namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
@@ -9,6 +9,11 @@ namespace UserData
         private TextBox? txtUsername;
         private TextBox? txtPassword;
         private Button btnAdd;
+
+        FlowLayoutPanel sidePanel;
+        internal passwordInfoDisplay infoDisplay;
+        public List<Control> infoDisplayItems = new List<Control>();
+        List<passwordInfo> passwords = new List<passwordInfo>();
 
         public Form1()
         {
@@ -62,6 +67,24 @@ namespace UserData
             string username = txtUsername.Text;
             string password = txtPassword.Text;
             this.Close();
+        }
+
+    }
+    public class TransparentLabel : Label
+    {
+        public TransparentLabel()
+        {
+            this.SetStyle(ControlStyles.Opaque, true);
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
+        }
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams parms = base.CreateParams;
+                parms.ExStyle |= 0x20;  // Turn on WS_EX_TRANSPARENT
+                return parms;
+            }
         }
     }
 }
