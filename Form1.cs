@@ -1,3 +1,7 @@
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Security.Policy;
+using System.Windows.Forms;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -6,10 +10,21 @@ namespace WinFormsApp1
         internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
         List<passwordInfo> passwords = new List<passwordInfo>();
+        public List<passwordInfo> Passwords
+        {
+            get { return passwords; }
+        }
 
         public Form1()
         {
             InitializeComponent();
+        }
+
+        public int addEntry(string URL, string UserName, string Password)
+        {
+           
+            passwords.Add(new passwordInfo(URL, UserName, Password, this));
+            return 0;
         }
 
         private void Form1_Deactivate(Object sender, EventArgs e)
@@ -19,6 +34,9 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Serializer.LoadFromFile(this);
+
+
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             sidePanel.Height = this.ClientSize.Height;
@@ -32,11 +50,7 @@ namespace WinFormsApp1
             //Right side divider
             this.Controls.Add(addDivider(1));
             //Example entrys
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("yandex", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("outlook", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("github", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("typingclub", "thetruecool", "password123",this));
+
             //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
 
             //Add password panels and dividers below them
@@ -45,22 +59,22 @@ namespace WinFormsApp1
                 sidePanel.Controls.Add(pass);
                 sidePanel.Controls.Add(addDivider(0));
 
-               
+
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (calcHeight(sidePanel) < sidePanel.Height)
             {
-                sidePanel.AutoScroll = false;   
+                sidePanel.AutoScroll = false;
             }
 
             infoDisplay = new passwordInfoDisplay(this);
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
             this.FormClosing += Form1_Deactivate;
-            
+
         }
 
-        
+
 
         Label addDivider(int type)
         {
@@ -71,7 +85,7 @@ namespace WinFormsApp1
             divider.AutoSize = false;
             if (type == 0)
             {
-                
+
                 divider.Height = 2;
                 divider.Width = 198;
                 return divider;
@@ -91,7 +105,7 @@ namespace WinFormsApp1
             return height;
         }
 
-       
+
 
     }
 }

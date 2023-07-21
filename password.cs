@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WinFormsApp1
 {
-    internal class passwordInfo:Panel
+    public class passwordInfo:Panel
     {
         private Form1 form;
         public string WebSite { get; set; }
