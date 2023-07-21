@@ -17,12 +17,14 @@ namespace WinFormsApp1
         public TransparentLabel username { get; set; }
         public TransparentLabel passwordLabel { get; set; }
         public TransparentLabel password { get; set; }
+        public Label Test { get; set; }
         public Button hide { get; set; }
         public string realpassword { get; set; }
         public bool hidden { get; set; }
         
         public passwordInfoDisplay(Form1 form)
         {
+            this.BackColor = Color.Red;
             this.form = form;
             this.DoubleBuffered = true;
             hidden = true;
@@ -72,6 +74,10 @@ namespace WinFormsApp1
             hide.Location = new Point(110, 160);
             hide.Click += Hide_Click;
 
+            Test = new Label();
+            Test.Location = new Point(400, 400);
+            Test.Text = "UFGIHUKGAKGJ";
+
 
             this.Width = form.ClientSize.Width - 200;
             this.Height = form.ClientSize.Height;
@@ -86,6 +92,7 @@ namespace WinFormsApp1
             this.Controls.Add(passwordLabel);
             this.Controls.Add(password);
             this.Controls.Add(hide);
+            this.Controls.Add(Test);
 
         }
 
