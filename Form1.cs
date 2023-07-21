@@ -15,6 +15,14 @@ namespace WinFormsApp1
         private void Form1_Load(object sender, EventArgs e)
         {
             this.DoubleBuffered = true;
+            
+            this.Shown += Form1_Shown;
+           
+            
+        }
+
+        private void Form1_Shown(object? sender, EventArgs e)
+        {
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             sidePanel.Height = this.ClientSize.Height;
@@ -38,24 +46,21 @@ namespace WinFormsApp1
             //Add password panels and dividers below them
             foreach (password pass in passwords)
             {
-                sidePanel.Controls.Add(new passwordInfo(pass,this));
+                sidePanel.Controls.Add(new passwordInfo(pass, this));
                 sidePanel.Controls.Add(addDivider(0));
 
-               
+
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (calcHeight(sidePanel) < sidePanel.Height)
             {
-                sidePanel.AutoScroll = false;   
+                sidePanel.AutoScroll = false;
             }
 
             infoDisplay = new passwordInfoDisplay(this);
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
-            
         }
-
-        
 
         TransparentLabel addDivider(int type)
         {
