@@ -5,10 +5,7 @@ namespace WinFormsApp1
         FlowLayoutPanel sidePanel;
         internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
-        List<password> passwords = new List<password>();
-        string MasterPassword = "certainevenetwasaninsidejob";
-        
-        string EnteredMasterPassword = "";
+        List<password> passwords = new List<password>()
 
         public Form1()
         {
