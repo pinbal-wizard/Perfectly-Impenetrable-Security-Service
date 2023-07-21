@@ -22,14 +22,15 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Basic Load
             this.DoubleBuffered = true;
-            
-            this.Shown += Form1_Shown;
-           
-            
+            InitSidePanel();
+            infoDisplay = new passwordInfoDisplay(this);
+            this.Controls.Add(sidePanel);
+            this.Controls.Add(infoDisplay);
         }
 
-        private void Form1_Shown(object? sender, EventArgs e)
+        private void InitSidePanel()
         {
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
@@ -43,45 +44,37 @@ namespace WinFormsApp1
             sidePanel.AutoScroll = true;
             //Right side divider
             this.Controls.Add(addDivider(1));
-            //Example entrys
+
+            //Example entrys will later pull from file load
             passwords.Add(new password("google", "thetruecool", "password123"));
             passwords.Add(new password("yandex", "thetruecool", "password123"));
             passwords.Add(new password("outlook", "thetruecool", "password123"));
             passwords.Add(new password("outlook", "thetruecool", "password123"));
             passwords.Add(new password("typingclub", "thetruecool", "password123"));
-            //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
 
             //Add password panels and dividers below them
             foreach (password pass in passwords)
             {
                 sidePanel.Controls.Add(new passwordInfo(pass, this));
                 sidePanel.Controls.Add(addDivider(0));
-
-
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
-            if (calcHeight(sidePanel) < sidePanel.Height)
-            {
-                sidePanel.AutoScroll = false;
-            }
-
-            infoDisplay = new passwordInfoDisplay(this);
-            this.Controls.Add(sidePanel);
-            this.Controls.Add(infoDisplay);
+            if (calcHeight(sidePanel) < sidePanel.Height) sidePanel.AutoScroll = false;
         }
 
-        TransparentLabel addDivider(int type)
+        Label addDivider(int type)
         {
             //adds divider
-            TransparentLabel divider = new TransparentLabel();
+            //Type 0 is for side Panel
+            //Type 1 is a full Height veritcal
+            Label divider = new Label();
             divider.Text = string.Empty;
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
             if (type == 0)
-            {
-                
+            {  
                 divider.Height = 2;
-                divider.Width = 198;
+                divider.Width = 200;
                 return divider;
             }
             divider.Height = this.Height;
@@ -97,27 +90,6 @@ namespace WinFormsApp1
                 height += ctr.Height;
             }
             return height;
-        }
-
-       
-
-    }
-
-    public class TransparentLabel : Label
-    {
-        public TransparentLabel()
-        {
-            this.SetStyle(ControlStyles.Opaque, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
-        }
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams parms = base.CreateParams;
-                parms.ExStyle |= 0x20;  // Turn on WS_EX_TRANSPARENT
-                return parms;
-            }
         }
     }
 }
