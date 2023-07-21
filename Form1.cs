@@ -10,6 +10,11 @@ namespace WinFormsApp1
         internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
         List<passwordInfo> passwords = new List<passwordInfo>();
+
+        /// <summary>
+        /// Readonly Property for reading the list of passwords
+        /// ***This needs to change for future task of not keeping passwords stored in ram***
+        /// </summary>
         public List<passwordInfo> Passwords
         {
             get { return passwords; }
@@ -20,13 +25,24 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Public Function for adding passwords to the list off passwords
+        /// ***Will need to be change to be more secure***
+        /// </summary>
+        /// <param name="URL"></param>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public int addEntry(string URL, string UserName, string Password)
         {
-           
             passwords.Add(new passwordInfo(URL, UserName, Password, this));
             return 0;
         }
 
+
+        /// <summary>
+        /// Saves Passwords to file as form is closed
+        /// </summary>
         private void Form1_Deactivate(Object sender, EventArgs e)
         {
             Serializer.SaveToFile(this);
@@ -50,8 +66,8 @@ namespace WinFormsApp1
             //Right side divider
             this.Controls.Add(addDivider(1));
             //Example entrys
+            //No need to add any example entries as they save and load from file
 
-            //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
 
             //Add password panels and dividers below them
             foreach (passwordInfo pass in passwords)
