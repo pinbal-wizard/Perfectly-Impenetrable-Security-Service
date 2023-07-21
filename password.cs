@@ -59,6 +59,15 @@ namespace WinFormsApp1
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
         {
+            //If the current and previous text are of the same length
+            //Then the previus text doesnt get cleared and they overlap
+            //So i add a space to make them differant lenght, and this fixes the problem
+            
+            form.infoDisplay.websitename.Text = WebSite.Split("://").Last()+" ";
+            form.infoDisplay.websiteLink.Text = WebSite+" ";
+            form.infoDisplay.username.Text = Username+" ";
+            form.infoDisplay.password.Text = "●●●●●●●●"+" ";
+
             form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
             form.infoDisplay.websiteLink.Text = WebSite;
             form.infoDisplay.username.Text = Username;

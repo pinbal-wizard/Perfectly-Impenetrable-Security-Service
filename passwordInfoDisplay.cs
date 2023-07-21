@@ -24,6 +24,7 @@ namespace WinFormsApp1
         public passwordInfoDisplay(Form1 form)
         {
             this.form = form;
+            this.DoubleBuffered = true;
             hidden = true;
             realpassword = "wake up";
             websitename = new TransparentLabel();

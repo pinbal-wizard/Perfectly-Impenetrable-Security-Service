@@ -17,6 +17,7 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.DoubleBuffered = true;
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             sidePanel.Height = this.ClientSize.Height;
@@ -33,7 +34,7 @@ namespace WinFormsApp1
             passwords.Add(new password("google", "thetruecool", "password123"));
             passwords.Add(new password("yandex", "thetruecool", "password123"));
             passwords.Add(new password("outlook", "thetruecool", "password123"));
-            passwords.Add(new password("github", "thetruecool", "password123"));
+            passwords.Add(new password("outlook", "thetruecool", "password123"));
             passwords.Add(new password("typingclub", "thetruecool", "password123"));
             //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
 
