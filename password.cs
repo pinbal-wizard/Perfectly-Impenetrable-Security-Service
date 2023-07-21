@@ -12,8 +12,8 @@ namespace WinFormsApp1
         public string WebSite { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public Label SiteLabel { get; set; }
-        public Label UsernameLabel { get; set; }
+        public TransparentLabel SiteLabel { get; set; }
+        public TransparentLabel UsernameLabel { get; set; }
 
         public passwordInfo(string WebSite,string Username,string Password, Form1 form)
         {
@@ -22,16 +22,18 @@ namespace WinFormsApp1
             this.Password = Password;
             this.form = form;
 
-            SiteLabel = new Label();
+            SiteLabel = new TransparentLabel();
             SiteLabel.Text = WebSite;
             SiteLabel.Location = new Point(0,0);
-            SiteLabel.Padding = new Padding(4);
+            SiteLabel.Margin = new Padding(4);
             SiteLabel.Font = new Font("Arial", 8, FontStyle.Bold);
+            SiteLabel.Click += PasswordInfo_Click;
 
-            UsernameLabel = new Label();
+            UsernameLabel = new TransparentLabel();
             UsernameLabel.Text = Username;
             UsernameLabel.Location = new Point(0,23);
-            UsernameLabel.Padding = new Padding(4);
+            UsernameLabel.Margin = new Padding(4);
+            UsernameLabel.Click += PasswordInfo_Click;
 
             this.Width = 200;
             this.Height = 75;
@@ -43,11 +45,14 @@ namespace WinFormsApp1
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
         {
-            form.infoDisplayItems[0].Text = WebSite;
+            form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
+            form.infoDisplay.websiteLink.Text = WebSite;
+            form.infoDisplay.username.Text = Username;
+            form.infoDisplay.password.Text = "●●●●●●●●";
+            form.infoDisplay.realpassword = Password;
 
-            form.infoDisplayItems[1].Text = WebSite.Split("://").Last();
-            form.infoDisplayItems[2].Text = Username;
-            form.infoDisplayItems[3].Text = Password;
+            Form2 popup = new Form2(form);
+            popup.Show();
         }
     }
 }
