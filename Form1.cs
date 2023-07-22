@@ -61,6 +61,9 @@ namespace WinFormsApp1
             NewEntry = new Button();
             NewEntry.Location = new Point(this.ClientSize.Width - 100, 10);
             NewEntry.Click += NewEntry_Click;
+            NewEntry.Text = "Add";
+            NewEntry.AutoSize = true;
+            NewEntry.Height = 40;
 
             this.Shown += Form1_Shown;
             this.Controls.Add(sidePanel);
