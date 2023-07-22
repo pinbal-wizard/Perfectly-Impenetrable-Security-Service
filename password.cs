@@ -65,19 +65,20 @@ namespace WinFormsApp1
             this.Controls.Add(this.SiteLabel);
             this.Controls.Add(this.UsernameLabel);
 
-            //Debug to see Label sizes
-            //foreach (Label label in this.Controls) label.BorderStyle = BorderStyle.FixedSingle;
 
         }
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
         {
-            //The panel and the labels call this function when clicked
+            //The panel and the labels both have this function when clicked
             //This is so if you click the text it still updates the infoDisplay
+
+            //Selected variable to bold url in side bar
             form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
             form.Selected = this;
             this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
 
+            //Setting info
             form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
             form.infoDisplay.websiteLink.Text = WebSite;
             form.infoDisplay.username.Text = Username;
