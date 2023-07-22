@@ -21,7 +21,7 @@ namespace WinFormsApp1
         }
     }
 
-    public class passwordInfo : Panel
+    public class passwordInfo : FlowLayoutPanel
     {
 
         private Form1 form;
@@ -34,30 +34,33 @@ namespace WinFormsApp1
         public passwordInfo(password passwordbase, Form1 form)
         {
             //Set info from password struct
-            this.WebSite = passwordbase.WebSite;
+            this.WebSite = passwordbase.WebSite.Split("://").Last();
             this.Username = passwordbase.Username;
             this.Password = passwordbase.Password;
             this.form = form;
 
+
             //Label to display site name
             SiteLabel = new Label();
             SiteLabel.Text = WebSite;
-            SiteLabel.Location = new Point(0, 0);
-            SiteLabel.Margin = new Padding(4);
-            SiteLabel.Font = new Font("Arial", 8, FontStyle.Bold);
+            SiteLabel.Padding = new Padding(12,0,18,0);
+            SiteLabel.Font = new Font("Arial",10);
             SiteLabel.AutoSize = true; 
             SiteLabel.Click += PasswordInfo_Click;
             //Label to display the username
             UsernameLabel = new Label();
             UsernameLabel.Text = Username;
-            UsernameLabel.Location = new Point(0, 24);
-            UsernameLabel.Margin = new Padding(4);
+            UsernameLabel.Padding = new Padding(12,0,18,0);
+            UsernameLabel.Font = new Font("Arial",8);
             UsernameLabel.AutoSize = true;
             UsernameLabel.Click += PasswordInfo_Click;
 
             //Height and Width. Width should match the sidepanel width in Form1.cs, Height can be changed
             this.Width = 200;
             this.Height = 75;
+            this.AutoSize = true;
+            this.Padding = new Padding(0,10,0,10);
+            this.FlowDirection = FlowDirection.TopDown;
             this.Click += PasswordInfo_Click;
             this.Controls.Add(this.SiteLabel);
             this.Controls.Add(this.UsernameLabel);
@@ -71,6 +74,10 @@ namespace WinFormsApp1
         {
             //The panel and the labels call this function when clicked
             //This is so if you click the text it still updates the infoDisplay
+            form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
+            form.Selected = this;
+            this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
+
             form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
             form.infoDisplay.websiteLink.Text = WebSite;
             form.infoDisplay.username.Text = Username;
