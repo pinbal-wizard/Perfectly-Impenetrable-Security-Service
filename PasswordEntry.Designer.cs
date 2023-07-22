@@ -28,89 +28,109 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.SuspendLayout();
+            label1 = new Label();
+            label2 = new Label();
+            label3 = new Label();
+            textWebsiteName = new TextBox();
+            textUsername = new TextBox();
+            textPassword = new TextBox();
+            button1 = new Button();
+            button2 = new Button();
+            SuspendLayout();
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(61, 61);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(124, 25);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Website name";
+            label1.AutoSize = true;
+            label1.Location = new Point(104, 100);
+            label1.Margin = new Padding(5, 0, 5, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(207, 41);
+            label1.TabIndex = 0;
+            label1.Text = "Website name";
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(61, 108);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(91, 25);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "Username";
+            label2.AutoSize = true;
+            label2.Location = new Point(104, 182);
+            label2.Margin = new Padding(5, 0, 5, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(152, 41);
+            label2.TabIndex = 1;
+            label2.Text = "Username";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(61, 151);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(87, 25);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Password";
+            label3.AutoSize = true;
+            label3.Location = new Point(104, 259);
+            label3.Margin = new Padding(5, 0, 5, 0);
+            label3.Name = "label3";
+            label3.Size = new Size(143, 41);
+            label3.TabIndex = 2;
+            label3.Text = "Password";
             // 
-            // textBox1
+            // textWebsiteName
             // 
-            this.textBox1.Location = new System.Drawing.Point(191, 61);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(244, 31);
-            this.textBox1.TabIndex = 3;
+            textWebsiteName.Location = new Point(325, 94);
+            textWebsiteName.Margin = new Padding(5);
+            textWebsiteName.Name = "textWebsiteName";
+            textWebsiteName.Size = new Size(412, 47);
+            textWebsiteName.TabIndex = 3;
             // 
-            // textBox2
+            // textUsername
             // 
-            this.textBox2.Location = new System.Drawing.Point(191, 154);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(244, 31);
-            this.textBox2.TabIndex = 4;
+            textUsername.Location = new Point(325, 259);
+            textUsername.Margin = new Padding(5);
+            textUsername.Name = "textUsername";
+            textUsername.Size = new Size(412, 47);
+            textUsername.TabIndex = 4;
             // 
-            // textBox3
+            // textPassword
             // 
-            this.textBox3.Location = new System.Drawing.Point(191, 111);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(244, 31);
-            this.textBox3.TabIndex = 5;
+            textPassword.Location = new Point(325, 176);
+            textPassword.Margin = new Padding(5);
+            textPassword.Name = "textPassword";
+            textPassword.Size = new Size(412, 47);
+            textPassword.TabIndex = 5;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(126, 228);
-            this.button1.Name = "Add new entry";
-            this.button1.Size = new System.Drawing.Size(112, 34);
-            this.button1.TabIndex = 6;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
+            button1.Location = new Point(325, 378);
+            button1.Margin = new Padding(5);
+            button1.Name = "button1";
+            button1.Size = new Size(190, 56);
+            button1.TabIndex = 6;
+            button1.Text = "Add";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += buttonSave_Click;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(599, 376);
+            button2.Name = "button2";
+            button2.Size = new Size(188, 58);
+            button2.TabIndex = 7;
+            button2.Text = "Cancel";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += buttonCancel_Click;
             // 
             // PasswordEntry
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Name = "PasswordEntry";
-            this.Text = "PasswordEntry";
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(17F, 41F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(1360, 738);
+            Controls.Add(button2);
+            Controls.Add(button1);
+            Controls.Add(textPassword);
+            Controls.Add(textUsername);
+            Controls.Add(textWebsiteName);
+            Controls.Add(label3);
+            Controls.Add(label2);
+            Controls.Add(label1);
+            Margin = new Padding(5);
+            Name = "PasswordEntry";
+            Text = "PasswordEntry";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -118,9 +138,10 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private TextBox textBox1;
-        private TextBox textBox2;
-        private TextBox textBox3;
+        private TextBox textWebsiteName;
+        private TextBox textUsername;
+        private TextBox textPassword;
         private Button button1;
+        private Button button2;
     }
 }

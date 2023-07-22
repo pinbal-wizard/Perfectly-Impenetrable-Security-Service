@@ -86,6 +86,36 @@ namespace WinFormsApp1
             pwde.Show();
         }
 
+        private void openPasswordEntry_Click(object sender, EventArgs e)
+        {
+            using (var passwordEntryForm = new PasswordEntry())
+            {
+                //Getting info from the entry form
+                if (passwordEntryForm.ShowDialog() == DialogResult.OK)
+                {
+                    string websiteName = passwordEntryForm.WebsiteName;
+                    string username = passwordEntryForm.Username; 
+                    string password = passwordEntryForm.Password;
+
+                    //Adding the info
+                    passwords.Add(new passwordInfo(websiteName, username, password, this));
+
+                    //Displaying new entry
+                    sidePanel.Controls.Clear();
+                    
+                    foreach(passwordInfo pass in passwords)
+                    {
+                        sidePanel.Controls.Add(pass);
+                        sidePanel.Controls.Add(addDivider(0));
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+
         TransparentLabel addDivider(int type)
         {
             //adds divider
