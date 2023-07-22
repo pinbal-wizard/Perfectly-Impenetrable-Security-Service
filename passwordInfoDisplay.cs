@@ -27,6 +27,15 @@ namespace WinFormsApp1
         
         public passwordInfoDisplay(Form1 form)
         {
+
+            //FlowLayoutPanel with flow direction of top to bottom
+            //No locations specified, instead distance between elements is controlled through padding and margin
+            //Padding and margin are differnt, dont know how though
+            //If an inline element like the button next to the password is needed
+            //Put both items in a normal panel and add that to the FlowLayoutPanel
+
+            //All elements have a margin added, even if it is zero for alignment reasons
+
             //form passed to get access to ClientSize
             this.form = form;
             this.DoubleBuffered = true;
@@ -36,12 +45,14 @@ namespace WinFormsApp1
             //Below is example default info so that it is not empty when you first open it
             realpassword = "wake up";
 
+            //Website top title
             websitename = new Label();
             websitename.Text = "example.com";
             websitename.Font = new Font("Arial", 13, FontStyle.Bold);
             websitename.Padding = new Padding(0, 30, 0, 15);
             websitename.AutoSize = true;
 
+            //Cool divider, padding 40 to create space bettwen it and things below
             divider = new Label();
             divider.Text = string.Empty;
             divider.BorderStyle = BorderStyle.Fixed3D;
@@ -50,6 +61,8 @@ namespace WinFormsApp1
             divider.Width = 400;
             divider.Margin = new Padding(0, 0, 0, 40);
 
+
+            //Website link Label and actual link, link will actually work in future
             websiteLinkLabel = new Label();
             websiteLinkLabel.Text = "Website Address";
             websiteLinkLabel.Font = new Font("Arial", 7);
@@ -62,6 +75,8 @@ namespace WinFormsApp1
             websiteLink.Margin = new Padding(0, 0, 0, 40);
             websiteLink.AutoSize = true;
 
+
+            //Username Stuff
             usernameLabel = new Label();
             usernameLabel.Text = "Username";
             usernameLabel.Margin = new Padding(0);
@@ -74,14 +89,17 @@ namespace WinFormsApp1
             username.AutoSize = true;
 
             
-
+            //Password Label
             passwordLabel = new Label();
             passwordLabel.Text = "Password";
             passwordLabel.Font = new Font("Arial", 7);
+            passwordLabel.Margin = new Padding(0);
             passwordLabel.AutoSize = true;
 
+            //Seperate panel (like a div) for password and button so that they can be on the same y level
             InitPasswordPanel();
 
+            //Cool bottom divider
             divider2 = new Label();
             divider2.Text = string.Empty;
             divider2.BorderStyle = BorderStyle.Fixed3D;
@@ -91,10 +109,10 @@ namespace WinFormsApp1
             divider2.Margin = new Padding(0);
 
 
-            //Width is rest of the form. the Location is offsett 20 from the side panel
-            this.Width = form.ClientSize.Width - 220;
+            //Width is rest of the form.
+            this.Width = form.ClientSize.Width - 200;
             this.Height = form.ClientSize.Height;
-            this.Location = new Point(200, 10);
+            this.Location = new Point(200, 0);
             this.Padding = new Padding(40,0,40,0);
             this.FlowDirection = FlowDirection.TopDown;
             //Add items to the infodisplay
@@ -116,6 +134,7 @@ namespace WinFormsApp1
 
         private void InitPasswordPanel()
         {
+            //Actuall password, hidden initially
             password = new Label();
             password.Text = "●●●●●●●●";
             password.Font = new Font("Arial", 9);
@@ -125,9 +144,10 @@ namespace WinFormsApp1
             //Button to hide and unhide password
             hide = new Button();
             hide.Size = new Size(20, 20);
+            //Xpos is always offsett by the password width, means that it will never overlap
             hide.Location = new Point(password.Size.Width, 0);
             hide.Click += Hide_Click;
-
+            //Container Panel
             passwordPanel = new Panel();
             passwordPanel.Margin = new Padding(0,0,0,40);
             passwordPanel.AutoSize = true;

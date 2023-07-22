@@ -34,7 +34,7 @@ namespace WinFormsApp1
         public passwordInfo(password passwordbase, Form1 form)
         {
             //Set info from password struct
-            this.WebSite = passwordbase.WebSite.Split("://").Last();
+            this.WebSite = passwordbase.WebSite;
             this.Username = passwordbase.Username;
             this.Password = passwordbase.Password;
             this.form = form;
@@ -42,7 +42,7 @@ namespace WinFormsApp1
 
             //Label to display site name
             SiteLabel = new Label();
-            SiteLabel.Text = WebSite;
+            SiteLabel.Text = WebSite.Split("://").Last(); ;
             SiteLabel.Padding = new Padding(12,0,18,0);
             SiteLabel.Font = new Font("Arial",10);
             SiteLabel.AutoSize = true; 
