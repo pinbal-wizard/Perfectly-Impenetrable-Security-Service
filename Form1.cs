@@ -72,10 +72,63 @@ namespace WinFormsApp1
             Selected = (passwordInfo)sidePanel.Controls[0];
 
             infoDisplay = new passwordInfoDisplay(this);
+
+            NewEntry = new Button();
+            NewEntry.Location = new Point(this.ClientSize.Width - 100, 10);
+            NewEntry.Click += NewEntry_Click;
+            NewEntry.Text = "Add";
+            NewEntry.AutoSize = true;
+            NewEntry.Height = 40;
+
+            this.Shown += Form1_Shown;
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
+            this.Controls.Add(NewEntry);
             this.FormClosing += Form1_Deactivate;
 
+        }
+
+        private void Form1_Shown(object? sender, EventArgs e)
+        {
+            Popup pop = new Popup();
+            pop.Show();
+            NewEntry.BringToFront();
+        }
+
+        private void NewEntry_Click(object? sender, EventArgs e)
+        {
+            PasswordEntry pwde = new PasswordEntry();
+            pwde.Show();
+        }
+
+        private void openPasswordEntry_Click(object sender, EventArgs e)
+        {
+            using (var passwordEntryForm = new PasswordEntry())
+            {
+                //Getting info from the entry form
+                if (passwordEntryForm.ShowDialog() == DialogResult.OK)
+                {
+                    string websiteName = passwordEntryForm.WebsiteName;
+                    string username = passwordEntryForm.Username; 
+                    string password = passwordEntryForm.Password;
+
+                    //Adding the info
+                    passwords.Add(new passwordInfo(websiteName, username, password, this));
+
+                    //Displaying new entry
+                    sidePanel.Controls.Clear();
+                    
+                    foreach(passwordInfo pass in passwords)
+                    {
+                        sidePanel.Controls.Add(pass);
+                        sidePanel.Controls.Add(addDivider(0));
+                    }
+                }
+                else
+                {
+
+                }
+            }
         }
 
         Label addDivider(int type)
