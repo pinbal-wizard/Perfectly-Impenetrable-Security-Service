@@ -2,8 +2,5 @@ bin/**
 obj/**
 *.vsidx
 *.lock
-.vs
+/.vs/**
 Shadow.png
-.vs/WinFormsApp1/v17/.suo
-.vs/WinFormsApp1/DesignTimeBuild/.dtbcache.v2
-.vs/WinFormsApp1/v17/.suo

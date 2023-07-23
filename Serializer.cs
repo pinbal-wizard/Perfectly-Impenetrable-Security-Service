@@ -28,7 +28,6 @@ namespace WinFormsApp1
         /// <summary>
         /// Call Serializer.LoadFromFile() to load passwords from preset file
         /// </summary>
-        /// <param name="form"></param>
         /// <returns></returns>
 
         public static int LoadFromFile(Form1 form)
