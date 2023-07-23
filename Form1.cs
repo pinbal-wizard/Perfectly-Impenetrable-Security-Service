@@ -1,3 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
@@ -5,9 +13,8 @@ namespace WinFormsApp1
         FlowLayoutPanel sidePanel;
         internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
-        List<passwordInfo> passwords = new List<passwordInfo>();
-        string MasterPassword = "certainevenetwasaninsidejob";
-        string EnteredMasterPassword = "";
+        List<password> passwords = new List<password>();
+        public passwordInfo Selected;
 
         public Form1()
         {
@@ -21,6 +28,16 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            //Basic Load
+            this.DoubleBuffered = true;
+            InitSidePanel();
+            infoDisplay = new passwordInfoDisplay(this);
+            this.Controls.Add(sidePanel);
+            this.Controls.Add(infoDisplay);
+        }
+
+        private void InitSidePanel()
+        {
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             sidePanel.Height = this.ClientSize.Height;
@@ -33,49 +50,47 @@ namespace WinFormsApp1
             sidePanel.AutoScroll = true;
             //Right side divider
             this.Controls.Add(addDivider(1));
-            //Example entrys
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("yandex", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("outlook", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("github", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("typingclub", "thetruecool", "password123",this));
-            //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
+
+            //Example entrys will later pull from file load
+            passwords.Add(new password("https://google.com", "thetruecool", "password123"));
+            passwords.Add(new password("https://yandex.com", "thetruecool", "password123"));
+            passwords.Add(new password("https://outlook.com", "thetruecool", "password123"));
+            passwords.Add(new password("https://github.com", "thetruecool", "password123"));
+            passwords.Add(new password("https://typingclub.com", "thetruecool", "password123"));
 
             //Add password panels and dividers below them
-            foreach (passwordInfo pass in passwords)
+            foreach (password pass in passwords)
             {
-                sidePanel.Controls.Add(pass);
+                sidePanel.Controls.Add(new passwordInfo(pass, this));
                 sidePanel.Controls.Add(addDivider(0));
-
-               
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
-            if (calcHeight(sidePanel) < sidePanel.Height)
-            {
-                sidePanel.AutoScroll = false;   
-            }
+            if (calcHeight(sidePanel) < sidePanel.Height) sidePanel.AutoScroll = false;
+
+
+            //For now this works, will have to make more robust later
+            Selected = (passwordInfo)sidePanel.Controls[0];
 
             infoDisplay = new passwordInfoDisplay(this);
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
             this.FormClosing += Form1_Deactivate;
-            
+
         }
 
-        
-
-        TransparentLabel addDivider(int type)
+        Label addDivider(int type)
         {
             //adds divider
-            TransparentLabel divider = new TransparentLabel();
+            //Type 0 is for side Panel
+            //Type 1 is a full Height veritcal
+            Label divider = new Label();
             divider.Text = string.Empty;
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
             if (type == 0)
-            {
-                
+            {  
                 divider.Height = 2;
-                divider.Width = 198;
+                divider.Width = 200;
                 return divider;
             }
             divider.Height = this.Height;
@@ -91,27 +106,6 @@ namespace WinFormsApp1
                 height += ctr.Height;
             }
             return height;
-        }
-
-       
-
-    }
-
-    public class TransparentLabel : Label
-    {
-        public TransparentLabel()
-        {
-            this.SetStyle(ControlStyles.Opaque, true);
-            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, false);
-        }
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams parms = base.CreateParams;
-                parms.ExStyle |= 0x20;  // Turn on WS_EX_TRANSPARENT
-                return parms;
-            }
         }
     }
 }
