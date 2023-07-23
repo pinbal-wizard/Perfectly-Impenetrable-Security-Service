@@ -72,8 +72,6 @@ namespace WinFormsApp1
             Selected = (passwordInfo)sidePanel.Controls[0];
 
             infoDisplay = new passwordInfoDisplay(this);
-            this.Controls.Add(sidePanel);
-            this.Controls.Add(infoDisplay);
             this.FormClosing += Form1_Deactivate;
 
         }
