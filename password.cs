@@ -56,16 +56,16 @@ namespace WinFormsApp1
             UsernameLabel.Click += PasswordInfo_Click;
 
             //Height and Width. Width should match the sidepanel width in Form1.cs, Height can be changed
-            this.Width = 200;
-            this.Height = 75;
-            this.AutoSize = true;
+            
+            
             this.Padding = new Padding(0,10,0,10);
             this.FlowDirection = FlowDirection.TopDown;
             this.Click += PasswordInfo_Click;
             this.Controls.Add(this.SiteLabel);
             this.Controls.Add(this.UsernameLabel);
-
-
+            
+            this.MinimumSize= new Size(200,0);
+            this.AutoSize = true;
         }
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
