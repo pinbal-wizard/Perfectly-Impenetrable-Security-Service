@@ -67,16 +67,15 @@ namespace WinFormsApp1
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (calcHeight(sidePanel) < sidePanel.Height) sidePanel.AutoScroll = false;
 
-<<<<<<< HEAD
+
             //For now this works, will have to make more robust later
             Selected = (passwordInfo)sidePanel.Controls[0];
-=======
+
             infoDisplay = new passwordInfoDisplay(this);
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
             this.FormClosing += Form1_Deactivate;
-            
->>>>>>> main
+
         }
 
         Label addDivider(int type)

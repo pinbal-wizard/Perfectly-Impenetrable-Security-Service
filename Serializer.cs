@@ -13,17 +13,17 @@ namespace WinFormsApp1
         {
             string saveLocation = "../../../Shadow.png";
 
-            List<passwordInfo> passwords = new();
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123", form));
-            passwords.Add(new passwordInfo("yandex", "thetruecool", "password123", form));
-            passwords.Add(new passwordInfo("outlook", "thetruecool", "password123", form));
-            passwords.Add(new passwordInfo("github", "thetruecool", "password123", form));
-            passwords.Add(new passwordInfo("typingclub", "thetruecool", "password123", form));
+            List<password> passwords = new();
+            passwords.Add(new password("google", "thetruecool", "password123"));
+            passwords.Add(new password("yandex", "thetruecool", "password123"));
+            passwords.Add(new password("outlook", "thetruecool", "password123"));
+            passwords.Add(new password("github", "thetruecool", "password123"));
+            passwords.Add(new password("typingclub", "thetruecool", "password123"));
 
             FileStream Save = File.OpenWrite(saveLocation);
             string bytes = "";
 
-            foreach (passwordInfo password in passwords)
+            foreach (password password in passwords)
             {
                 bytes += Serialize(password);
             }
@@ -39,13 +39,13 @@ namespace WinFormsApp1
             throw new NotImplementedException();
         }
 
-        private static string Serialize(passwordInfo password)
+        private static string Serialize(password password)
         {
             string text = string.Format("{0}\n{1}\n{2}\n\n",password.WebSite,password.Username,password.Password);
             return text;
         }
 
-        private static byte[] DeSerialise(passwordInfo password)
+        private static byte[] DeSerialise(password password)
         {
             throw new NotImplementedException();
         }
