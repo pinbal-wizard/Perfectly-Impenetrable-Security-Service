@@ -12,8 +12,17 @@ namespace WinFormsApp1
             InitializeComponent();
         }
 
+        private void DisplayPopup(object? sender, EventArgs e)
+        {
+            Popup popup = new Popup();
+            popup.TopMost = true;
+            popup.Show();
+            
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            DisplayPopup(sender, e);
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             sidePanel.Height = this.ClientSize.Height;

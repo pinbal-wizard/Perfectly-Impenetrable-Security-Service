@@ -48,6 +48,7 @@
             this.EnterPassLabel.Size = new System.Drawing.Size(87, 15);
             this.EnterPassLabel.TabIndex = 1;
             this.EnterPassLabel.Text = "Enter Password";
+            this.EnterPassLabel.Click += new System.EventHandler(this.EnterPassLabel_Click);
             // 
             // SubmitPassBtn
             // 
@@ -57,6 +58,7 @@
             this.SubmitPassBtn.TabIndex = 2;
             this.SubmitPassBtn.Text = "Submit";
             this.SubmitPassBtn.UseVisualStyleBackColor = true;
+            this.SubmitPassBtn.Click += new System.EventHandler(this.SubmitPassBtn_Click);
             // 
             // Popup
             // 
@@ -68,6 +70,7 @@
             this.Controls.Add(this.PasswordTextBox);
             this.Name = "Popup";
             this.Text = "Form2";
+            this.Load += new System.EventHandler(this.Popup_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
