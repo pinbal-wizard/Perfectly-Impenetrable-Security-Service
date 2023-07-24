@@ -39,6 +39,7 @@ namespace WinFormsApp1
             //form passed to get access to ClientSize
             this.form = form;
             this.DoubleBuffered = true;
+            
             //Password hidden or not
             hidden = true;
 
@@ -106,7 +107,7 @@ namespace WinFormsApp1
             divider2.AutoSize = false;
             divider2.Height = 2;
             divider2.Width = 100;
-            divider2.Margin = new Padding(0);
+            divider2.Margin = new Padding(0,0,0,10);
 
 
             //Width is rest of the form.
@@ -115,6 +116,9 @@ namespace WinFormsApp1
             this.Location = new Point(200, 0);
             this.Padding = new Padding(40,0,40,0);
             this.FlowDirection = FlowDirection.TopDown;
+            this.BorderStyle = BorderStyle.FixedSingle;
+            this.AutoScroll = true;
+            this.WrapContents = false;
             //Add items to the infodisplay
             this.Controls.Add(websitename);
             this.Controls.Add(divider);

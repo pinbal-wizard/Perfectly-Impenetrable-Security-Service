@@ -12,7 +12,6 @@ namespace WinFormsApp1
     {
         FlowLayoutPanel sidePanel;
         internal passwordInfoDisplay infoDisplay;
-        public List<Control> infoDisplayItems = new List<Control>();
         List<password> passwords = new List<password>();
         public passwordInfo Selected;
 
@@ -36,10 +35,13 @@ namespace WinFormsApp1
             //side panel must be first
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
+            this.FormClosing += Form1_Deactivate;
+            //this.Size = new Size(400, 200);
         }
 
         private void FormResized(object? sender, EventArgs e)
         {
+            //Sidepanel
             //Check if scrolling needed now
             sidePanel.AutoScroll = true;
             sidePanel.Height = this.ClientSize.Height;
@@ -48,7 +50,9 @@ namespace WinFormsApp1
             //Update side divider relies on side panel being first
             this.Controls[0].Height = this.ClientSize.Height;
 
-        }
+            //InfoDisplay update width and height
+            infoDisplay.Width = this.ClientSize.Width - 200;
+            infoDisplay.Height = this.ClientSize.Height;        }
 
         private void InitSidePanel()
         {
@@ -62,6 +66,8 @@ namespace WinFormsApp1
             sidePanel.HorizontalScroll.Visible = false;
             sidePanel.HorizontalScroll.Maximum = 0;
             sidePanel.AutoScroll = true;
+            sidePanel.FlowDirection = FlowDirection.TopDown;
+            sidePanel.WrapContents = false;
             //Right side divider
             this.Controls.Add(addDivider(1));
 
@@ -81,13 +87,8 @@ namespace WinFormsApp1
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (calcHeight(sidePanel)+20 < sidePanel.Height) sidePanel.AutoScroll = false;
 
-
             //For now this works, will have to make more robust later
-            Selected = (passwordInfo)sidePanel.Controls[0];
-
-            infoDisplay = new passwordInfoDisplay(this);
-            this.FormClosing += Form1_Deactivate;
-
+            Selected = (passwordInfo)sidePanel.Controls[0];     
         }
 
         Label addDivider(int type)
