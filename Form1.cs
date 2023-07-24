@@ -126,12 +126,14 @@ namespace WinFormsApp1
                     changes.Add(new passwordInfo(pass, this));
                 }
             }
-            //loop through untill differance is fount
-            int i = 0;
-            for(i = 0; i < changes.Count; i++)
+            //loop through until differance is found
+            //i declared here becaue it is used elsewhere
+            int i;
+            for(i = 0; i < changes.Count && i < sidePanelPasswords.Controls.Count/2; i++)
             {
-                //i*2 because every second element is a passwordInfo
-                passwordInfo current = (passwordInfo)sidePanelPasswords.Controls[i*2];
+                //i*2 because every second element is a passwordInfo, every other is a Label
+                passwordInfo current = (passwordInfo)sidePanelPasswords.Controls[i * 2];
+
                 if (current.WebSite == changes[i].WebSite && current.Username == changes[i].Username)
                 {
 
@@ -139,23 +141,22 @@ namespace WinFormsApp1
                 else
                 {
                     //inversion cringe
+                    //differance found, position marked with i
                     break;
                 }
             }
-            //remove rest of panel
-            for(int j = i; sidePanelPasswords.Controls.Count == i; j++)
+            //remove rest of panel based of where change was found, start at i*2 to skip labels
+            for(int j = i*2; sidePanelPasswords.Controls.Count != i*2; j++)
             {
                 //remove at i because all elements drop down when you remove one
                 sidePanelPasswords.Controls.RemoveAt(i);
             }
             //add rest of changes
-            for(;i < changes.Count; i++)
+            for (;i < changes.Count; i++)
             {
                 sidePanelPasswords.Controls.Add(changes[i]);
                 sidePanelPasswords.Controls.Add(addDivider(0));
             }
-            
-
         }
 
         Label addDivider(int type)
