@@ -139,6 +139,7 @@ namespace WinFormsApp1
             password.Text = "●●●●●●●●";
             password.Font = new Font("Arial", 9);
             password.Location = new Point(0, 0);
+            password.SizeChanged += PasswordHideToggled;
             password.AutoSize = true;
 
             //Button to hide and unhide password
@@ -160,6 +161,11 @@ namespace WinFormsApp1
             passwordPanel.AutoSize = true;
             passwordPanel.Controls.Add(password);
             passwordPanel.Controls.Add(hide);
+        }
+
+        private void PasswordHideToggled(object? sender, EventArgs e)
+        {
+            hide.Location = new Point(password.Size.Width, 0);
         }
 
         private void Hide_Click(object? sender, EventArgs e)
