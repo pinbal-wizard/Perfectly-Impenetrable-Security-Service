@@ -117,15 +117,44 @@ namespace WinFormsApp1
 
         private void SearchPasswords(object? sender, EventArgs e)
         {
-            sidePanelPasswords.Controls.Clear();
+            List<passwordInfo> changes = new List<passwordInfo>();
+            //perform search
             foreach (password pass in passwords)
             {
                 if(pass.WebSite.Contains(SearchBar.Text) || pass.Username.Contains(SearchBar.Text))
                 {
-                    sidePanelPasswords.Controls.Add(new passwordInfo(pass, this));
-                    sidePanelPasswords.Controls.Add(addDivider(0));
+                    changes.Add(new passwordInfo(pass, this));
                 }
             }
+            //loop through untill differance is fount
+            int i = 0;
+            for(i = 0; i < changes.Count; i++)
+            {
+                //i*2 because every second element is a passwordInfo
+                passwordInfo current = (passwordInfo)sidePanelPasswords.Controls[i*2];
+                if (current.WebSite == changes[i].WebSite && current.Username == changes[i].Username)
+                {
+
+                }
+                else
+                {
+                    //inversion cringe
+                    break;
+                }
+            }
+            //remove rest of panel
+            for(int j = i; sidePanelPasswords.Controls.Count == i; j++)
+            {
+                //remove at i because all elements drop down when you remove one
+                sidePanelPasswords.Controls.RemoveAt(i);
+            }
+            //add rest of changes
+            for(;i < changes.Count; i++)
+            {
+                sidePanelPasswords.Controls.Add(changes[i]);
+                sidePanelPasswords.Controls.Add(addDivider(0));
+            }
+            
 
         }
 
