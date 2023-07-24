@@ -98,7 +98,6 @@ namespace WinFormsApp1
 
             //For now this works, will have to make more robust later
             Selected = (passwordInfo)sidePanel.Controls[0];
-
             infoDisplay = new passwordInfoDisplay(this);
 
             NewEntry = new Button();
