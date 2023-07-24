@@ -66,6 +66,7 @@ namespace WinFormsApp1
             infoDisplay = new passwordInfoDisplay(this);
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
+            NewEntry.Click += openPasswordEntry_Click;
         }
 
         private void InitSidePanel()
@@ -123,7 +124,7 @@ namespace WinFormsApp1
         private void NewEntry_Click(object? sender, EventArgs e)
         {
             PasswordEntry pwde = new PasswordEntry();
-            pwde.Show();
+            pwde.BringToFront();
         }
 
         private void openPasswordEntry_Click(object sender, EventArgs e)
@@ -147,11 +148,8 @@ namespace WinFormsApp1
                     {
                         sidePanel.Controls.Add(new passwordInfo(pass,this));
                         sidePanel.Controls.Add(addDivider(0));
+                        sidePanel.Update();
                     }
-                }
-                else
-                {
-
                 }
             }
         }
