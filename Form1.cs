@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Security.Policy;
+using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
@@ -15,12 +18,40 @@ namespace WinFormsApp1
         public List<Control> infoDisplayItems = new List<Control>();
         List<password> passwords = new List<password>();
         public passwordInfo Selected;
+        private Button NewEntry;
+
+        /// <summary>
+        /// Readonly Property for reading the list of passwords
+        /// ***This needs to change for future task of not keeping passwords stored in ram***
+        /// </summary>
+        public List<password> Passwords
+        {
+            get { return passwords; }
+        }
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Public Function for adding passwords to the list off passwords
+        /// ***Will need to be change to be more secure***
+        /// </summary>
+        /// <param name="URL"></param>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
+        public int addEntry(string URL, string UserName, string Password)
+        {
+            passwords.Add(new password(URL, UserName, Password));
+            return 0;
+        }
+
+
+        /// <summary>
+        /// Saves Passwords to file as form is closed
+        /// </summary>
         private void Form1_Deactivate(Object sender, EventArgs e)
         {
             Serializer.SaveToFile(this);
@@ -28,6 +59,7 @@ namespace WinFormsApp1
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Serializer.LoadFromFile(this);
             //Basic Load
             this.DoubleBuffered = true;
             InitSidePanel();
@@ -50,13 +82,8 @@ namespace WinFormsApp1
             sidePanel.AutoScroll = true;
             //Right side divider
             this.Controls.Add(addDivider(1));
-
-            //Example entrys will later pull from file load
-            passwords.Add(new password("https://google.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://yandex.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://outlook.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://github.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://typingclub.com", "thetruecool", "password123"));
+            //Example entrys
+            //No need to add any example entries as they save and load from file
 
             //Add password panels and dividers below them
             foreach (password pass in passwords)
@@ -81,8 +108,6 @@ namespace WinFormsApp1
             NewEntry.Height = 40;
 
             this.Shown += Form1_Shown;
-            this.Controls.Add(sidePanel);
-            this.Controls.Add(infoDisplay);
             this.Controls.Add(NewEntry);
             this.FormClosing += Form1_Deactivate;
 
@@ -113,14 +138,14 @@ namespace WinFormsApp1
                     string password = passwordEntryForm.Password;
 
                     //Adding the info
-                    passwords.Add(new passwordInfo(websiteName, username, password, this));
+                    passwords.Add(new password(websiteName, username, password));
 
                     //Displaying new entry
                     sidePanel.Controls.Clear();
                     
-                    foreach(passwordInfo pass in passwords)
+                    foreach(password pass in passwords)
                     {
-                        sidePanel.Controls.Add(pass);
+                        sidePanel.Controls.Add(new passwordInfo(pass,this));
                         sidePanel.Controls.Add(addDivider(0));
                     }
                 }
@@ -130,6 +155,7 @@ namespace WinFormsApp1
                 }
             }
         }
+
 
         Label addDivider(int type)
         {
@@ -141,7 +167,7 @@ namespace WinFormsApp1
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
             if (type == 0)
-            {  
+            {
                 divider.Height = 2;
                 divider.Width = 200;
                 return divider;
@@ -151,6 +177,8 @@ namespace WinFormsApp1
             divider.Location = new Point(201, 0);
             return divider;
         }
+
+
         int calcHeight(Control panel)
         {   //returns height of a panels content, there may be a better way to get this
             int height = 0;
