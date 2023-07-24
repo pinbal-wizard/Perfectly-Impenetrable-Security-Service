@@ -138,18 +138,18 @@ namespace WinFormsApp1
             password = new Label();
             password.Text = "●●●●●●●●";
             password.Font = new Font("Arial", 9);
-            password.Location = new Point(0, 0);
+            password.Location = new Point(0, 1);
             password.SizeChanged += PasswordHideToggled;
             password.AutoSize = true;
 
             //Button to hide and unhide password
             hide = new Button();
-            hide.Size = new Size(16, 16);
+            hide.Size = new Size(23, 23);
             //Xpos is always offsett by the password width, means that it will never overlap
             hide.Location = new Point(password.Size.Width, 0);
             hide.Click += Hide_Click;
             hide.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
-            hide.ImageAlign = ContentAlignment.MiddleCenter;
+            hide.ImageAlign = ContentAlignment.TopCenter;
             hide.FlatStyle = FlatStyle.Flat;
             hide.FlatAppearance.BorderSize = 0;
             hide.FlatAppearance.MouseOverBackColor = Color.Transparent;

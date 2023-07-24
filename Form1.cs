@@ -30,10 +30,24 @@ namespace WinFormsApp1
         {
             //Basic Load
             this.DoubleBuffered = true;
+            this.ClientSizeChanged += FormResized;
             InitSidePanel();
             infoDisplay = new passwordInfoDisplay(this);
+            //side panel must be first
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
+        }
+
+        private void FormResized(object? sender, EventArgs e)
+        {
+            //Check if scrolling needed now
+            sidePanel.AutoScroll = true;
+            sidePanel.Height = this.ClientSize.Height;
+            if (calcHeight(sidePanel)+40 < sidePanel.Height) sidePanel.AutoScroll = false;
+
+            //Update side divider relies on side panel being first
+            this.Controls[0].Height = this.ClientSize.Height;
+
         }
 
         private void InitSidePanel()
@@ -65,7 +79,7 @@ namespace WinFormsApp1
                 sidePanel.Controls.Add(addDivider(0));
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
-            if (calcHeight(sidePanel) < sidePanel.Height) sidePanel.AutoScroll = false;
+            if (calcHeight(sidePanel)+20 < sidePanel.Height) sidePanel.AutoScroll = false;
 
 
             //For now this works, will have to make more robust later
@@ -96,6 +110,9 @@ namespace WinFormsApp1
             divider.Location = new Point(201, 0);
             return divider;
         }
+
+
+
         int calcHeight(Control panel)
         {   //returns height of a panels content, there may be a better way to get this
             int height = 0;
