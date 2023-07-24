@@ -24,14 +24,14 @@ namespace WinFormsApp1
     public class passwordInfo : FlowLayoutPanel
     {
 
-        private Form1 form;
+        private MainWindow form;
         public string WebSite { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
         public Label SiteLabel { get; set; }
         public Label UsernameLabel { get; set; }
 
-        public passwordInfo(password passwordbase, Form1 form)
+        public passwordInfo(password passwordbase, MainWindow form)
         {
             //Set info from password struct
             this.WebSite = passwordbase.WebSite;
@@ -55,7 +55,7 @@ namespace WinFormsApp1
             UsernameLabel.AutoSize = true;
             UsernameLabel.Click += PasswordInfo_Click;
 
-            //Height and Width. Width should match the sidepanel width in Form1.cs, Height can be changed
+            //Height and Width. Width should match the sidepanel width in MainWindow.cs, Height can be changed
             
             
             this.Padding = new Padding(0,10,0,10);

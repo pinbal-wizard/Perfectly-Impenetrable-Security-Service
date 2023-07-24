@@ -7,7 +7,7 @@ namespace WinFormsApp1
         ///<summary>
         ///Call Serializer.SaveToFile() To save all current passwords to file. Also runs whenever the form is closed
         ///</summary>
-        public static int SaveToFile(Form1 form)
+        public static int SaveToFile(MainWindow form)
         {
             List<password> passwords = form.Passwords;
 
@@ -29,7 +29,7 @@ namespace WinFormsApp1
         /// Call Serializer.LoadFromFile() to load passwords from preset file
         /// </summary>
         /// <returns></returns>
-        public static int LoadFromFile(Form1 form)
+        public static int LoadFromFile(MainWindow form)
         {
             List<password> passwords = new();
 

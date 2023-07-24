@@ -11,13 +11,13 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
-    public partial class Form1 : Form
+    public partial class MainWindow : Form
     {
         FlowLayoutPanel sidePanel;
         internal passwordInfoDisplay infoDisplay;
-        public List<Control> infoDisplayItems = new List<Control>();
+        public List<Control> infoDisplayItems = new();
         List<password> passwords = new List<password>();
-        public passwordInfo Selected;
+        public passwordInfo? Selected;
         private Button NewEntry;
 
         /// <summary>
@@ -29,8 +29,12 @@ namespace WinFormsApp1
             get { return passwords; }
         }
 
-        public Form1()
+        public MainWindow()
         {
+            sidePanel= new FlowLayoutPanel();
+            infoDisplay = new passwordInfoDisplay(this);
+            NewEntry = new Button();
+
             InitializeComponent();
         }
 
@@ -52,12 +56,13 @@ namespace WinFormsApp1
         /// <summary>
         /// Saves Passwords to file as form is closed
         /// </summary>
-        private void Form1_Deactivate(Object sender, EventArgs e)
+        private void MainWindow_Deactivate(object? sender, EventArgs e)
         {
             Serializer.SaveToFile(this);
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+
+        private void MainWindow_Load(object sender, EventArgs e)
         {
             Serializer.LoadFromFile(this);
             //Basic Load
@@ -67,6 +72,7 @@ namespace WinFormsApp1
             this.Controls.Add(sidePanel);
             this.Controls.Add(infoDisplay);
         }
+
 
         private void InitSidePanel()
         {
@@ -107,24 +113,27 @@ namespace WinFormsApp1
             NewEntry.AutoSize = true;
             NewEntry.Height = 40;
 
-            this.Shown += Form1_Shown;
+            this.Shown += MainWindow_Shown;
             this.Controls.Add(NewEntry);
-            this.FormClosing += Form1_Deactivate;
+            this.FormClosing +=  MainWindow_Deactivate;
 
         }
 
-        private void Form1_Shown(object? sender, EventArgs e)
+
+        private void MainWindow_Shown(object? sender, EventArgs e)
         {
             Popup pop = new Popup();
             pop.Show();
             NewEntry.BringToFront();
         }
 
+
         private void NewEntry_Click(object? sender, EventArgs e)
         {
             PasswordEntry pwde = new PasswordEntry();
             pwde.Show();
         }
+
 
         private void openPasswordEntry_Click(object sender, EventArgs e)
         {

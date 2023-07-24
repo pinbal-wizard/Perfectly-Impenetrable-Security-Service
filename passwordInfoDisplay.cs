@@ -10,7 +10,7 @@ namespace WinFormsApp1
 {
     public class passwordInfoDisplay: FlowLayoutPanel
     {
-        private Form1 form;
+        private MainWindow form;
         public Label websitename { get; set; }
         public Label divider { get; set; }
         public Label websiteLinkLabel { get; set; }
@@ -25,7 +25,7 @@ namespace WinFormsApp1
         public string realpassword { get; set; }
         public bool hidden { get; set; }
         
-        public passwordInfoDisplay(Form1 form)
+        public passwordInfoDisplay(MainWindow form)
         {
 
             //FlowLayoutPanel with flow direction of top to bottom
