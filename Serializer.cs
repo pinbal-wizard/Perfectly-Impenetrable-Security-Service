@@ -38,7 +38,6 @@ namespace WinFormsApp1
             string[] splitEncryptedText = encryptedtext.Split("\n\n\n");
             foreach (string text in splitEncryptedText)
             {
-                MessageBox.Show(text);
                 if (text == "")
                 {
                     continue;
@@ -52,7 +51,6 @@ namespace WinFormsApp1
         private static string Serialize(PasswordStruct password)
         {
             string text = string.Format("{0}\n{1}\n{2}\n\n\n",password.WebSite,password.Username,password.Password);
-            MessageBox.Show(text);
             return text;
         }
 
