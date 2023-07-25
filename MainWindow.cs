@@ -22,7 +22,7 @@ namespace WinFormsApp1
         private FlowLayoutPanel _sidePanel;
         private Button _newEntry;
 
-        public passwordInfo? Selected;
+        public PasswordSideBar? Selected;
         public passwordInfoDisplay InfoDisplay;
 
 
@@ -109,7 +109,7 @@ namespace WinFormsApp1
             //Add password panels and dividers below them
             foreach (PasswordStruct pass in PasswordsList)
             {
-                _sidePanel.Controls.Add(new passwordInfo(pass, this));
+                _sidePanel.Controls.Add(new PasswordSideBar(pass, this));
                 _sidePanel.Controls.Add(AddSidePanel());
             }
 
@@ -118,7 +118,7 @@ namespace WinFormsApp1
 
 
             //For now this works, will have to make more robust later
-            Selected = (passwordInfo)_sidePanel.Controls[0];
+            Selected = (PasswordSideBar)_sidePanel.Controls[0];
 
             InfoDisplay = new passwordInfoDisplay(this);
 
@@ -184,7 +184,7 @@ namespace WinFormsApp1
 
                 foreach (PasswordStruct pass in PasswordsList)
                 {
-                    _sidePanel.Controls.Add(new passwordInfo(pass, this));
+                    _sidePanel.Controls.Add(new PasswordSideBar(pass, this));
                     _sidePanel.Controls.Add(AddSidePanel());
                 }
             }

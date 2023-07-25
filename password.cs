@@ -13,9 +13,9 @@ namespace WinFormsApp1
     /// </summary>
     public struct PasswordStruct
     {
-        public string WebSite { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string WebSite { get;}
+        public string Username { get;}
+        public string Password { get;}
         public PasswordStruct(string Website, string Username, string Password)
         {
             this.WebSite = Website;
@@ -24,17 +24,26 @@ namespace WinFormsApp1
         }
     }
 
-    public class passwordInfo : FlowLayoutPanel
+
+    /// <summary>
+    /// Class for how the Password Tiles are shown in the list of tiles as well as an extention of the PasswordStuct
+    /// </summary>
+    public class PasswordSideBar : FlowLayoutPanel
     {
 
         private MainWindow form;
-        public string WebSite { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public Label SiteLabel { get; set; }
-        public Label UsernameLabel { get; set; }
+        public string WebSite { get; }
+        public string Username { get; }
+        public string Password { get; }
+        public Label SiteLabel { get; }
+        public Label UsernameLabel { get; }
 
-        public passwordInfo(PasswordStruct passwordbase, MainWindow form)
+        /// <summary>
+        /// The Constructor for the Siderbar class uses a PasswordsStruct as a base 
+        /// </summary>
+        /// <param name="passwordbase"></param>
+        /// <param name="form"></param>
+        public PasswordSideBar(PasswordStruct passwordbase, MainWindow form)
         {
             //Set info from password struct
             this.WebSite = passwordbase.WebSite;
@@ -50,6 +59,7 @@ namespace WinFormsApp1
             SiteLabel.Font = new Font("Arial",10);
             SiteLabel.AutoSize = true; 
             SiteLabel.Click += PasswordInfo_Click;
+
             //Label to display the username
             UsernameLabel = new Label();
             UsernameLabel.Text = Username;
@@ -59,8 +69,6 @@ namespace WinFormsApp1
             UsernameLabel.Click += PasswordInfo_Click;
 
             //Height and Width. Width should match the sidepanel width in MainWindow.cs, Height can be changed
-            
-            
             this.Padding = new Padding(0,10,0,10);
             this.FlowDirection = FlowDirection.TopDown;
             this.Click += PasswordInfo_Click;
@@ -71,6 +79,13 @@ namespace WinFormsApp1
             this.AutoSize = true;
         }
 
+
+        /// <summary>
+        /// Shows or hides the real password in the menu 
+        /// <br></br>***THis is where the password popup should also be used as not to keep the master password or regular password stored in memory***
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PasswordInfo_Click(object? sender, EventArgs e)
         {
             //The panel and the labels both have this function when clicked
