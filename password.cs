@@ -74,16 +74,16 @@ namespace WinFormsApp1
             //This is so if you click the text it still updates the infoDisplay
 
             //Selected variable to bold url in side bar
-            form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
             form.Selected = this;
+            form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
             this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
 
             //Setting info
-            form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
-            form.infoDisplay.websiteLink.Text = WebSite;
-            form.infoDisplay.username.Text = Username;
-            form.infoDisplay.password.Text = "●●●●●●●●";
-            form.infoDisplay.realpassword = Password;
+            form.InfoDisplay.websitename.Text = WebSite.Split("://").Last();
+            form.InfoDisplay.websiteLink.Text = WebSite;
+            form.InfoDisplay.username.Text = Username;
+            form.InfoDisplay.password.Text = "●●●●●●●●";
+            form.InfoDisplay.realpassword = Password;
         }
     }
 }

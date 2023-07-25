@@ -5,16 +5,16 @@ namespace WinFormsApp1
     {
         private static string SaveLocation = "../../../Shadow.png";
         ///<summary>
-        ///Call Serializer.SaveToFile() To save all current passwords to file. Also runs whenever the form is closed
+        ///Call Serializer.SaveToFile() To save all current PasswordsList to file. Also runs whenever the form is closed
         ///</summary>
         public static int SaveToFile(MainWindow form)
         {
-            List<password> passwords = form.Passwords;
+            List<password> PasswordsList = form.PasswordsList;
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
 
-            foreach (password password in passwords)
+            foreach (password password in PasswordsList)
             {
                 bytes += Serialize(password);
             }
@@ -26,12 +26,12 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Call Serializer.LoadFromFile() to load passwords from preset file
+        /// Call Serializer.LoadFromFile() to load PasswordsList from preset file
         /// </summary>
         /// <returns></returns>
         public static int LoadFromFile(MainWindow form)
         {
-            List<password> passwords = new();
+            List<password> PasswordsList = new();
 
             string encryptedtext = File.ReadAllText(SaveLocation);
 
@@ -44,7 +44,7 @@ namespace WinFormsApp1
                     continue;
                 }
                 string URL = text.Split("\n")[0], UserName = text.Split("\n")[1], Password = text.Split("\n")[2];
-                form.addEntry(URL, UserName, Password);
+                form.AddEntry(URL, UserName, Password);
             }
             return 0;
         }

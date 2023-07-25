@@ -2,7 +2,7 @@ Perfectly-Impenetrable-Security-Service
 
 Password manager for school
 
-should use for all your passwords very secure
+should use for all your PasswordsList very secure
 Becuase it is
 =============
 
