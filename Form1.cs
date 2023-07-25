@@ -169,54 +169,9 @@ namespace WinFormsApp1
                 }
 
             }
-
             sidePanelPasswords.ResumeLayout(true);
             sidePanelContainer.ResumeLayout(true);
-            /*
-            int realthing = this.Controls.Count;
-            //loop through until differance is found
-            //i declared here becaue it is used elsewhere           
-            int i;
-            realthing = this.Controls.Count;
-            for (i = 0; i < changes.Count && i < sidePanelPasswords.Controls.Count; i+=2)
-            {
-                //i*2 because every second element is a passwordInfo, every other is a Label
-                passwordInfo current = (passwordInfo)sidePanelPasswords.Controls[i];
-
-                if (current.WebSite == ((passwordInfo)changes[i]).WebSite && current.Username == ((passwordInfo)changes[i]).Username){}
-                else
-                {
-                    //inversion cringe
-                    //differance found, position marked with i
-                    break;
-                }
-            }
-            realthing = this.Controls.Count;
-            //0.5 FOR this if empty list
-            //remove rest of panel based of where change was found, start at i*2 to skip labels
-            for (int j = i; sidePanelPasswords.Controls.Count != i; j++)
-            {
-                if(changes.Count == 0)
-                {
-                    sidePanelPasswords.Controls.Clear();
-                    break;
-                }
-                //remove at i because all elements drop down when you remove one
-                sidePanelPasswords.Controls.RemoveAt(i);
-            }
-            realthing = this.Controls.Count;
-            //add rest of changes
-            //if full list 0.6 for this
-            for (;i < changes.Count; i++)
-            {
-                if(sidePanelPasswords.Controls.Count == 0)
-                {
-                    sidePanelPasswords.Controls.AddRange(changes.ToArray());
-                    break;
-                }
-                sidePanelPasswords.Controls.Add(changes[i]);
-            }*/
-
+           
         }
 
         //New entry function
