@@ -8,116 +8,105 @@ using System.Drawing;
 
 namespace WinFormsApp1
 {
-    /// <summary>
-    /// This guy added this class not as a form. Why
-    /// <br></br> *This whole class is awful and needs to be refactored*
-    /// </summary>
-    public class PasswordInfoDisplay: FlowLayoutPanel
+    public class passwordInfoDisplay: FlowLayoutPanel
     {
-        public Label Websitename { get; set; }
-        public Label Divider { get; set; }
-        public Label WebsiteLinkLabel { get; set; }
-        public Label WebsiteLink { get; set; }
-        public Label UsernameLabel { get; set; }
-        public Label Username { get; set; }
-        public Label PasswordLabel { get; set; }
-        public Panel PasswordPanel { get; set; }
-        public Label Password { get; set; }
-        public Label Divider2 { get; set; }
-        public Button HideButton { get; set; }
-        public string RealPassword { get; set; }
-        public bool IsHidden { get; set; }
-
-        /// <summary>
-        /// FlowLayoutPanel with flow direction of top to bottom
-        ///No locations specified, instead distance between elements is controlled through padding and margin
-        ///Padding and margin are differnt, dont know how though
-        ///If an inline element like the button next to the password is needed
-        ///Put both items in a normal panel and add that to the FlowLayoutPanel
-        ///All elements have a margin added, even if it is zero for alignment reasons
-        /// </summary>
-        /// <param name="form"></param>
-        public PasswordInfoDisplay(MainWindow form)
+        private Form1 form;
+        public Label websitename { get; set; }
+        public Label divider { get; set; }
+        public Label websiteLinkLabel { get; set; }
+        public Label websiteLink { get; set; }
+        public Label usernameLabel { get; set; }
+        public Label username { get; set; }
+        public Label passwordLabel { get; set; }
+        public Panel passwordPanel { get; set; }
+        public Label password { get; set; }
+        public Button hide { get; set; }
+        public Label divider2 { get; set; }
+        public string realpassword { get; set; }
+        public bool hidden { get; set; }
+        
+        public passwordInfoDisplay(Form1 form)
         {
+
+            //FlowLayoutPanel with flow direction of top to bottom
+            //No locations specified, instead distance between elements is controlled through padding and margin
+            //Padding and margin are differnt, dont know how though
+            //If an inline element like the button next to the password is needed
+            //Put both items in a normal panel and add that to the FlowLayoutPanel
+
+            //All elements have a margin added, even if it is zero for alignment reasons
+
+            //form passed to get access to ClientSize
+            this.form = form;
             this.DoubleBuffered = true;
             //Password hidden or not
-            IsHidden = true;
-
-
-            PasswordPanel = new Panel();
-            Password = new Label();
-            HideButton = new Button();
-
+            hidden = true;
 
             //Below is example default info so that it is not empty when you first open it
-            RealPassword = "wake up";
-
+            realpassword = "wake up";
 
             //Website top title
-            Websitename = new Label();
-            Websitename.Text = "example.com";
-            Websitename.Font = new Font("Arial", 13, FontStyle.Bold);
-            Websitename.Padding = new Padding(0, 30, 0, 15);
-            Websitename.AutoSize = true;
-
+            websitename = new Label();
+            websitename.Text = "example.com";
+            websitename.Font = new Font("Arial", 13, FontStyle.Bold);
+            websitename.Padding = new Padding(0, 30, 0, 15);
+            websitename.AutoSize = true;
 
             //Cool divider, padding 40 to create space bettwen it and things below
-            Divider = new Label();
-            Divider.Text = string.Empty;
-            Divider.BorderStyle = BorderStyle.Fixed3D;
-            Divider.AutoSize = false;
-            Divider.Height = 2;
-            Divider.Width = 400;
-            Divider.Margin = new Padding(0, 0, 0, 40);
+            divider = new Label();
+            divider.Text = string.Empty;
+            divider.BorderStyle = BorderStyle.Fixed3D;
+            divider.AutoSize = false;
+            divider.Height = 2;
+            divider.Width = 400;
+            divider.Margin = new Padding(0, 0, 0, 40);
 
 
             //Website link Label and actual link, link will actually work in future
-            WebsiteLinkLabel = new Label();
-            WebsiteLinkLabel.Text = "Website Address";
-            WebsiteLinkLabel.Font = new Font("Arial", 7);
-            WebsiteLinkLabel.Margin = new Padding(0);
-            WebsiteLinkLabel.AutoSize = true;
-            WebsiteLink = new Label();
-            WebsiteLink.Text = "https://example.com";
-            WebsiteLink.ForeColor = Color.Blue;
-            WebsiteLink.Click += WebsiteLink_Click;
-            WebsiteLink.Margin = new Padding(0, 0, 0, 40);
-            WebsiteLink.AutoSize = true;
+            websiteLinkLabel = new Label();
+            websiteLinkLabel.Text = "Website Address";
+            websiteLinkLabel.Font = new Font("Arial", 7);
+            websiteLinkLabel.Margin = new Padding(0);
+            websiteLinkLabel.AutoSize = true;
+            websiteLink = new Label();
+            websiteLink.Text = "https://example.com";
+            websiteLink.ForeColor = Color.Blue;
+            websiteLink.Click += WebsiteLink_Click;
+            websiteLink.Margin = new Padding(0, 0, 0, 40);
+            websiteLink.AutoSize = true;
 
 
             //Username Stuff
-            UsernameLabel = new Label();
-            UsernameLabel.Text = "Username";
-            UsernameLabel.Margin = new Padding(0);
-            UsernameLabel.Font = new Font("Arial", 7);
-            UsernameLabel.AutoSize = true;
-            Username = new Label();
-            Username.Text = "Boe Jiden";
-            Username.Font = new Font("Arial", 10);
-            Username.Margin = new Padding(0, 0, 0, 40);
-            Username.AutoSize = true;
+            usernameLabel = new Label();
+            usernameLabel.Text = "Username";
+            usernameLabel.Margin = new Padding(0);
+            usernameLabel.Font = new Font("Arial", 7);
+            usernameLabel.AutoSize = true;
+            username = new Label();
+            username.Text = "Boe Jiden";
+            username.Font = new Font("Arial", 10);
+            username.Margin = new Padding(0, 0, 0, 40);
+            username.AutoSize = true;
 
             
             //Password Label
-            PasswordLabel = new Label();
-            PasswordLabel.Text = "Password";
-            PasswordLabel.Font = new Font("Arial", 7);
-            PasswordLabel.Margin = new Padding(0);
-            PasswordLabel.AutoSize = true;
-
+            passwordLabel = new Label();
+            passwordLabel.Text = "Password";
+            passwordLabel.Font = new Font("Arial", 7);
+            passwordLabel.Margin = new Padding(0);
+            passwordLabel.AutoSize = true;
 
             //Seperate panel (like a div) for password and button so that they can be on the same y level
             InitPasswordPanel();
 
-
             //Cool bottom divider
-            Divider2 = new Label();
-            Divider2.Text = string.Empty;
-            Divider2.BorderStyle = BorderStyle.Fixed3D;
-            Divider2.AutoSize = false;
-            Divider2.Height = 2;
-            Divider2.Width = 100;
-            Divider2.Margin = new Padding(0);
+            divider2 = new Label();
+            divider2.Text = string.Empty;
+            divider2.BorderStyle = BorderStyle.Fixed3D;
+            divider2.AutoSize = false;
+            divider2.Height = 2;
+            divider2.Width = 100;
+            divider2.Margin = new Padding(0);
 
 
             //Width is rest of the form.
@@ -127,79 +116,63 @@ namespace WinFormsApp1
             this.Padding = new Padding(40,0,40,0);
             this.FlowDirection = FlowDirection.TopDown;
             //Add items to the infodisplay
-            this.Controls.Add(Websitename);
-            this.Controls.Add(Divider);
-            this.Controls.Add(WebsiteLinkLabel);
-            this.Controls.Add(WebsiteLink);
-            this.Controls.Add(UsernameLabel);
-            this.Controls.Add(Username);
-            this.Controls.Add(PasswordLabel);
-            this.Controls.Add(PasswordPanel);
-            this.Controls.Add(Divider2);
+            this.Controls.Add(websitename);
+            this.Controls.Add(divider);
+            this.Controls.Add(websiteLinkLabel);
+            this.Controls.Add(websiteLink);
+            this.Controls.Add(usernameLabel);
+            this.Controls.Add(username);
+            this.Controls.Add(passwordLabel);
+            this.Controls.Add(passwordPanel);
+            this.Controls.Add(divider2);
         }
 
-
-        /// <summary>
-        /// **Will open browser**
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <exception cref="NotImplementedException"></exception>
         private void WebsiteLink_Click(object? sender, EventArgs e)
         {
-            //This is how you do a function that hasnt been implemented 
-            //Dont just fail silently 
-            throw new NotImplementedException();
+            //Will open browser
         }
 
-
-        /// <summary>
-        /// Will initalise the password panel
-        /// </summary>
         private void InitPasswordPanel()
         {
             //Actuall password, hidden initially
-            Password.Text = "●●●●●●●●";
-            Password.Font = new Font("Arial", 9);
-            Password.Location = new Point(0, 0);
-            Password.AutoSize = true;
+            password = new Label();
+            password.Text = "●●●●●●●●";
+            password.Font = new Font("Arial", 9);
+            password.Location = new Point(0, 0);
+            password.AutoSize = true;
 
             //Button to hide and unhide password
-            HideButton.Size = new Size(16, 16);
-
+            hide = new Button();
+            hide.Size = new Size(16, 16);
             //Xpos is always offsett by the password width, means that it will never overlap
-            HideButton.Location = new Point(Password.Size.Width, 0);
-            HideButton.Click += ShowHidePasswordClick;
-            HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
-            HideButton.ImageAlign = ContentAlignment.MiddleCenter;
-            HideButton.FlatStyle = FlatStyle.Flat;
-            HideButton.FlatAppearance.BorderSize = 0;
-            HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
-            HideButton.AutoSize = true;
-
+            hide.Location = new Point(password.Size.Width, 0);
+            hide.Click += Hide_Click;
+            hide.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
+            hide.ImageAlign = ContentAlignment.MiddleCenter;
+            hide.FlatStyle = FlatStyle.Flat;
+            hide.FlatAppearance.BorderSize = 0;
+            hide.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            hide.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            hide.AutoSize = true;
             //Container Panel
-            PasswordPanel.Margin = new Padding(0,0,0,40);
-            PasswordPanel.AutoSize = true;
-            PasswordPanel.Controls.Add(Password);
-            PasswordPanel.Controls.Add(HideButton);
+            passwordPanel = new Panel();
+            passwordPanel.Margin = new Padding(0,0,0,40);
+            passwordPanel.AutoSize = true;
+            passwordPanel.Controls.Add(password);
+            passwordPanel.Controls.Add(hide);
         }
 
-        /// <summary>
-        /// Will either show or or hide the real password
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ShowHidePasswordClick(object? sender, EventArgs e)
+        private void Hide_Click(object? sender, EventArgs e)
         {
-            IsHidden = !IsHidden;
-            if (IsHidden == true)
+            //simple hide unhide code
+            hidden = !hidden;
+            if (hidden == true)
             {
-                Password.Text = "●●●●●●●●";
+                password.Text = "●●●●●●●●";
             }
             else
             {
-                Password.Text = RealPassword;
+                password.Text = realpassword;
             }
         }
     }

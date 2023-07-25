@@ -10,64 +10,22 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
-    /// <summary>
-    /// Form for adding new PasswordStruct and or PasswordSideBar Tiles
-    /// </summary>
     public partial class PasswordEntry : Form
     {
-        private string websiteName;
-        private string username;
-        private string password;
-
-
-        /// <summary>
-        /// Get the website name as a field
-        /// </summary>
-        public string WebsiteName
-        {
-            get { return websiteName; }
-        }
-
-        /// <summary>
-        /// Gets the Username as a field
-        /// </summary>
-        public string Username
-        {
-            get { return username; }
-        }
-
-
-        /// <summary>
-        /// Gets the the Password as a field
-        /// <br></br>***Not Very good Security is it***
-        /// </summary>
-        public string Password
-        {
-            get { return password; }
-        }
-
+        public string WebsiteName;
+        public string Username;
+        public string Password;
 
         public PasswordEntry()
         {
-            websiteName = string.Empty;
-            username = string.Empty;
-            password = string.Empty;
-
             InitializeComponent();
         }
 
-
-        /// <summary>
-        /// 0 Reference Gaming  ¯\_(ツ)_/¯
-        /// <br></br>Idk
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonSave_Click(object sender, EventArgs e)
+        private void buttonSave_Click(object sender, EventArgs e)
         {
-            websiteName = WebsiteNameTextbox.Text.Trim();
-            username = UsernameTextbox.Text.Trim();    
-            password = PasswordTextbox.Text.Trim();   
+            WebsiteName = textWebsiteName.Text.Trim();
+            Username = textUsername.Text.Trim();    
+            Password = textPassword.Text.Trim();   
 
             if (new[] {WebsiteName, Username, Password}.Any(string.IsNullOrEmpty))
             {
@@ -77,6 +35,7 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Space characters not accepted");
             }
+
             else
             {
                 this.DialogResult = DialogResult.OK;
@@ -84,13 +43,7 @@ namespace WinFormsApp1
             }
         }
 
-
-        /// <summary>
-        /// 0 Reference Gaming (¬_¬ )
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void ButtonCancel_Click(object sender, EventArgs e)
+        private void buttonCancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
