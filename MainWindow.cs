@@ -23,7 +23,7 @@ namespace WinFormsApp1
         private Button _newEntry;
 
         public PasswordSideBar? Selected;
-        public passwordInfoDisplay InfoDisplay;
+        public PasswordInfoDisplay InfoDisplay;
 
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace WinFormsApp1
         public MainWindow()
         {
             _sidePanel = new FlowLayoutPanel();
-            InfoDisplay = new passwordInfoDisplay(this);
+            InfoDisplay = new PasswordInfoDisplay(this);
             _newEntry = new Button();
 
             InitializeComponent();
@@ -120,7 +120,7 @@ namespace WinFormsApp1
             //For now this works, will have to make more robust later
             Selected = (PasswordSideBar)_sidePanel.Controls[0];
 
-            InfoDisplay = new passwordInfoDisplay(this);
+            InfoDisplay = new PasswordInfoDisplay(this);
 
             _newEntry = new Button();
             _newEntry.Location = new Point(this.ClientSize.Width - 100, 10);

@@ -97,11 +97,11 @@ namespace WinFormsApp1
             this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
 
             //Setting info
-            form.InfoDisplay.websitename.Text = WebSite.Split("://").Last();
-            form.InfoDisplay.websiteLink.Text = WebSite;
-            form.InfoDisplay.username.Text = Username;
-            form.InfoDisplay.password.Text = "●●●●●●●●";
-            form.InfoDisplay.realpassword = Password;
+            form.InfoDisplay.Websitename.Text = WebSite.Split("://").Last();
+            form.InfoDisplay.WebsiteLink.Text = WebSite;
+            form.InfoDisplay.Username.Text = Username;
+            form.InfoDisplay.Password.Text = "●●●●●●●●";
+            form.InfoDisplay.RealPassword = Password;
         }
     }
 }
