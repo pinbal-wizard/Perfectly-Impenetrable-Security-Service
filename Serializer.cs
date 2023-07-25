@@ -1,6 +1,9 @@
 ﻿using System.Text;
 namespace WinFormsApp1
 {
+    /// <summary>
+    /// Class responsible for Saving and Loading passwords 
+    /// </summary>
     internal static class Serializer
     {
         private static string SaveLocation = "../../../Shadow.png";
@@ -48,12 +51,24 @@ namespace WinFormsApp1
             return 0;
         }
 
+        /// <summary>
+        /// This Function will serialise a passwordStruct into a string to be saved to disk
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
         private static string Serialize(PasswordStruct password)
         {
             string text = string.Format("{0}\n{1}\n{2}\n\n\n",password.WebSite,password.Username,password.Password);
             return text;
         }
 
+
+        /// <summary>
+        /// This Function Will deserialse a string into its passwordstruct item
+        /// </summary>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         private static byte[] DeSerialise(PasswordStruct password)
         {
             throw new NotImplementedException();
