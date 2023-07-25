@@ -9,12 +9,12 @@ namespace WinFormsApp1
         ///</summary>
         public static int SaveToFile(MainWindow form)
         {
-            List<password> PasswordsList = form.PasswordsList;
+            List<PasswordStruct> PasswordsList = form.PasswordsList;
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
 
-            foreach (password password in PasswordsList)
+            foreach (PasswordStruct password in PasswordsList)
             {
                 bytes += Serialize(password);
             }
@@ -31,7 +31,7 @@ namespace WinFormsApp1
         /// <returns></returns>
         public static int LoadFromFile(MainWindow form)
         {
-            List<password> PasswordsList = new();
+            List<PasswordStruct> PasswordsList = new();
 
             string encryptedtext = File.ReadAllText(SaveLocation);
 
@@ -49,14 +49,14 @@ namespace WinFormsApp1
             return 0;
         }
 
-        private static string Serialize(password password)
+        private static string Serialize(PasswordStruct password)
         {
             string text = string.Format("{0}\n{1}\n{2}\n\n\n",password.WebSite,password.Username,password.Password);
             MessageBox.Show(text);
             return text;
         }
 
-        private static byte[] DeSerialise(password password)
+        private static byte[] DeSerialise(PasswordStruct password)
         {
             throw new NotImplementedException();
         }

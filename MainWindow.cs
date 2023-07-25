@@ -16,7 +16,7 @@ namespace WinFormsApp1
     /// </summary>
     public partial class MainWindow : Form
     {
-        private List<password> _passwordsList = new List<password>();
+        private List<PasswordStruct> _passwordsList = new List<PasswordStruct>();
         private List<Control> _infoDisplayItems = new List<Control>();
 
         private FlowLayoutPanel _sidePanel;
@@ -30,7 +30,7 @@ namespace WinFormsApp1
         /// Readonly Property for reading the list of PasswordsList
         /// ***This needs to change for future task of not keeping PasswordsList stored in ram***
         /// </summary>
-        public List<password> PasswordsList
+        public List<PasswordStruct> PasswordsList
         {
             get { return _passwordsList; }
         }
@@ -52,7 +52,7 @@ namespace WinFormsApp1
         /// <returns></returns>
         public int AddEntry(string URL, string UserName, string Password)
         {
-            PasswordsList.Add(new password(URL, UserName, Password));
+            PasswordsList.Add(new PasswordStruct(URL, UserName, Password));
             return 0;
         }
 
@@ -107,7 +107,7 @@ namespace WinFormsApp1
             //Example entrys
 
             //Add password panels and dividers below them
-            foreach (password pass in PasswordsList)
+            foreach (PasswordStruct pass in PasswordsList)
             {
                 _sidePanel.Controls.Add(new passwordInfo(pass, this));
                 _sidePanel.Controls.Add(AddSidePanel());
@@ -177,12 +177,12 @@ namespace WinFormsApp1
                 string password = passwordEntryForm.Password;
 
                 //Adding the info
-                PasswordsList.Add(new password(websiteName, username, password));
+                PasswordsList.Add(new PasswordStruct(websiteName, username, password));
 
                 //Displaying new entry
                 _sidePanel.Controls.Clear();
 
-                foreach (password pass in PasswordsList)
+                foreach (PasswordStruct pass in PasswordsList)
                 {
                     _sidePanel.Controls.Add(new passwordInfo(pass, this));
                     _sidePanel.Controls.Add(AddSidePanel());

@@ -8,12 +8,15 @@ using System.Drawing;
 
 namespace WinFormsApp1
 {
-    public struct password
+    /// <summary>
+    /// Struct for how we will store any passwords
+    /// </summary>
+    public struct PasswordStruct
     {
         public string WebSite { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public password(string Website, string Username, string Password)
+        public PasswordStruct(string Website, string Username, string Password)
         {
             this.WebSite = Website;
             this.Username = Username;
@@ -31,7 +34,7 @@ namespace WinFormsApp1
         public Label SiteLabel { get; set; }
         public Label UsernameLabel { get; set; }
 
-        public passwordInfo(password passwordbase, MainWindow form)
+        public passwordInfo(PasswordStruct passwordbase, MainWindow form)
         {
             //Set info from password struct
             this.WebSite = passwordbase.WebSite;
