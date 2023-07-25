@@ -160,7 +160,7 @@ namespace WinFormsApp1
             //List<Control> changes = new List<Control>();
             //perform search
             sidePanelPasswords.Controls.Clear();
-            foreach (password pass in passwords)
+            foreach (password pass in passwords)    
             {
                 if(pass.WebSite.Contains(SearchBar.Text) || pass.Username.Contains(SearchBar.Text))
                 {
