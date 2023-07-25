@@ -5,6 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Security.Policy;
+using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
@@ -16,28 +19,54 @@ namespace WinFormsApp1
         List<password> passwords = new List<password>();
         public passwordInfo Selected;
         TextBox SearchBar;
+        private Button NewEntry;
+
+        /// <summary>
+        /// Readonly Property for reading the list of passwords
+        /// ***This needs to change for future task of not keeping passwords stored in ram***
+        /// </summary>
+        public List<password> Passwords
+        {
+            get { return passwords; }
+        }
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        
+
+
+        /// <summary>
+        /// Saves Passwords to file as form is closed
+        /// </summary>
         private void Form1_Deactivate(Object sender, EventArgs e)
         {
             Serializer.SaveToFile(this);
         }
 
+        private void Form1_Shown(object? sender, EventArgs e)
+        {
+            Popup pop = new Popup();
+            pop.Show();
+            NewEntry.BringToFront();
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
+            Serializer.LoadFromFile(this);
             //Basic Load
             this.DoubleBuffered = true;
             this.ClientSizeChanged += FormResized;
             InitSidePanel();
             infoDisplay = new passwordInfoDisplay(this);
             //side panel must be first
+            InitNewEntry();
             this.Controls.Add(addDivider(1));
             this.Controls.Add(sidePanelContainer);
             this.Controls.Add(infoDisplay);
+            this.Shown += Form1_Shown;
             this.FormClosing += Form1_Deactivate;
         }
 
@@ -61,6 +90,16 @@ namespace WinFormsApp1
             infoDisplay.Height = this.ClientSize.Height;       
         }
 
+        private void InitNewEntry()
+        {
+            NewEntry = new Button();
+            NewEntry.Location = new Point(this.ClientSize.Width - 100, 10);
+            NewEntry.Click += openPasswordEntry_Click;
+            NewEntry.Text = "Add";
+            NewEntry.AutoSize = true;
+            NewEntry.Height = 40;
+            this.Controls.Add(NewEntry);
+        }
         private void InitSidePanel()
         {
             //First make the container div
@@ -92,14 +131,12 @@ namespace WinFormsApp1
             sidePanelPasswords.FlowDirection = FlowDirection.TopDown;
             sidePanelPasswords.WrapContents = false;
 
-
-
             //Example entrys will later pull from file load
-            passwords.Add(new password("https://google.com", "thetruecool", "password123"));
+            /*passwords.Add(new password("https://google.com", "thetruecool", "password123"));
             passwords.Add(new password("https://yandex.com", "thetruecool", "password123"));
             passwords.Add(new password("https://outlook.com", "thetruecool", "password123"));
             passwords.Add(new password("https://github.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://typingclub.com", "thetruecool", "password123"));
+            passwords.Add(new password("https://typingclub.com", "thetruecool", "password123"));*/
 
             //Add password panels and dividers below them
             foreach (password pass in passwords)
@@ -117,27 +154,36 @@ namespace WinFormsApp1
 
         private void SearchPasswords(object? sender, EventArgs e)
         {
-            List<passwordInfo> changes = new List<passwordInfo>();
+            //takes 0.35seconds, too long
+            sidePanelContainer.SuspendLayout();
+            sidePanelPasswords.SuspendLayout();
+            //List<Control> changes = new List<Control>();
             //perform search
+            sidePanelPasswords.Controls.Clear();
             foreach (password pass in passwords)
             {
                 if(pass.WebSite.Contains(SearchBar.Text) || pass.Username.Contains(SearchBar.Text))
                 {
-                    changes.Add(new passwordInfo(pass, this));
+                    sidePanelPasswords.Controls.Add(new passwordInfo(pass, this));
+                    sidePanelPasswords.Controls.Add(addDivider(0));
                 }
+
             }
+
+            sidePanelPasswords.ResumeLayout(true);
+            sidePanelContainer.ResumeLayout(true);
+            /*
+            int realthing = this.Controls.Count;
             //loop through until differance is found
-            //i declared here becaue it is used elsewhere
+            //i declared here becaue it is used elsewhere           
             int i;
-            for(i = 0; i < changes.Count && i < sidePanelPasswords.Controls.Count/2; i++)
+            realthing = this.Controls.Count;
+            for (i = 0; i < changes.Count && i < sidePanelPasswords.Controls.Count; i+=2)
             {
                 //i*2 because every second element is a passwordInfo, every other is a Label
-                passwordInfo current = (passwordInfo)sidePanelPasswords.Controls[i * 2];
+                passwordInfo current = (passwordInfo)sidePanelPasswords.Controls[i];
 
-                if (current.WebSite == changes[i].WebSite && current.Username == changes[i].Username)
-                {
-
-                }
+                if (current.WebSite == ((passwordInfo)changes[i]).WebSite && current.Username == ((passwordInfo)changes[i]).Username){}
                 else
                 {
                     //inversion cringe
@@ -145,20 +191,74 @@ namespace WinFormsApp1
                     break;
                 }
             }
+            realthing = this.Controls.Count;
+            //0.5 FOR this if empty list
             //remove rest of panel based of where change was found, start at i*2 to skip labels
-            for(int j = i*2; sidePanelPasswords.Controls.Count != i*2; j++)
+            for (int j = i; sidePanelPasswords.Controls.Count != i; j++)
             {
+                if(changes.Count == 0)
+                {
+                    sidePanelPasswords.Controls.Clear();
+                    break;
+                }
                 //remove at i because all elements drop down when you remove one
                 sidePanelPasswords.Controls.RemoveAt(i);
             }
+            realthing = this.Controls.Count;
             //add rest of changes
+            //if full list 0.6 for this
             for (;i < changes.Count; i++)
             {
+                if(sidePanelPasswords.Controls.Count == 0)
+                {
+                    sidePanelPasswords.Controls.AddRange(changes.ToArray());
+                    break;
+                }
                 sidePanelPasswords.Controls.Add(changes[i]);
-                sidePanelPasswords.Controls.Add(addDivider(0));
+            }*/
+
+        }
+
+        //New entry function
+        private void openPasswordEntry_Click(object sender, EventArgs e)
+        {
+            using (var passwordEntryForm = new PasswordEntry())
+            {
+                //Getting info from the entry form
+                if (passwordEntryForm.ShowDialog() == DialogResult.OK)
+                {
+                    string websiteName = passwordEntryForm.WebsiteName;
+                    string username = passwordEntryForm.Username; 
+                    string password = passwordEntryForm.Password;
+
+                    //Adding the info
+                    password p = new password(websiteName, username, password);
+                    passwords.Add(p);
+
+                    //Displaying new entry
+
+                    sidePanelPasswords.Controls.Add(new passwordInfo(p,this));
+                    sidePanelPasswords.Controls.Add(addDivider(0));
+
+                }
             }
         }
 
+        //Helper type functions
+
+        /// <summary>
+        /// Public Function for adding passwords to the list off passwords
+        /// ***Will need to be change to be more secure***
+        /// </summary>
+        /// <param name="URL"></param>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
+        public int addEntry(string URL, string UserName, string Password)
+        {
+            passwords.Add(new password(URL, UserName, Password));
+            return 0;
+        }
         Label addDivider(int type)
         {
             //adds divider
@@ -169,7 +269,7 @@ namespace WinFormsApp1
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
             if (type == 0)
-            {  
+            {
                 divider.Height = 2;
                 divider.Width = 200;
                 return divider;
@@ -179,7 +279,6 @@ namespace WinFormsApp1
             divider.Location = new Point(201, 0);
             return divider;
         }
-
 
 
         int calcHeight(Control panel)

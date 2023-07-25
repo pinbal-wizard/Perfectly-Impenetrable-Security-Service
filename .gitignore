@@ -3,4 +3,4 @@ obj/**
 .vs/**
 *.vsidx
 *.lock
-Shadow.png
+/.vs/**
