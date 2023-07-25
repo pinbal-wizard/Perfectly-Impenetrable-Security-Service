@@ -17,7 +17,6 @@ namespace WinFormsApp1
     public partial class MainWindow : Form
     {
         private List<PasswordStruct> _passwordsList = new List<PasswordStruct>();
-        private List<Control> _infoDisplayItems = new List<Control>();
 
         private FlowLayoutPanel _sidePanel;
         private Button _newEntry;
@@ -52,7 +51,7 @@ namespace WinFormsApp1
         /// <returns></returns>
         public int AddEntry(string URL, string UserName, string Password)
         {
-            PasswordsList.Add(new PasswordStruct(URL, UserName, Password));
+            _passwordsList.Add(new PasswordStruct(URL, UserName, Password));
             return 0;
         }
 
@@ -85,7 +84,7 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Initalises the form       
+        /// Initalises the sidePanel       
         /// <br></br>*****This Function sucks because it says it initalises the sidePanel yet it initalises the whole form*****
         /// </summary>
         /// <returns></returns>

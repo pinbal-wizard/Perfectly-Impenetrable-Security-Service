@@ -53,6 +53,7 @@ namespace WinFormsApp1
 
         /// <summary>
         /// This Function will serialise a passwordStruct into a string to be saved to disk
+        /// <br></br>***Need to add Encrypt/Decrpt functions
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
@@ -65,6 +66,7 @@ namespace WinFormsApp1
 
         /// <summary>
         /// This Function Will deserialse a string into its passwordstruct item
+        /// <br></br>***Need to add Encrypt/Decrpt functions
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
