@@ -139,6 +139,7 @@ namespace WinFormsApp1
             this.Controls.Add(PasswordLabel);
             this.Controls.Add(PasswordPanel);
             this.Controls.Add(Divider2);
+            this.Controls.Add(HideButton);
         }
 
 
@@ -173,13 +174,14 @@ namespace WinFormsApp1
             //Xpos is always offsett by the password width, means that it will never overlap
             HideButton.Location = new Point(Password.Size.Width, 0);
             HideButton.Click += ShowHidePasswordClick;
-            HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
+            //HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
             HideButton.ImageAlign = ContentAlignment.MiddleCenter;
-            HideButton.FlatStyle = FlatStyle.Flat;
+            HideButton.Text = "WAKE UP THERE OUTSIDE";
+            //HideButton
+            /*HideButton.FlatStyle = FlatStyle.Flat;
             HideButton.FlatAppearance.BorderSize = 0;
             HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
-            HideButton.AutoSize = true;
+            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;*/
 
             //Container Panel
             PasswordPanel.Margin = new Padding(0,0,0,40);
