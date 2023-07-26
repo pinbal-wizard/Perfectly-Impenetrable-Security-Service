@@ -74,14 +74,39 @@ namespace WinFormsApp1
         private void MainWindow_Load(object sender, EventArgs e)
         {
             Serializer.LoadFromFile(this);
+
+            //This has been brought into the On_Load Function as it runs before it is rendered
+            MasterPasswordPopup popupWindow = new MasterPasswordPopup();
+            popupWindow.Show();
+            popupWindow.BringToFront();
+
             //Basic Load
             this.DoubleBuffered = true;
 
             Init_sidePanel();
+            InitNewEntry();
 
             this.Controls.Add(_sidePanel);
             this.Controls.Add(InfoDisplay);
+            this.FormClosing += MainWindow_Deactivate;
+
         }
+
+
+        /// <summary>
+        /// Initailses The Button for entering new entries
+        /// </summary>
+        private void InitNewEntry()
+        {
+            _newEntry = new Button();
+            _newEntry.Location = new Point(this.ClientSize.Width - 100, 10);
+            _newEntry.Click += OpenPasswordEntry_Click;
+            _newEntry.Text = "Add";
+            _newEntry.AutoSize = true;
+            _newEntry.Height = 40;
+            this.Controls.Add(_newEntry);
+        }
+
 
         /// <summary>
         /// Initalises the sidePanel       
@@ -102,14 +127,14 @@ namespace WinFormsApp1
             _sidePanel.HorizontalScroll.Maximum = 0;
             _sidePanel.AutoScroll = true;
             //Right side divider
-            this.Controls.Add(AddFullHeightPanel());
+            this.Controls.Add(AddSidePanelListDivider());   
             //Example entrys
 
             //Add password panels and dividers below them
             foreach (PasswordStruct pass in PasswordsList)
             {
                 _sidePanel.Controls.Add(new PasswordSideBar(pass, this));
-                _sidePanel.Controls.Add(AddSidePanel());
+                _sidePanel.Controls.Add(AddSidePanelDivider());
             }
 
             //if content is less than height disable scrolling, fixes anoying extra scrolling
@@ -120,32 +145,7 @@ namespace WinFormsApp1
             Selected = (PasswordSideBar)_sidePanel.Controls[0];
 
             InfoDisplay = new PasswordInfoDisplay(this);
-
-            _newEntry = new Button();
-            _newEntry.Location = new Point(this.ClientSize.Width - 100, 10);
-            _newEntry.Click += NewEntry_Click;
-            _newEntry.Text = "Add";
-            _newEntry.AutoSize = true;
-            _newEntry.Height = 40;
-
-            this.Shown += MainWindow_Shown;
-            this.Controls.Add(_newEntry);
-            this.FormClosing += MainWindow_Deactivate;
-
             return 0;
-        }
-
-        /// <summary>
-        /// Shows the password popup windows
-        /// <br></br>****Needs to be edited so that you cant edit the previous window until this is closed****
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainWindow_Shown(object? sender, EventArgs e)
-        {
-            MasterPasswordPopup popupWindow = new MasterPasswordPopup();
-            popupWindow.Show();
-            popupWindow.BringToFront();
         }
 
         /// <summary>
@@ -153,14 +153,14 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void NewEntry_Click(object? sender, EventArgs e)
+        private void NewEntryForm_Click(object? sender, EventArgs e)
         {
             PasswordEntry passwordEntryForm = new PasswordEntry();
             passwordEntryForm.Show();
         }
 
         /// <summary>
-        /// 0 References gaming idk what this does but i can assume that this should be in the the password entry class i think ¯\_(ツ)_/¯
+        /// The passwordEntryForm never return ok due to error in the add button
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -184,17 +184,17 @@ namespace WinFormsApp1
                 foreach (PasswordStruct pass in PasswordsList)
                 {
                     _sidePanel.Controls.Add(new PasswordSideBar(pass, this));
-                    _sidePanel.Controls.Add(AddSidePanel());
+                    _sidePanel.Controls.Add(AddSidePanelDivider());
                 }
             }
         }
 
 
         /// <summary>
-        /// Adds A Side Panel Divider
+        /// Adds A ??Horisontal?? Side Panel Divider
         /// </summary>
         /// <returns></returns>
-        private Label AddSidePanel()
+        private Label AddSidePanelDivider()
         {
             Label divider = new Label();
             divider.Text = string.Empty;
@@ -206,10 +206,10 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Add Full Height Divider
+        /// Add Full Height ??Vertical?? Divider
         /// </summary>
         /// <returns></returns>
-        private Label AddFullHeightPanel()
+        private Label AddSidePanelListDivider()
         {
             Label divider = new Label();
             divider.Text = string.Empty;

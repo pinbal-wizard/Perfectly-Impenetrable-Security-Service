@@ -15,33 +15,26 @@ namespace WinFormsApp1
     /// </summary>
     public partial class MasterPasswordPopup : Form
     {
+        private string password = "123";
+
         public MasterPasswordPopup()
         {
             InitializeComponent();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void SubmitPassBtn_Click(object sender, EventArgs e)
         {
-            //dont fail silently
-            throw new NotImplementedException();
-        }
+            if (PasswordTextBox.Text == password)
+            {
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Password is incorrect");
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <exception cref="NotImplementedException"></exception>
-        private void label1_Click(object sender, EventArgs e)
-        {
-            //dont fail silently
-            throw new NotImplementedException();
+            }
+
+
         }
     }
 }
