@@ -10,21 +10,38 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
-    public partial class Popup : Form
+    /// <summary>
+    /// Form for the Password Popup form
+    /// </summary>
+    public partial class PasswordPopup : Form
     {
-        public Popup()
+        public PasswordPopup()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
+            //dont fail silently
+            throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
         private void label1_Click(object sender, EventArgs e)
         {
-
+            //dont fail silently
+            throw new NotImplementedException();
         }
     }
 }
