@@ -143,7 +143,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void MainWindow_Shown(object? sender, EventArgs e)
         {
-            PasswordPopup popupWindow = new PasswordPopup();
+            MasterPasswordPopup popupWindow = new MasterPasswordPopup();
             popupWindow.Show();
             popupWindow.BringToFront();
         }

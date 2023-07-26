@@ -41,6 +41,7 @@ namespace WinFormsApp1
             string[] splitEncryptedText = encryptedtext.Split("\n\n\n");
             foreach (string text in splitEncryptedText)
             {
+                //MessageBox.Show(text);  //debug line
                 if (text == "")
                 {
                     continue;

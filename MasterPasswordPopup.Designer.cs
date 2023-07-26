@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp1
 {
-    partial class PasswordPopup
+    partial class MasterPasswordPopup
     {
         /// <summary>
         /// Required designer variable.

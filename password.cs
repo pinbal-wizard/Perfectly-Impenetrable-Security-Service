@@ -92,9 +92,14 @@ namespace WinFormsApp1
             //This is so if you click the text it still updates the infoDisplay
 
             //Selected variable to bold url in side bar
+            if (form.Selected != null)
+            {
+                form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
+                this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
+            }
+
             form.Selected = this;
-            form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
-            this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
+
 
             //Setting info
             form.InfoDisplay.Websitename.Text = WebSite.Split("://").Last();

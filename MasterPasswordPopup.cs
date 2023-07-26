@@ -13,9 +13,9 @@ namespace WinFormsApp1
     /// <summary>
     /// Form for the Password Popup form
     /// </summary>
-    public partial class PasswordPopup : Form
+    public partial class MasterPasswordPopup : Form
     {
-        public PasswordPopup()
+        public MasterPasswordPopup()
         {
             InitializeComponent();
         }
