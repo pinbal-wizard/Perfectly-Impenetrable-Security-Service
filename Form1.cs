@@ -1,28 +1,91 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+using System.Security.Policy;
+using System.Windows.Forms;
+
 namespace WinFormsApp1
 {
     public partial class Form1 : Form
     {
         FlowLayoutPanel sidePanel;
-        public Panel infoDisplay;
+        internal passwordInfoDisplay infoDisplay;
         public List<Control> infoDisplayItems = new List<Control>();
-        List<passwordInfo> passwords = new List<passwordInfo>();
+        List<password> passwords = new List<password>();
+        public passwordInfo Selected;
+        private Button NewEntry;
+
+        /// <summary>
+        /// Readonly Property for reading the list of passwords
+        /// ***This needs to change for future task of not keeping passwords stored in ram***
+        /// </summary>
+        public List<password> Passwords
+        {
+            get { return passwords; }
+        }
 
         public Form1()
         {
             InitializeComponent();
         }
 
-        private void DisplayPopup(object? sender, EventArgs e)
+        /// <summary>
+        /// Public Function for adding passwords to the list off passwords
+        /// ***Will need to be change to be more secure***
+        /// </summary>
+        /// <param name="URL"></param>
+        /// <param name="UserName"></param>
+        /// <param name="Password"></param>
+        /// <returns></returns>
+        public int addEntry(string URL, string UserName, string Password)
         {
-            Popup popup = new Popup();
-            popup.TopMost = true;
-            popup.Show();
-            
+            passwords.Add(new password(URL, UserName, Password));
+            return 0;
         }
+
+
+        /// <summary>
+        /// Saves Passwords to file as form is closed
+        /// </summary>
+        private void Form1_Deactivate(Object sender, EventArgs e)
+        {
+            Serializer.SaveToFile(this);
+        }
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            DisplayPopup(sender, e);
+
+            Serializer.LoadFromFile(this);
+            //Basic Load
+            this.DoubleBuffered = true;
+            InitSidePanel();
+            InitNewEntry();
+
+            infoDisplay = new passwordInfoDisplay(this);
+            this.Controls.Add(sidePanel);
+            this.Controls.Add(infoDisplay);
+            this.Shown += Form1_Shown;
+            this.FormClosing += Form1_Deactivate;
+        }
+
+        private void InitNewEntry()
+        {
+            NewEntry = new Button();
+            NewEntry.Location = new Point(this.ClientSize.Width - 100, 10);
+            NewEntry.Click += openPasswordEntry_Click;
+            NewEntry.Text = "Add";
+            NewEntry.AutoSize = true;
+            NewEntry.Height = 40;
+            this.Controls.Add(NewEntry);
+        }
+        private void InitSidePanel()
+        {
             sidePanel = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             sidePanel.Height = this.ClientSize.Height;
@@ -36,45 +99,76 @@ namespace WinFormsApp1
             //Right side divider
             this.Controls.Add(addDivider(1));
             //Example entrys
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            passwords.Add(new passwordInfo("google", "thetruecool", "password123",this));
-            //passwords.Add(new passwordInfo("google", "thetruecool", "password123"));
+            //No need to add any example entries as they save and load from file
 
             //Add password panels and dividers below them
-            foreach (passwordInfo pass in passwords)
+            foreach (password pass in passwords)
             {
-                sidePanel.Controls.Add(pass);
+                sidePanel.Controls.Add(new passwordInfo(pass, this));
                 sidePanel.Controls.Add(addDivider(0));
-
-               
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
-            if (calcHeight(sidePanel) < sidePanel.Height)
-            {
-                sidePanel.AutoScroll = false;   
-            }
-
-            infoDisplay = new Panel();
-            DisplayInfoInit();
-            this.Controls.Add(sidePanel);
-            this.Controls.Add(infoDisplay);
+            if (calcHeight(sidePanel) < sidePanel.Height) sidePanel.AutoScroll = false;
+            //For now this works, will have to make more robust later
+            Selected = (passwordInfo)sidePanel.Controls[0];
         }
+
+        private void Form1_Shown(object? sender, EventArgs e)
+        {
+            Popup pop = new Popup();
+            pop.Show();
+        }
+
+        private void NewEntry_Click(object? sender, EventArgs e)
+        {
+            PasswordEntry pwde = new PasswordEntry();
+            pwde.Show();
+        }
+
+        private void openPasswordEntry_Click(object sender, EventArgs e)
+        {
+            using (var passwordEntryForm = new PasswordEntry())
+            {
+                //Getting info from the entry form
+                if (passwordEntryForm.ShowDialog() == DialogResult.OK)
+                {
+                    string websiteName = passwordEntryForm.WebsiteName;
+                    string username = passwordEntryForm.Username; 
+                    string password = passwordEntryForm.Password;
+
+                    //Adding the info
+                    passwords.Add(new password(websiteName, username, password));
+
+                    //Displaying new entry
+                    sidePanel.Controls.Clear();
+                    
+                    foreach(password pass in passwords)
+                    {
+                        sidePanel.Controls.Add(new passwordInfo(pass,this));
+                        sidePanel.Controls.Add(addDivider(0));
+                    }
+                }
+                else
+                {
+
+                }
+            }
+        }
+
 
         Label addDivider(int type)
         {
             //adds divider
+            //Type 0 is for side Panel
+            //Type 1 is a full Height veritcal
             Label divider = new Label();
             divider.Text = string.Empty;
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
             if (type == 0)
             {
-                
                 divider.Height = 2;
-                divider.Width = 198;
+                divider.Width = 200;
                 return divider;
             }
             divider.Height = this.Height;
@@ -82,6 +176,8 @@ namespace WinFormsApp1
             divider.Location = new Point(201, 0);
             return divider;
         }
+
+
         int calcHeight(Control panel)
         {   //returns height of a panels content, there may be a better way to get this
             int height = 0;
@@ -91,65 +187,5 @@ namespace WinFormsApp1
             }
             return height;
         }
-
-        void DisplayInfoInit()
-        {
-            infoDisplay.Width = this.ClientSize.Width - 200;
-            infoDisplay.Height = this.ClientSize.Height;
-            infoDisplay.Location = new Point(220, 10);
-
-            Label websitename = new Label();
-            Label divider = new Label();
-            Label websiteLinkLabel = new Label();
-            Label websiteLink = new Label();
-            Label usernameLabel = new Label();
-            Label username = new Label();
-            Label passwordLabel = new Label();
-            Label password = new Label();
-
-            websitename.Text = "example.com";
-            websitename.Location = new Point(0, 0);
-
-            divider.Text = string.Empty;
-            divider.BorderStyle = BorderStyle.Fixed3D;
-            divider.AutoSize = false;
-            divider.Height = 2;
-            divider.Width = 400;
-            divider.Location = new Point(0, 30);
-
-            websiteLinkLabel.Text = "Website Address";
-            websiteLinkLabel.Location = new Point(0, 40);
-            websiteLink.Text = "https://example.com";
-            websiteLink.Location = new Point(0, 60);
-            websiteLink.AutoSize = true;
-
-            usernameLabel.Text = "Username";
-            usernameLabel.Location = new Point(0, 90);
-            username.Text = "Boe Jiden";
-            username.Location = new Point(0, 110);
-
-            passwordLabel.Text = "Password";
-            passwordLabel.Location = new Point(0, 140);
-            password.Text = "wake up";
-            password.Location = new Point(0, 160);
-
-            //add to the infodisplay
-            infoDisplay.Controls.Add(websitename);
-            infoDisplay.Controls.Add(divider);
-            infoDisplay.Controls.Add(websiteLinkLabel);
-            infoDisplay.Controls.Add(websiteLink);
-            infoDisplay.Controls.Add(usernameLabel);
-            infoDisplay.Controls.Add(username);
-            infoDisplay.Controls.Add(passwordLabel);
-            infoDisplay.Controls.Add(password);
-
-            //add to list for easy modification
-            infoDisplayItems.Add(websitename);
-            infoDisplayItems.Add(websiteLink);;
-            infoDisplayItems.Add(username);
-            infoDisplayItems.Add(password);
-
-        }
-
     }
 }

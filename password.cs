@@ -3,11 +3,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace WinFormsApp1
 {
-    internal class passwordInfo:Panel
+    public struct password
     {
+        public string WebSite { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public password(string Website, string Username, string Password)
+        {
+            this.WebSite = Website;
+            this.Username = Username;
+            this.Password = Password;
+        }
+    }
+
+    public class passwordInfo : FlowLayoutPanel
+    {
+
         private Form1 form;
         public string WebSite { get; set; }
         public string Username { get; set; }
@@ -15,39 +31,59 @@ namespace WinFormsApp1
         public Label SiteLabel { get; set; }
         public Label UsernameLabel { get; set; }
 
-        public passwordInfo(string WebSite,string Username,string Password, Form1 form)
+        public passwordInfo(password passwordbase, Form1 form)
         {
-            this.WebSite = WebSite;
-            this.Username = Username;
-            this.Password = Password;
+            //Set info from password struct
+            this.WebSite = passwordbase.WebSite;
+            this.Username = passwordbase.Username;
+            this.Password = passwordbase.Password;
             this.form = form;
 
-            SiteLabel = new Label();
-            SiteLabel.Text = WebSite;
-            SiteLabel.Location = new Point(0,0);
-            SiteLabel.Padding = new Padding(4);
-            SiteLabel.Font = new Font("Arial", 8, FontStyle.Bold);
 
+            //Label to display site name
+            SiteLabel = new Label();
+            SiteLabel.Text = WebSite.Split("://").Last(); ;
+            SiteLabel.Padding = new Padding(12,0,18,0);
+            SiteLabel.Font = new Font("Arial",10);
+            SiteLabel.AutoSize = true; 
+            SiteLabel.Click += PasswordInfo_Click;
+            //Label to display the username
             UsernameLabel = new Label();
             UsernameLabel.Text = Username;
-            UsernameLabel.Location = new Point(0,23);
-            UsernameLabel.Padding = new Padding(4);
+            UsernameLabel.Padding = new Padding(12,0,18,0);
+            UsernameLabel.Font = new Font("Arial",8);
+            UsernameLabel.AutoSize = true;
+            UsernameLabel.Click += PasswordInfo_Click;
 
-            this.Width = 200;
-            this.Height = 75;
+            //Height and Width. Width should match the sidepanel width in Form1.cs, Height can be changed
+            
+            
+            this.Padding = new Padding(0,10,0,10);
+            this.FlowDirection = FlowDirection.TopDown;
             this.Click += PasswordInfo_Click;
             this.Controls.Add(this.SiteLabel);
             this.Controls.Add(this.UsernameLabel);
             
+            this.MinimumSize= new Size(200,0);
+            this.AutoSize = true;
         }
 
         private void PasswordInfo_Click(object? sender, EventArgs e)
         {
-            form.infoDisplayItems[0].Text = WebSite;
+            //The panel and the labels both have this function when clicked
+            //This is so if you click the text it still updates the infoDisplay
 
-            form.infoDisplayItems[1].Text = WebSite.Split("://").Last();
-            form.infoDisplayItems[2].Text = Username;
-            form.infoDisplayItems[3].Text = Password;
+            //Selected variable to bold url in side bar
+            form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
+            form.Selected = this;
+            this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
+
+            //Setting info
+            form.infoDisplay.websitename.Text = WebSite.Split("://").Last();
+            form.infoDisplay.websiteLink.Text = WebSite;
+            form.infoDisplay.username.Text = Username;
+            form.infoDisplay.password.Text = "●●●●●●●●";
+            form.infoDisplay.realpassword = Password;
         }
     }
 }
