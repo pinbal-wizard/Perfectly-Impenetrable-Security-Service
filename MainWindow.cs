@@ -77,8 +77,11 @@ namespace WinFormsApp1
 
             //This has been brought into the On_Load Function as it runs before it is rendered
             MasterPasswordPopup popupWindow = new MasterPasswordPopup();
-            popupWindow.Show();
+            popupWindow.ShowDialog();
             popupWindow.BringToFront();
+
+            if(popupWindow.DialogResult == DialogResult.OK)
+            {            }
 
             //Basic Load
             this.DoubleBuffered = true;
