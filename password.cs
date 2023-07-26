@@ -54,7 +54,7 @@ namespace WinFormsApp1
             //Label to display site name
             SiteLabel = new Label();
             SiteLabel.Text = WebSite.Split("://").Last(); ;
-            SiteLabel.Padding = new Padding(12,0,18,0);
+            SiteLabel.Margin = new Padding(12,0,18,0);
             SiteLabel.Font = new Font("Arial",10);
             SiteLabel.AutoSize = true; 
             SiteLabel.Click += PasswordInfo_Click;
@@ -62,7 +62,7 @@ namespace WinFormsApp1
             //Label to display the username
             UsernameLabel = new Label();
             UsernameLabel.Text = Username;
-            UsernameLabel.Padding = new Padding(12,0,18,0);
+            UsernameLabel.Margin = new Padding(12,0,18,0);
             UsernameLabel.Font = new Font("Arial",8);
             UsernameLabel.AutoSize = true;
             UsernameLabel.Click += PasswordInfo_Click;
@@ -77,7 +77,6 @@ namespace WinFormsApp1
             this.MinimumSize= new Size(200,0);
             this.AutoSize = true;
         }
-
 
         /// <summary>
         /// Shows or hides the real password in the menu 
