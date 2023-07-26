@@ -30,7 +30,6 @@ namespace WinFormsApp1
     /// </summary>
     public class PasswordSideBar : FlowLayoutPanel
     {
-
         private MainWindow form;
         public string WebSite { get; }
         public string Username { get; }
