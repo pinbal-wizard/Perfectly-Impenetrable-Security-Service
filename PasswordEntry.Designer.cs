@@ -94,6 +94,7 @@
             this.AddEntryButton.TabIndex = 6;
             this.AddEntryButton.Text = "Add";
             this.AddEntryButton.UseVisualStyleBackColor = true;
+            this.AddEntryButton.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // CancelEntryButton
             // 
@@ -104,6 +105,7 @@
             this.CancelEntryButton.TabIndex = 7;
             this.CancelEntryButton.Text = "Cancel";
             this.CancelEntryButton.UseVisualStyleBackColor = true;
+            this.CancelEntryButton.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // PasswordEntry
             // 
