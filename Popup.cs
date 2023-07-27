@@ -12,10 +12,41 @@ namespace WinFormsApp1
 {
     public partial class Popup : Form
     {
-        private string password = "123";
+        private string password = "123"; // temporary password
+        private bool showPassword = false; // flag to indicate whether the password is visible
+
         public Popup()
         {
             InitializeComponent();
+            PasswordTextBox.PasswordChar = '*'; // Censor the password by default
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            showPassword = !showPassword;
+
+            if (showPassword)
+            {
+                ShowPassword();
+                button1.Text = "Hide Password";
+            }
+            else
+            {
+                HidePassword();
+                button1.Text = "Show Password";
+            }
+        }
+
+        private void ShowPassword()
+        {
+            // Show the password in letters
+            PasswordTextBox.PasswordChar = '\0'; // Set to '\0' (null character) to show letters
+        }
+
+        private void HidePassword()
+        {
+            // Censor the password with asterisks
+            PasswordTextBox.PasswordChar = '*';
         }
 
         private void SubmitPassBtn_Click(object sender, EventArgs e)
@@ -27,27 +58,12 @@ namespace WinFormsApp1
             else
             {
                 MessageBox.Show("Password is incorrect");
-            
             }
-
-
-        }
-
-        private void EnterPassLabel_Click(object sender, EventArgs e)
-        {
-
-
         }
 
         private void Popup_Load(object sender, EventArgs e)
         {
 
         }
-
-
-
-
-
-        //Test Save
     }
 }
