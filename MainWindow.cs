@@ -223,7 +223,7 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Adds A Side Panel Divider
+        /// Adds A Side Divider
         /// </summary>
         /// <returns></returns>
         private Label AddSideDivider()

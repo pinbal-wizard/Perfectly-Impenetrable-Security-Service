@@ -111,7 +111,10 @@ namespace WinFormsApp1
             this.Height = form.ClientSize.Height;
             this.Location = new Point(200, 0);
             this.Padding = new Padding(40, 0, 40, 0);
+            this.AutoScroll = true;
+            this.WrapContents = false;
             this.FlowDirection = FlowDirection.TopDown;
+            this.WrapContents = false;
             //Add items to the infodisplay
             this.Controls.Add(Websitename);
             this.Controls.Add(Divider);
