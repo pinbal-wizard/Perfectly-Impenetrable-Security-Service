@@ -13,8 +13,5 @@
     <Compile Update="PasswordInfoDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Popup.cs">
-      <SubType>Form</SubType>
-    </Compile>
   </ItemGroup>
 </Project>
