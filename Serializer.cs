@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 namespace WinFormsApp1
 {
     /// <summary>
