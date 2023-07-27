@@ -2,8 +2,10 @@ Perfectly-Impenetrable-Security-Service
 
 Password manager for school
 
-should use for all your passwords very secure
-Becuase it is
+should use for all your PasswordsList very secure
+
+ShitSHow of bad code everywhere
+
 =============
 
 # School-Project
