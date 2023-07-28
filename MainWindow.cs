@@ -212,7 +212,7 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// The passwordEntryForm never return ok due to error in the add button
+        /// Very good form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
