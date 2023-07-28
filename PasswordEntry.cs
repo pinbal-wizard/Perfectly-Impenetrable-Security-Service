@@ -39,7 +39,6 @@ namespace WinFormsApp1
 
         /// <summary>
         /// Gets the the Password as a field
-        /// <br></br>***Not Very good Security is it***
         /// </summary>
         public string Password
         {
@@ -58,8 +57,7 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// 0 Reference Gaming  ¯\_(ツ)_/¯
-        /// <br></br>Idk
+        /// Check if inputed data is valid and save it
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -73,9 +71,9 @@ namespace WinFormsApp1
             {
                 MessageBox.Show("Please fill in all fields to save!");
             }
-            else if (WebsiteName.Contains(" ") || Username.Contains(" ") || Password.Contains(" "))
+            else if (WebsiteName.Contains(" "))
             {
-                MessageBox.Show("Space characters not accepted");
+                MessageBox.Show("Space characters in url not accepted");
             }
             else
             {
@@ -86,7 +84,7 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// 0 Reference Gaming (¬_¬ )
+        /// Send cancel event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

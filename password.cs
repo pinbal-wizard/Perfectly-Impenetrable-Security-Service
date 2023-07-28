@@ -80,8 +80,8 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// Shows or hides the real password in the menu 
-        /// <br></br>***THis is where the password popup should also be used as not to keep the master password or regular password stored in memory***
+        /// Loads info into the main Display
+        /// <br></br>***This is where the password popup should also be used as not to keep the master password or regular password stored in memory***
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -96,7 +96,6 @@ namespace WinFormsApp1
                 form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
                 this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
             }
-
             form.Selected = this;
 
 

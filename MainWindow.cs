@@ -77,22 +77,21 @@ namespace WinFormsApp1
             popupWindow.ShowDialog();
             popupWindow.BringToFront();
 
-            if(popupWindow.DialogResult == DialogResult.OK)
-            {            }
+            if(popupWindow.DialogResult != DialogResult.OK)
+            {
+                Application.Exit();   
+            }
 
             //Basic Load
             this.DoubleBuffered = true;
             this.ClientSizeChanged += FormResized;
 
             InitSidePanel();
-            InitNewEntry();
-
-            this.Controls.Add(AddSidePanelListDivider());
-
             InfoDisplay = new PasswordInfoDisplay(this);
-            this.Controls.Add(InfoDisplay);
-
+            this.Controls.Add(AddVerticalDivider());
+            InitNewEntry();
             this.Controls.Add(_sidePanelContainer);
+            this.Controls.Add(InfoDisplay);
             this.FormClosing += MainWindow_Deactivate;
 
         }
@@ -107,16 +106,17 @@ namespace WinFormsApp1
             _sidePanelContainer.Height = this.ClientSize.Height;
             _sidePanelPasswords.Height = this.ClientSize.Height - 45;
             _sidePanelPasswords.AutoScroll = true;
-            if (CalcHeight(_sidePanelPasswords) + 30 < this.ClientSize.Height - 45) _sidePanelPasswords.AutoScroll = false;
+            if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height-115) _sidePanelPasswords.AutoScroll = false;
 
 
             //Update side divider relies on side panel being first
             //How tf is it that during init this is control[0] but after the add button is in first place
-            this.Controls[1].Height = this.ClientSize.Height;
-
+            this.Controls[0].Height = this.ClientSize.Height;
+        
             //InfoDisplay update width and height
             InfoDisplay.Width = this.ClientSize.Width - 200;
             InfoDisplay.Height = this.ClientSize.Height;
+       
         }
 
         /// <summary>
@@ -214,7 +214,7 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// The passwordEntryForm never return ok due to error in the add button
+        /// Very good form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -229,23 +229,28 @@ namespace WinFormsApp1
                 string username = passwordEntryForm.Username;
                 string password = passwordEntryForm.Password;
 
+
                 //Adding the info
-                PasswordsList.Add(new PasswordStruct(websiteName, username, password));
+                PasswordStruct p = new PasswordStruct(websiteName, username, password);
+                _passwordsList.Add(p);
 
                 //Displaying new entry
-                _sidePanelPasswords.Controls.Clear();
 
-                foreach (PasswordStruct pass in PasswordsList)
-                {
-                    _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass, this));
-                    _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
-                }
+                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, this));
+                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
+
+
+                //update sidepanel scroll bars, same stuff as in form_resized
+                _sidePanelContainer.Height = this.ClientSize.Height;
+                _sidePanelPasswords.Height = this.ClientSize.Height - 45;
+                _sidePanelPasswords.AutoScroll = true;
+                if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height - 115) _sidePanelPasswords.AutoScroll = false;
             }
         }
 
 
         /// <summary>
-        /// Adds A ??Horisontal?? Side Panel Divider
+        /// Adds A Horisontal Side Panel Divider
         /// </summary>
         /// <returns></returns>
         private Label AddSidePanelDivider()
@@ -260,10 +265,10 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Add Full Height ??Vertical?? Divider
+        /// Add Full Height Vertical Divider
         /// </summary>
         /// <returns></returns>
-        private Label AddSidePanelListDivider()
+        private Label AddVerticalDivider()
         {
             Label divider = new Label();
             divider.Text = string.Empty;
