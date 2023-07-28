@@ -81,7 +81,7 @@ namespace WinFormsApp1
 
         /// <summary>
         /// Shows or hides the real password in the menu 
-        /// <br></br>***THis is where the password popup should also be used as not to keep the master password or regular password stored in memory***
+        /// <br></br>***This is where the password popup should also be used as not to keep the master password or regular password stored in memory***
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

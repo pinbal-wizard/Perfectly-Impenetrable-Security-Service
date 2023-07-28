@@ -90,9 +90,9 @@ namespace WinFormsApp1
             this.Controls.Add(AddSidePanelListDivider());
 
             InfoDisplay = new PasswordInfoDisplay(this);
+            this.Controls.Add(_sidePanelContainer);
             this.Controls.Add(InfoDisplay);
 
-            this.Controls.Add(_sidePanelContainer);
             this.FormClosing += MainWindow_Deactivate;
 
         }
@@ -245,7 +245,7 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// Adds A ??Horisontal?? Side Panel Divider
+        /// Adds A Horisontal Side Panel Divider
         /// </summary>
         /// <returns></returns>
         private Label AddSidePanelDivider()
@@ -260,10 +260,10 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Add Full Height ??Vertical?? Divider
+        /// Add Full Height Vertical Divider
         /// </summary>
         /// <returns></returns>
-        private Label AddSidePanelListDivider()
+        private Label AddVerticalDivider()
         {
             Label divider = new Label();
             divider.Text = string.Empty;
