@@ -39,7 +39,6 @@ namespace WinFormsApp1
 
         /// <summary>
         /// Gets the the Password as a field
-        /// <br></br>***Not Very good Security is it***
         /// </summary>
         public string Password
         {
@@ -85,7 +84,7 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// 0 Reference Gaming (¬_¬ )
+        /// Send cancel event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -85,14 +85,11 @@ namespace WinFormsApp1
             this.ClientSizeChanged += FormResized;
 
             InitSidePanel();
-            InitNewEntry();
-
-            this.Controls.Add(AddSidePanelListDivider());
-
             InfoDisplay = new PasswordInfoDisplay(this);
+            this.Controls.Add(AddVerticalDivider());
+            InitNewEntry();
             this.Controls.Add(_sidePanelContainer);
             this.Controls.Add(InfoDisplay);
-
             this.FormClosing += MainWindow_Deactivate;
 
         }
@@ -117,6 +114,7 @@ namespace WinFormsApp1
             //InfoDisplay update width and height
             InfoDisplay.Width = this.ClientSize.Width - 200;
             InfoDisplay.Height = this.ClientSize.Height;
+       
         }
 
         /// <summary>
@@ -229,17 +227,15 @@ namespace WinFormsApp1
                 string username = passwordEntryForm.Username;
                 string password = passwordEntryForm.Password;
 
+
                 //Adding the info
-                PasswordsList.Add(new PasswordStruct(websiteName, username, password));
+                PasswordStruct p = new PasswordStruct(websiteName, username, password);
+                _passwordsList.Add(p);
 
                 //Displaying new entry
-                _sidePanelPasswords.Controls.Clear();
 
-                foreach (PasswordStruct pass in PasswordsList)
-                {
-                    _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass, this));
-                    _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
-                }
+                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, this));
+                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
             }
         }
 
