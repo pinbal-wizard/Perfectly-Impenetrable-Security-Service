@@ -31,55 +31,60 @@
             this.PasswordTextBox = new System.Windows.Forms.TextBox();
             this.EnterPassLabel = new System.Windows.Forms.Label();
             this.SubmitPassBtn = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
+            this.ShowPasswordButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(149, 101);
+            this.PasswordTextBox.Location = new System.Drawing.Point(213, 168);
+            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(100, 23);
+            this.PasswordTextBox.Size = new System.Drawing.Size(141, 31);
             this.PasswordTextBox.TabIndex = 0;
             // 
             // EnterPassLabel
             // 
             this.EnterPassLabel.AutoSize = true;
-            this.EnterPassLabel.Location = new System.Drawing.Point(149, 68);
+            this.EnterPassLabel.Location = new System.Drawing.Point(213, 113);
+            this.EnterPassLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.EnterPassLabel.Name = "EnterPassLabel";
-            this.EnterPassLabel.Size = new System.Drawing.Size(87, 15);
+            this.EnterPassLabel.Size = new System.Drawing.Size(132, 25);
             this.EnterPassLabel.TabIndex = 1;
             this.EnterPassLabel.Text = "Enter Password";
             // 
             // SubmitPassBtn
             // 
-            this.SubmitPassBtn.Location = new System.Drawing.Point(306, 100);
+            this.SubmitPassBtn.Location = new System.Drawing.Point(437, 167);
+            this.SubmitPassBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SubmitPassBtn.Name = "SubmitPassBtn";
-            this.SubmitPassBtn.Size = new System.Drawing.Size(75, 23);
+            this.SubmitPassBtn.Size = new System.Drawing.Size(107, 38);
             this.SubmitPassBtn.TabIndex = 2;
             this.SubmitPassBtn.Text = "Submit";
             this.SubmitPassBtn.UseVisualStyleBackColor = true;
             this.SubmitPassBtn.Click += new System.EventHandler(this.SubmitPassBtn_Click);
             // 
-            // button1
+            // ShowPasswordButton
             // 
-            this.button1.Location = new System.Drawing.Point(255, 100);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(46, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Show";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.ShowPasswordButton.Location = new System.Drawing.Point(364, 167);
+            this.ShowPasswordButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.ShowPasswordButton.Name = "ShowPasswordButton";
+            this.ShowPasswordButton.Size = new System.Drawing.Size(66, 38);
+            this.ShowPasswordButton.TabIndex = 3;
+            this.ShowPasswordButton.Text = "Show";
+            this.ShowPasswordButton.UseVisualStyleBackColor = true;
+            this.ShowPasswordButton.Click += new System.EventHandler(this.ShowPasswordButton_Click);
             // 
-            // Popup
+            // MasterPasswordPopup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(411, 216);
-            this.Controls.Add(this.button1);
+            this.ClientSize = new System.Drawing.Size(587, 360);
+            this.Controls.Add(this.ShowPasswordButton);
             this.Controls.Add(this.SubmitPassBtn);
             this.Controls.Add(this.EnterPassLabel);
             this.Controls.Add(this.PasswordTextBox);
-            this.Name = "Popup";
+            this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.Name = "MasterPasswordPopup";
             this.Text = "Form2";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -91,6 +96,6 @@
         private TextBox PasswordTextBox;
         private Label EnterPassLabel;
         internal Button SubmitPassBtn;
-        private Button button1;
+        private Button ShowPasswordButton;
     }
 }
