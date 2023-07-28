@@ -58,7 +58,7 @@ namespace WinFormsApp1
         {
             if (PasswordTextBox.Text == password)
             {
-                this.Close();
+                this.DialogResult = DialogResult.OK;
             }
             else
             {

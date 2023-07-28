@@ -77,8 +77,10 @@ namespace WinFormsApp1
             popupWindow.ShowDialog();
             popupWindow.BringToFront();
 
-            if(popupWindow.DialogResult == DialogResult.OK)
-            {            }
+            if(popupWindow.DialogResult != DialogResult.OK)
+            {
+                Application.Exit();   
+            }
 
             //Basic Load
             this.DoubleBuffered = true;
