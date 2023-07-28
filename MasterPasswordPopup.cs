@@ -22,6 +22,23 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             PasswordTextBox.PasswordChar = '*'; // Censor the password by default
+            PasswordTextBox.KeyPress += MasterPasswordPopup_KeyPress;
+        }
+
+        private void MasterPasswordPopup_KeyPress(object? sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                //same code as submit password button, can have both call a functoin that does this if you want
+                if (PasswordTextBox.Text == password)
+                {
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Password is incorrect");
+                }
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
