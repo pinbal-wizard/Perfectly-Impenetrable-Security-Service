@@ -104,13 +104,13 @@ namespace WinFormsApp1
             _sidePanelContainer.Height = this.ClientSize.Height;
             _sidePanelPasswords.Height = this.ClientSize.Height - 45;
             _sidePanelPasswords.AutoScroll = true;
-            if (CalcHeight(_sidePanelPasswords) + 30 < this.ClientSize.Height - 45) _sidePanelPasswords.AutoScroll = false;
+            if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height-115) _sidePanelPasswords.AutoScroll = false;
 
 
             //Update side divider relies on side panel being first
             //How tf is it that during init this is control[0] but after the add button is in first place
-            this.Controls[1].Height = this.ClientSize.Height;
-
+            this.Controls[0].Height = this.ClientSize.Height;
+        
             //InfoDisplay update width and height
             InfoDisplay.Width = this.ClientSize.Width - 200;
             InfoDisplay.Height = this.ClientSize.Height;
@@ -236,6 +236,13 @@ namespace WinFormsApp1
 
                 _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, this));
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
+
+
+                //update sidepanel scroll bars, same stuff as in form_resized
+                _sidePanelContainer.Height = this.ClientSize.Height;
+                _sidePanelPasswords.Height = this.ClientSize.Height - 45;
+                _sidePanelPasswords.AutoScroll = true;
+                if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height - 115) _sidePanelPasswords.AutoScroll = false;
             }
         }
 
