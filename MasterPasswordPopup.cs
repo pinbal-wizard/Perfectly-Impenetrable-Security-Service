@@ -22,21 +22,23 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             PasswordTextBox.PasswordChar = '*'; // Censor the password by default
+
+            this.AcceptButton = SubmitPassBtn;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void ShowPasswordButton_Click(object sender, EventArgs e)
         {
             showPassword = !showPassword;
 
             if (showPassword)
             {
                 ShowPassword();
-                button1.Text = "Hide Password";
+                ShowPasswordButton.Text = "Hide Password";
             }
             else
             {
                 HidePassword();
-                button1.Text = "Show Password";
+                ShowPasswordButton.Text = "Show Password";
             }
         }
 
@@ -56,17 +58,12 @@ namespace WinFormsApp1
         {
             if (PasswordTextBox.Text == password)
             {
-                this.Close();
+                this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("Password is incorrect");
             }
-        }
-
-        private void Popup_Load(object sender, EventArgs e)
-        {
-
         }
     }
 }

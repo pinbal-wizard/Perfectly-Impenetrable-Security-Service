@@ -118,6 +118,7 @@ namespace WinFormsApp1
             this.FlowDirection = FlowDirection.TopDown;
             this.AutoScroll = true;
             this.WrapContents = false;
+
             //Add items to the infodisplay
             this.Controls.Add(Websitename);
             this.Controls.Add(Divider);
