@@ -9,10 +9,10 @@ using System.Drawing;
 namespace WinFormsApp1
 {
     /// <summary>
-    /// This guy added this class not as a form. Why
-    /// <br></br> *This whole class is awful and needs to be refactored*
+    /// Main info display div
+    /// just a lot of label inits
     /// </summary>
-    public class PasswordInfoDisplay: FlowLayoutPanel
+    public class PasswordInfoDisplay : FlowLayoutPanel
     {
         public Label Websitename { get; set; }
         public Label Divider { get; set; }
@@ -43,15 +43,12 @@ namespace WinFormsApp1
             //Password hidden or not
             IsHidden = true;
 
-
             PasswordPanel = new Panel();
             Password = new Label();
             HideButton = new Button();
 
-
             //Below is example default info so that it is not empty when you first open it
             RealPassword = "wake up";
-
 
             //Website top title
             Websitename = new Label();
@@ -59,7 +56,6 @@ namespace WinFormsApp1
             Websitename.Font = new Font("Arial", 13, FontStyle.Bold);
             Websitename.Padding = new Padding(0, 30, 0, 15);
             Websitename.AutoSize = true;
-
 
             //Cool divider, padding 40 to create space bettwen it and things below
             Divider = new Label();
@@ -69,7 +65,6 @@ namespace WinFormsApp1
             Divider.Height = 2;
             Divider.Width = 400;
             Divider.Margin = new Padding(0, 0, 0, 40);
-
 
             //Website link Label and actual link, link will actually work in future
             WebsiteLinkLabel = new Label();
@@ -84,7 +79,6 @@ namespace WinFormsApp1
             WebsiteLink.Margin = new Padding(0, 0, 0, 40);
             WebsiteLink.AutoSize = true;
 
-
             //Username Stuff
             UsernameLabel = new Label();
             UsernameLabel.Text = "Username";
@@ -97,7 +91,6 @@ namespace WinFormsApp1
             Username.Margin = new Padding(0, 0, 0, 40);
             Username.AutoSize = true;
 
-            
             //Password Label
             PasswordLabel = new Label();
             PasswordLabel.Text = "Password";
@@ -105,10 +98,8 @@ namespace WinFormsApp1
             PasswordLabel.Margin = new Padding(0);
             PasswordLabel.AutoSize = true;
 
-
             //Seperate panel (like a div) for password and button so that they can be on the same y level
             InitPasswordPanel();
-
 
             //Cool bottom divider
             Divider2 = new Label();
@@ -119,15 +110,13 @@ namespace WinFormsApp1
             Divider2.Width = 100;
             Divider2.Margin = new Padding(0);
 
-
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - 200;
             this.Height = form.ClientSize.Height;
             this.Location = new Point(200, 0);
             this.Padding = new Padding(40, 0, 40, 0);
-            this.AutoScroll = true;
-            this.WrapContents = false;
             this.FlowDirection = FlowDirection.TopDown;
+            this.AutoScroll = true;
             this.WrapContents = false;
             //Add items to the infodisplay
             this.Controls.Add(Websitename);
@@ -139,23 +128,19 @@ namespace WinFormsApp1
             this.Controls.Add(PasswordLabel);
             this.Controls.Add(PasswordPanel);
             this.Controls.Add(Divider2);
-            this.Controls.Add(HideButton);
         }
-
 
         /// <summary>
         /// **Will open browser**
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        /// <exception cref="NotImplementedException"></exception>
         private void WebsiteLink_Click(object? sender, EventArgs e)
         {
-            //This is how you do a function that hasnt been implemented 
-            //Dont just fail silently 
-            throw new NotImplementedException();
+            //If i wanted it to crash i would try to access the negitive index of an array
+            //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
+            //failing means something broke, nothing happening is not something breaking
         }
-
 
         /// <summary>
         /// Will initalise the password panel
@@ -163,31 +148,42 @@ namespace WinFormsApp1
         private void InitPasswordPanel()
         {
             //Actuall password, hidden initially
+            Password = new Label();
             Password.Text = "●●●●●●●●";
             Password.Font = new Font("Arial", 9);
-            Password.Location = new Point(0, 0);
+            Password.Location = new Point(0, 1);
+            Password.SizeChanged += PasswordHideToggled;
             Password.AutoSize = true;
 
             //Button to hide and unhide password
-            HideButton.Size = new Size(16, 16);
-
+            HideButton = new Button();
+            HideButton.Size = new Size(23, 23);
             //Xpos is always offsett by the password width, means that it will never overlap
             HideButton.Location = new Point(Password.Size.Width, 0);
-            HideButton.Click += ShowHidePasswordClick;
-            //HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
-            HideButton.ImageAlign = ContentAlignment.MiddleCenter;
-            HideButton.Text = "WAKE UP THERE OUTSIDE";
-            //HideButton
-            /*HideButton.FlatStyle = FlatStyle.Flat;
+            HideButton.Click += Hide_Click;
+            HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
+            HideButton.ImageAlign = ContentAlignment.TopCenter;
+            HideButton.FlatStyle = FlatStyle.Flat;
             HideButton.FlatAppearance.BorderSize = 0;
             HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;*/
-
+            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            HideButton.AutoSize = true;
             //Container Panel
-            PasswordPanel.Margin = new Padding(0,0,0,40);
+            PasswordPanel = new Panel();
+            PasswordPanel.Margin = new Padding(0, 0, 0, 40);
             PasswordPanel.AutoSize = true;
             PasswordPanel.Controls.Add(Password);
             PasswordPanel.Controls.Add(HideButton);
+        }
+
+        /// <summary>
+        /// updates position of hide button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PasswordHideToggled(object? sender, EventArgs e)
+        {
+            HideButton.Location = new Point(Password.Size.Width, 0);
         }
 
         /// <summary>
@@ -195,8 +191,9 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ShowHidePasswordClick(object? sender, EventArgs e)
+        private void Hide_Click(object? sender, EventArgs e)
         {
+            //simple hide unhide code
             IsHidden = !IsHidden;
             if (IsHidden == true)
             {
