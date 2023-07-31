@@ -28,8 +28,7 @@ namespace WinFormsApp1
         /// <exception cref="NotImplementedException"></exception>
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            //dont fail silently
-            throw new NotImplementedException();
+
         }
 
         /// <summary>
@@ -40,8 +39,7 @@ namespace WinFormsApp1
         /// <exception cref="NotImplementedException"></exception>
         private void label1_Click(object sender, EventArgs e)
         {
-            //dont fail silently
-            throw new NotImplementedException();
+
         }
     }
 }

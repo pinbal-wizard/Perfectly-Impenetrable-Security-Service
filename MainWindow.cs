@@ -91,7 +91,10 @@ namespace WinFormsApp1
 
             //InfoDisplay update width and height
             InfoDisplay.Width = this.ClientSize.Width - 200;
-            InfoDisplay.Height = this.ClientSize.Height;       
+            InfoDisplay.Height = this.ClientSize.Height;
+
+            //addentry  button
+
         }
 
         private void InitNewEntry()
