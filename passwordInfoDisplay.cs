@@ -203,9 +203,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void PasswordHideToggled(object? sender, EventArgs e)
         {
-            MessageBox.Show("before " + Password.Width.ToString());
             TextLength(Password);
-            MessageBox.Show("after " + Password.Width.ToString());
             HideButton.Location = new Point(Password.Size.Width, 0);
         }
 
