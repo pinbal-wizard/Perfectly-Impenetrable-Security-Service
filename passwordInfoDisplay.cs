@@ -29,6 +29,7 @@ namespace WinFormsApp1
         Label Test;
         public string RealPassword { get; set; }
         public bool IsHidden { get; set; }
+        private MainWindow form;
 
         /// <summary>
         /// FlowLayoutPanel with flow direction of top to bottom
@@ -41,6 +42,7 @@ namespace WinFormsApp1
         /// <param name="form"></param>
         public PasswordInfoDisplay(MainWindow form)
         {
+            this.form = form;
             this.DoubleBuffered = true;
             //Password hidden or not
             IsHidden = true;
@@ -171,6 +173,9 @@ namespace WinFormsApp1
             Password.Location = new Point(0, 1);
             Password.TextChanged += PasswordHideToggled;
             Password.AutoSize = true;
+            int sidePanelWidth = 200;
+            int Padding = 80;
+            Password.MaximumSize = new Size(400, 400000);
             Password.BorderStyle = BorderStyle.None;
             Password.BackColor = BackColor;
             Password.ReadOnly = true;
