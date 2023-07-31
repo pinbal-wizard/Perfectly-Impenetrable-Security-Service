@@ -203,7 +203,9 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void PasswordHideToggled(object? sender, EventArgs e)
         {
+            MessageBox.Show("before " + Password.Width.ToString());
             TextLength(Password);
+            MessageBox.Show("after " + Password.Width.ToString());
             HideButton.Location = new Point(Password.Size.Width, 0);
         }
 
@@ -236,7 +238,7 @@ namespace WinFormsApp1
             Test.Font = WhatLengthAmI.Font;
             Test.AutoSize = true;
             this.Controls.Add(Test);
-            WhatLengthAmI.MinimumSize = new Size(Test.Width, 0);
+            WhatLengthAmI.Width = Test.Width;
             this.Controls.Remove(Test);
            
         }
