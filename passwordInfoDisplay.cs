@@ -25,6 +25,8 @@ namespace WinFormsApp1
         public TextBox Password { get; set; }
         public Label Divider2 { get; set; }
         public Button HideButton { get; set; }
+
+        Label Test;
         public string RealPassword { get; set; }
         public bool IsHidden { get; set; }
 
@@ -42,7 +44,8 @@ namespace WinFormsApp1
             this.DoubleBuffered = true;
             //Password hidden or not
             IsHidden = true;
-
+            //TestLabel for width
+            Test = new Label();
 
 
             //Below is example default info so that it is not empty when you first open it
@@ -52,7 +55,8 @@ namespace WinFormsApp1
             Websitename = new TextBox();
             Websitename.Text = "example.com";
             Websitename.Font = new Font("Arial", 13, FontStyle.Bold);
-            Websitename.Padding = new Padding(0, 30, 0, 15);
+            Websitename.Margin = new Padding(0, 30, 0, 15);
+            TextLength(Websitename);
 
             //Cool divider, padding 40 to create space bettwen it and things below
             Divider = new Label();
@@ -135,17 +139,12 @@ namespace WinFormsApp1
                     txt.BorderStyle = BorderStyle.None;
                     txt.BackColor = BackColor;
                     txt.ReadOnly = true;
-                    Label Test = new Label();
-                    Test.AutoSize = true;
-                    Test.Font = txt.Font;
-                    Test.Text = txt.Text;
-                    txt.MinimumSize = new Size(Test.Width, 0);
-                    txt.AutoSize = true;
+                    TextLength(txt);
 
 
                 }
             }
-
+            
         }
 
         /// <summary>
@@ -170,7 +169,7 @@ namespace WinFormsApp1
             Password.Text = "●●●●●●●●";
             Password.Font = new Font("Arial", 9);
             Password.Location = new Point(0, 1);
-            Password.SizeChanged += PasswordHideToggled;
+            Password.TextChanged += PasswordHideToggled;
             Password.AutoSize = true;
             Password.BorderStyle = BorderStyle.None;
             Password.BackColor = BackColor;
@@ -204,6 +203,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void PasswordHideToggled(object? sender, EventArgs e)
         {
+            TextLength(Password);
             HideButton.Location = new Point(Password.Size.Width, 0);
         }
 
@@ -224,6 +224,21 @@ namespace WinFormsApp1
             {
                 Password.Text = RealPassword;
             }
+        }
+        /// <summary>
+        /// Set text box length to correct ammout.
+        /// Little bit of a hack
+        /// </summary>
+        /// <param name="WhatLengthAmI"></param>
+        public void TextLength(TextBox WhatLengthAmI)
+        {
+            Test.Text = WhatLengthAmI.Text;
+            Test.Font = WhatLengthAmI.Font;
+            Test.AutoSize = true;
+            this.Controls.Add(Test);
+            WhatLengthAmI.MinimumSize = new Size(Test.Width, 0);
+            this.Controls.Remove(Test);
+           
         }
     }
 }
