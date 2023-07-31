@@ -39,7 +39,6 @@ namespace WinFormsApp1
 
         /// <summary>
         /// Gets the the Password as a field
-        /// <br></br>***Not Very good Security is it***
         /// </summary>
         public string Password
         {
@@ -58,16 +57,17 @@ namespace WinFormsApp1
 
 
         /// <summary>
+        /// Check if inputed data is valid and save it
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ButtonSave_Click(object sender, EventArgs e)
         {
             websiteName = WebsiteNameTextbox.Text.Trim();
-            username = UsernameTextbox.Text.Trim();
-            password = PasswordTextbox.Text.Trim();
+            username = UsernameTextbox.Text.Trim();    
+            password = PasswordTextbox.Text.Trim();   
 
-            if (new[] { WebsiteName, Username, Password }.Any(string.IsNullOrEmpty))
+            if (new[] {WebsiteName, Username, Password}.Any(string.IsNullOrEmpty))
             {
                 MessageBox.Show("Please fill in all fields to save!");
             }
@@ -84,7 +84,7 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// 0 Reference Gaming (¬_¬ )
+        /// Send cancel event
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

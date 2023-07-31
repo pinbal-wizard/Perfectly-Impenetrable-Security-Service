@@ -11,20 +11,20 @@ using System.Windows.Forms;
 
 namespace WinFormsApp1
 {
+    /// <summary>
+    /// This is the class of the main window of the program
+    /// </summary>
     public partial class MainWindow : Form
     {
-
         private List<PasswordStruct> _passwordsList = new List<PasswordStruct>();
 
         private FlowLayoutPanel _sidePanelContainer;
         private FlowLayoutPanel _sidePanelPasswords;
         private Button _newEntry;
+        private TextBox _searchBar;
 
         public PasswordSideBar? Selected;
         public PasswordInfoDisplay InfoDisplay;
-
-        TextBox SearchBar;
-        private Button NewEntry;
 
         /// <summary>
         /// Readonly Property for reading the list of PasswordsList
@@ -39,39 +39,63 @@ namespace WinFormsApp1
         {
             InitializeComponent();
         }
-        
+
 
         /// <summary>
-        /// Saves Passwords to file as form is closed
+        /// Public Function for adding PasswordsList to the list off PasswordsList
+        /// <br></br>***Will need to be change to be more secure to complete other backlog tasks***
         /// </summary>
-        private void MainWindow_Deactivate(Object sender, EventArgs e)
+        /// <returns></returns>
+        public int AddEntry(string URL, string UserName, string Password)
+        {
+            _passwordsList.Add(new PasswordStruct(URL, UserName, Password));
+            return 0;
+        }
+
+
+        /// <summary>
+        /// Saves PasswordsList to file as form is closed
+        /// </summary>
+        private void MainWindow_Deactivate(object? sender, EventArgs e)
         {
             Serializer.SaveToFile(this);
         }
 
-        private void MainWindow_Shown(object? sender, EventArgs e)
-        {
-            PasswordPopup pop = new PasswordPopup();
-            pop.Show();
-            NewEntry.BringToFront();
-        }
 
+        /// <summary>
+        /// Main Function to Load the MainWindow form
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <returns></returns>
         private void MainWindow_Load(object sender, EventArgs e)
         {
             Serializer.LoadFromFile(this);
+
+            //This has been brought into the On_Load Function as it runs before it is rendered
+            MasterPasswordPopup popupWindow = new MasterPasswordPopup();
+            popupWindow.ShowDialog();
+            popupWindow.BringToFront();
+
+            if(popupWindow.DialogResult != DialogResult.OK)
+            {
+                Application.Exit();   
+            }
+
             //Basic Load
             this.DoubleBuffered = true;
             this.ClientSizeChanged += FormResized;
-            //side panel must be first
+
             InitSidePanel();
             InfoDisplay = new PasswordInfoDisplay(this);
-            this.Controls.Add(AddFullHeightDivider());
-            InitNewEntry();        
+            this.Controls.Add(AddVerticalDivider());
+            InitNewEntry();
             this.Controls.Add(_sidePanelContainer);
             this.Controls.Add(InfoDisplay);
-            this.Shown += MainWindow_Shown;
             this.FormClosing += MainWindow_Deactivate;
+
         }
+
 
         private void FormResized(object? sender, EventArgs e)
         {
@@ -80,33 +104,40 @@ namespace WinFormsApp1
             //25v MessageBox.Show(sidePanelContainer.Controls[0].Height.ToString());
             //Height of searchbar section is 45
             _sidePanelContainer.Height = this.ClientSize.Height;
-            _sidePanelPasswords.Height = this.ClientSize.Height-45;
+            _sidePanelPasswords.Height = this.ClientSize.Height - 45;
             _sidePanelPasswords.AutoScroll = true;
-            if (CalcHeight(_sidePanelPasswords)+30 < this.ClientSize.Height-45) _sidePanelPasswords.AutoScroll = false;
+            if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height-115) _sidePanelPasswords.AutoScroll = false;
 
 
             //Update side divider relies on side panel being first
             //How tf is it that during init this is control[0] but after the add button is in first place
-            this.Controls[1].Height = this.ClientSize.Height;
-
+            this.Controls[0].Height = this.ClientSize.Height;
+        
             //InfoDisplay update width and height
             InfoDisplay.Width = this.ClientSize.Width - 200;
             InfoDisplay.Height = this.ClientSize.Height;
-
-            //addentry  button
-
         }
 
+        /// <summary>
+        /// Initailses The Button for entering new entries
+        /// </summary>
         private void InitNewEntry()
         {
-            NewEntry = new Button();
-            NewEntry.Location = new Point(this.ClientSize.Width - 100, 10);
-            NewEntry.Click += openPasswordEntry_Click;
-            NewEntry.Text = "Add";
-            NewEntry.AutoSize = true;
-            NewEntry.Height = 40;
-            this.Controls.Add(NewEntry);
+            _newEntry = new Button();
+            _newEntry.Location = new Point(this.ClientSize.Width - 100, 10);
+            _newEntry.Click += OpenPasswordEntry_Click;
+            _newEntry.Text = "Add";
+            _newEntry.AutoSize = true;
+            _newEntry.Height = 40;
+            this.Controls.Add(_newEntry);
         }
+
+
+        /// <summary>
+        /// Initalises the sidePanel       
+        /// <br></br>*****This Function sucks because it says it initalises the sidePanel yet it initalises the whole form*****
+        /// </summary>
+        /// <returns></returns>
         private void InitSidePanel()
         {
             //First make the container div
@@ -114,18 +145,18 @@ namespace WinFormsApp1
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             _sidePanelContainer.Height = this.ClientSize.Height;
             _sidePanelContainer.Width = 200;
-           
+
             //no scroling
             _sidePanelContainer.AutoScroll = false;
             //Searchbar
-            SearchBar = new TextBox();
-            SearchBar.Margin = new Padding(12,10, 18, 10);
-            SearchBar.Width = 170;
-            SearchBar.TextChanged += SearchPasswords;
+            _searchBar = new TextBox();
+            _searchBar.Margin = new Padding(12, 10, 18, 10);
+            _searchBar.Width = 170;
+            _searchBar.TextChanged += SearchPasswords;
 
             //Add top elements
-            _sidePanelContainer.Controls.Add(SearchBar);
-            _sidePanelContainer.Controls.Add(AddSideDivider());
+            _sidePanelContainer.Controls.Add(_searchBar);
+            _sidePanelContainer.Controls.Add(AddSidePanelDivider());
             //Side panel init
             _sidePanelPasswords = new FlowLayoutPanel();
             _sidePanelPasswords.Height = this.ClientSize.Height - 40;
@@ -150,7 +181,7 @@ namespace WinFormsApp1
             foreach (PasswordStruct pass in _passwordsList)
             {
                 _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass, this));
-                _sidePanelPasswords.Controls.Add(AddSideDivider());
+                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (CalcHeight(_sidePanelPasswords) + 30 < this.ClientSize.Height - 45) _sidePanelPasswords.AutoScroll = false;
@@ -167,69 +198,60 @@ namespace WinFormsApp1
             //List<Control> changes = new List<Control>();
             //perform search
             _sidePanelPasswords.Controls.Clear();
-            foreach (PasswordStruct pass in _passwordsList)    
+            foreach (PasswordStruct pass in _passwordsList)
             {
-                if(pass.WebSite.Contains(SearchBar.Text) || pass.Username.Contains(SearchBar.Text))
+                if (pass.WebSite.Contains(_searchBar.Text) || pass.Username.Contains(_searchBar.Text))
                 {
                     _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass, this));
-                    _sidePanelPasswords.Controls.Add(AddSideDivider());
+                    _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
                 }
-
             }
-            _sidePanelPasswords.ResumeLayout(true);  
+            _sidePanelPasswords.ResumeLayout(true);
             _sidePanelContainer.ResumeLayout(true);
-           
+
         }
 
-
-        //New entry function
         /// <summary>
-        /// open password entry form
+        /// Very good form
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void openPasswordEntry_Click(object sender, EventArgs e)
+        private void OpenPasswordEntry_Click(object? sender, EventArgs e)
         {
-            using (var passwordEntryForm = new PasswordEntry())
+            PasswordEntry passwordEntryForm = new PasswordEntry();
+
+            //Getting info from the entry form
+            if (passwordEntryForm.ShowDialog() == DialogResult.OK)
             {
-                //Getting info from the entry form
-                if (passwordEntryForm.ShowDialog() == DialogResult.OK)
-                {
-                    string websiteName = passwordEntryForm.WebsiteName;
-                    string username = passwordEntryForm.Username; 
-                    string password = passwordEntryForm.Password;
+                string websiteName = passwordEntryForm.WebsiteName;
+                string username = passwordEntryForm.Username;
+                string password = passwordEntryForm.Password;
 
-                    //Adding the info
-                    PasswordStruct p = new PasswordStruct(websiteName, username, password);
-                    _passwordsList.Add(p);
 
-                    //Displaying new entry
+                //Adding the info
+                PasswordStruct p = new PasswordStruct(websiteName, username, password);
+                _passwordsList.Add(p);
 
-                    _sidePanelPasswords.Controls.Add(new PasswordSideBar(p,this));
-                    _sidePanelPasswords.Controls.Add(AddSideDivider());
+                //Displaying new entry
 
-                }
+                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, this));
+                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
+
+
+                //update sidepanel scroll bars, same stuff as in form_resized
+                _sidePanelContainer.Height = this.ClientSize.Height;
+                _sidePanelPasswords.Height = this.ClientSize.Height - 45;
+                _sidePanelPasswords.AutoScroll = true;
+                if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height - 115) _sidePanelPasswords.AutoScroll = false;
             }
         }
 
-        //Helper type functions
 
         /// <summary>
-        /// Public Function for adding PasswordsList to the list off PasswordsList
-        /// <br></br>***Will need to be change to be more secure to complete other backlog tasks***
+        /// Adds A Horisontal Side Panel Divider
         /// </summary>
         /// <returns></returns>
-        public int AddEntry(string URL, string UserName, string Password)
-        {
-            _passwordsList.Add(new PasswordStruct(URL, UserName, Password));
-            return 0;
-        }
-
-        /// <summary>
-        /// Adds A Side Divider
-        /// </summary>
-        /// <returns></returns>
-        private Label AddSideDivider()
+        private Label AddSidePanelDivider()
         {
             Label divider = new Label();
             divider.Text = string.Empty;
@@ -241,10 +263,10 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Add Full Height Divider
+        /// Add Full Height Vertical Divider
         /// </summary>
         /// <returns></returns>
-        private Label AddFullHeightDivider()
+        private Label AddVerticalDivider()
         {
             Label divider = new Label();
             divider.Text = string.Empty;
@@ -256,15 +278,13 @@ namespace WinFormsApp1
             return divider;
         }
 
-
-
         /// <summary>
         ///returns height of a panels content, there may be a better way to get this
         /// </summary>
         /// <param name="panel"></param>
         /// <returns></returns>
         private int CalcHeight(Control panel)
-        {
+        {   
             int height = 0;
             foreach (Control ctr in panel.Controls)
             {

@@ -44,7 +44,6 @@
             this.WebsiteNameLabel.Location = new System.Drawing.Point(61, 61);
             this.WebsiteNameLabel.Name = "WebsiteNameLabel";
             this.WebsiteNameLabel.Size = new System.Drawing.Size(124, 25);
-            this.WebsiteNameLabel.TabIndex = 0;
             this.WebsiteNameLabel.Text = "Website name";
             // 
             // UsernameLabel
@@ -53,7 +52,6 @@
             this.UsernameLabel.Location = new System.Drawing.Point(61, 111);
             this.UsernameLabel.Name = "UsernameLabel";
             this.UsernameLabel.Size = new System.Drawing.Size(91, 25);
-            this.UsernameLabel.TabIndex = 1;
             this.UsernameLabel.Text = "Username";
             // 
             // PasswordLabel
@@ -62,7 +60,6 @@
             this.PasswordLabel.Location = new System.Drawing.Point(61, 158);
             this.PasswordLabel.Name = "PasswordLabel";
             this.PasswordLabel.Size = new System.Drawing.Size(87, 25);
-            this.PasswordLabel.TabIndex = 2;
             this.PasswordLabel.Text = "Password";
             // 
             // WebsiteNameTextbox
@@ -70,31 +67,31 @@
             this.WebsiteNameTextbox.Location = new System.Drawing.Point(191, 57);
             this.WebsiteNameTextbox.Name = "WebsiteNameTextbox";
             this.WebsiteNameTextbox.Size = new System.Drawing.Size(244, 31);
-            this.WebsiteNameTextbox.TabIndex = 3;
+            this.WebsiteNameTextbox.TabIndex = 0;
             // 
             // UsernameTextbox
             // 
-            this.UsernameTextbox.Location = new System.Drawing.Point(191, 158);
+            this.UsernameTextbox.Location = new System.Drawing.Point(191, 107);
             this.UsernameTextbox.Name = "UsernameTextbox";
             this.UsernameTextbox.Size = new System.Drawing.Size(244, 31);
-            this.UsernameTextbox.TabIndex = 4;
+            this.UsernameTextbox.TabIndex = 1;
             // 
             // PasswordTextbox
             // 
-            this.PasswordTextbox.Location = new System.Drawing.Point(191, 107);
+            this.PasswordTextbox.Location = new System.Drawing.Point(191, 158);
             this.PasswordTextbox.Name = "PasswordTextbox";
             this.PasswordTextbox.Size = new System.Drawing.Size(244, 31);
-            this.PasswordTextbox.TabIndex = 5;
+            this.PasswordTextbox.TabIndex = 2;
             // 
             // AddEntryButton
             // 
             this.AddEntryButton.Location = new System.Drawing.Point(191, 230);
             this.AddEntryButton.Name = "AddEntryButton";
             this.AddEntryButton.Size = new System.Drawing.Size(112, 34);
-            this.AddEntryButton.TabIndex = 6;
+            this.AddEntryButton.TabIndex = 3;
             this.AddEntryButton.Text = "Add";
             this.AddEntryButton.UseVisualStyleBackColor = true;
-            this.AddEntryButton.Click += ButtonSave_Click;
+            this.AddEntryButton.Click += new System.EventHandler(this.ButtonSave_Click);
             // 
             // CancelEntryButton
             // 
@@ -102,10 +99,10 @@
             this.CancelEntryButton.Margin = new System.Windows.Forms.Padding(2);
             this.CancelEntryButton.Name = "CancelEntryButton";
             this.CancelEntryButton.Size = new System.Drawing.Size(111, 35);
-            this.CancelEntryButton.TabIndex = 7;
+            this.CancelEntryButton.TabIndex = 4;
             this.CancelEntryButton.Text = "Cancel";
             this.CancelEntryButton.UseVisualStyleBackColor = true;
-            this.CancelEntryButton.Click += ButtonCancel_Click;
+            this.CancelEntryButton.Click += new System.EventHandler(this.ButtonCancel_Click);
             // 
             // PasswordEntry
             // 

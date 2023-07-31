@@ -13,7 +13,7 @@
     <Compile Update="passwordInfoDisplay.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Update="Popup.cs">
+    <Compile Update="MasterPasswordPopup.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

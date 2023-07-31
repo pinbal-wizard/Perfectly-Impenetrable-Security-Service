@@ -8,11 +8,14 @@ using System.Drawing;
 
 namespace WinFormsApp1
 {
+    /// <summary>
+    /// Struct for how we will store any passwords
+    /// </summary>
     public struct PasswordStruct
     {
-        public string WebSite { get; }
-        public string Username { get; }
-        public string Password { get; }
+        public string WebSite { get;}
+        public string Username { get;}
+        public string Password { get;}
         public PasswordStruct(string Website, string Username, string Password)
         {
             this.WebSite = Website;
@@ -21,9 +24,12 @@ namespace WinFormsApp1
         }
     }
 
+
+    /// <summary>
+    /// Class for how the Password Tiles are shown in the list of tiles as well as an extention of the PasswordStuct
+    /// </summary>
     public class PasswordSideBar : FlowLayoutPanel
     {
-
         private MainWindow form;
         public string WebSite { get; }
         public string Username { get; }
@@ -48,7 +54,7 @@ namespace WinFormsApp1
             //Label to display site name
             SiteLabel = new Label();
             SiteLabel.Text = WebSite.Split("://").Last(); ;
-            SiteLabel.Margin = new Padding(12,0,18,0);
+            SiteLabel.Padding = new Padding(12,0,18,0);
             SiteLabel.Font = new Font("Arial",10);
             SiteLabel.AutoSize = true; 
             SiteLabel.Click += PasswordInfo_Click;
@@ -56,12 +62,12 @@ namespace WinFormsApp1
             //Label to display the username
             UsernameLabel = new Label();
             UsernameLabel.Text = Username;
-            UsernameLabel.Margin = new Padding(12,0,18,0);
+            UsernameLabel.Padding = new Padding(12,0,18,0);
             UsernameLabel.Font = new Font("Arial",8);
             UsernameLabel.AutoSize = true;
             UsernameLabel.Click += PasswordInfo_Click;
 
-            //Height and Width. Width should match the sidepanel width in MainWindow.cs, Height can be changed         
+            //Height and Width. Width should match the sidepanel width in MainWindow.cs, Height can be changed
             this.Padding = new Padding(0,10,0,10);
             this.FlowDirection = FlowDirection.TopDown;
             this.Click += PasswordInfo_Click;
@@ -72,9 +78,10 @@ namespace WinFormsApp1
             this.AutoSize = true;
         }
 
+
         /// <summary>
-        /// Shows or hides the real password in the menu 
-        /// <br></br>***THis is where the password popup should also be used as not to keep the master password or regular password stored in memory***
+        /// Loads info into the main Display
+        /// <br></br>***This is where the password popup should also be used as not to keep the master password or regular password stored in memory***
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -84,10 +91,13 @@ namespace WinFormsApp1
             //This is so if you click the text it still updates the infoDisplay
 
             //Selected variable to bold url in side bar
-        
-            form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
-            this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
+            if (form.Selected != null)
+            {
+                form.Selected.SiteLabel.Font = new Font(form.Selected.SiteLabel.Font.Name, form.Selected.SiteLabel.Font.Size);
+                this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
+            }
             form.Selected = this;
+
 
             //Setting info
             form.InfoDisplay.Websitename.Text = WebSite.Split("://").Last();

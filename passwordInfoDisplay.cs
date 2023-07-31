@@ -8,6 +8,10 @@ using System.Drawing;
 
 namespace WinFormsApp1
 {
+    /// <summary>
+    /// Main info display div
+    /// just a lot of label inits
+    /// </summary>
     public class PasswordInfoDisplay : FlowLayoutPanel
     {
         public TextBox Websitename { get; set; }
@@ -106,10 +110,10 @@ namespace WinFormsApp1
             this.Height = form.ClientSize.Height;
             this.Location = new Point(200, 0);
             this.Padding = new Padding(40, 0, 40, 0);
+            this.FlowDirection = FlowDirection.TopDown;
             this.AutoScroll = true;
             this.WrapContents = false;
-            this.FlowDirection = FlowDirection.TopDown;
-            this.WrapContents = false;
+
             //Add items to the infodisplay
             this.Controls.Add(Websitename);
             this.Controls.Add(Divider);
@@ -144,11 +148,21 @@ namespace WinFormsApp1
 
         }
 
+        /// <summary>
+        /// **Will open browser**
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void WebsiteLink_Click(object? sender, EventArgs e)
         {
-            //Will open browser
+            //If i wanted it to crash i would try to access the negitive index of an array
+            //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
+            //failing means something broke, nothing happening is not something breaking
         }
 
+        /// <summary>
+        /// Will initalise the password panel
+        /// </summary>
         private void InitPasswordPanel()
         {
             //Actuall password, hidden initially
@@ -177,17 +191,27 @@ namespace WinFormsApp1
             HideButton.AutoSize = true;
             //Container Panel
             PasswordPanel = new Panel();
-            PasswordPanel.Margin = new Padding(0,0,0,40);
+            PasswordPanel.Margin = new Padding(0, 0, 0, 40);
             PasswordPanel.AutoSize = true;
             PasswordPanel.Controls.Add(Password);
             PasswordPanel.Controls.Add(HideButton);
         }
 
+        /// <summary>
+        /// updates position of hide button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PasswordHideToggled(object? sender, EventArgs e)
         {
             HideButton.Location = new Point(Password.Size.Width, 0);
         }
 
+        /// <summary>
+        /// Will either show or or hide the real password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Hide_Click(object? sender, EventArgs e)
         {
             //simple hide unhide code
