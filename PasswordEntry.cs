@@ -22,10 +22,12 @@ namespace WinFormsApp1
 
         /// <summary>
         /// Get the website name as a field
+        /// Added the setter to access values, but this will remove the read-only property
         /// </summary>
         public string WebsiteName
         {
             get { return websiteName; }
+            set { websiteName = value; }
         }
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace WinFormsApp1
         public string Username
         {
             get { return username; }
+            set { username = value; }
         }
 
 
@@ -43,6 +46,7 @@ namespace WinFormsApp1
         public string Password
         {
             get { return password; }
+            set { password = value; }
         }
 
 
