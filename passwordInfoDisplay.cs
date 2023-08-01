@@ -25,6 +25,7 @@ namespace WinFormsApp1
         public Label Password { get; set; }
         public Label Divider2 { get; set; }
         public Button HideButton { get; set; }
+        public Button _editButton;
         public string RealPassword { get; set; }
         public bool IsHidden { get; set; }
 
@@ -109,6 +110,7 @@ namespace WinFormsApp1
             Divider2.Height = 2;
             Divider2.Width = 100;
             Divider2.Margin = new Padding(0);
+            InitEditButton();
 
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - 200;
@@ -128,6 +130,18 @@ namespace WinFormsApp1
             this.Controls.Add(PasswordLabel);
             this.Controls.Add(PasswordPanel);
             this.Controls.Add(Divider2);
+            this.Controls.Add(_editButton);
+        }
+
+        ///<summary>
+        ///Initializing the edit button
+        ///</summary>
+        private void InitEditButton()
+        {
+            _editButton = new Button();
+            _editButton.Text = "Edit";
+            _editButton.AutoSize = true;
+            _editButton.Click += new EventHandler(EditButton_Click);
         }
 
         /// <summary>
@@ -140,6 +154,37 @@ namespace WinFormsApp1
             //If i wanted it to crash i would try to access the negitive index of an array
             //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
             //failing means something broke, nothing happening is not something breaking
+        }
+
+        /// <summary>
+        /// Editing the existing information in the passwordInfoDisplay
+        /// Currently only able to refresh the password on info panel 
+        /// Updating password in the file not yet inmplemented
+        /// </summary>
+        private void EditButton_Click(object? sender, EventArgs e) 
+        {
+            /// <summary>
+            /// Getting the information from MainWindow
+            /// Currently not being able to display the saved info
+            /// </summary>
+            PasswordEntry passwordEntryForm = new PasswordEntry();
+            passwordEntryForm.WebsiteName = Websitename.Text;
+            passwordEntryForm.Username = Username.Text;
+            passwordEntryForm.Password = Password.Text;
+
+            //Updating the old information with the new information
+            //Currently only updating the display info
+            if (passwordEntryForm.ShowDialog() == DialogResult.OK) 
+            {
+                Websitename.Text = passwordEntryForm.WebsiteName;
+                Username.Text = passwordEntryForm.Username;
+                Password.Text = passwordEntryForm.Password;
+
+                if (!IsHidden)
+                {
+                    Password.Text = RealPassword;
+                }
+            }
         }
 
         /// <summary>
