@@ -17,10 +17,10 @@ namespace WinFormsApp1
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
-
+            bytes += "hashnocapfr\n";
             foreach (PasswordStruct password in PasswordsList)
             {
-                bytes += Encrypt(Serialize(password), "password");
+                bytes += Encrypt(Serialize(password), form.hash);
                 bytes += "\n";
             }
 
@@ -41,14 +41,14 @@ namespace WinFormsApp1
             string encryptedtext = File.ReadAllText(SaveLocation);
 
             string[] splitEncryptedText = encryptedtext.Split("\n");
-            foreach (string text in splitEncryptedText)
+            for(int i  = 1; i < splitEncryptedText.Length; i++)
             {
-                if (text == "")
+                if (splitEncryptedText[i] == "")
                 {
                     continue;
                 }
                 string decryptedText;
-                decryptedText = Decrypt(text, "password");
+                decryptedText = Decrypt(splitEncryptedText[i], form.hash);
                 string[] splitText = decryptedText.Split(",");
                 string website = Base64Decode(splitText[0]);
                 string username = Base64Decode(splitText[1]);
@@ -93,16 +93,22 @@ namespace WinFormsApp1
             throw new NotImplementedException();
         }
 
-
-        private static string Encrypt(string content, string password)
+        /// <summary>
+        /// Encrypts a peice of plaintext, should be called after properly formating with Serializer
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        private static string Encrypt(string content,byte[] password)
         {
+            //password is already hashed
             byte[] bytes = Encoding.UTF8.GetBytes(content);
 
             using (SymmetricAlgorithm crypt = Aes.Create())
             using (HashAlgorithm hash = MD5.Create())
             using (MemoryStream memoryStream = new MemoryStream())
             {
-                crypt.Key = hash.ComputeHash(Encoding.ASCII.GetBytes(password));
+                crypt.Key = password;
                 crypt.GenerateIV();
 
                 using (CryptoStream cryptoStream = new CryptoStream(
@@ -118,8 +124,15 @@ namespace WinFormsApp1
             }
         }
 
-        public static string Decrypt(string cryptText,string password)
+        /// <summary>
+        /// Dencrypts a peice of encrypted text
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name=" cryptText"></param>
+        /// <returns></returns>
+        public static string Decrypt(string cryptText,byte[] password)
         {
+            //password is already hashed
             string content = String.Empty;
 
             string[] splitCryptText = cryptText.Split("!");
@@ -133,7 +146,7 @@ namespace WinFormsApp1
             using (HashAlgorithm hash = MD5.Create())
             using (MemoryStream memoryStream = new MemoryStream(CipherText)) {
 
-                crypt.Key = hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                crypt.Key = password;
                 crypt.IV = InitializationVector;
                 // Seed and construct the transformation used for decrypting
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))

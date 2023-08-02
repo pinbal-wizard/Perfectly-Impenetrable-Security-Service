@@ -17,7 +17,8 @@ namespace WinFormsApp1
     public partial class MainWindow : Form
     {
         private List<PasswordStruct> _passwordsList = new List<PasswordStruct>();
-
+        //currently hash of "password"
+        public byte[] hash = { 95, 77, 204, 59, 90, 167, 101, 214, 29, 131, 39, 222, 184, 130, 207, 153 };
         private FlowLayoutPanel _sidePanelContainer;
         private FlowLayoutPanel _sidePanelPasswords;
         private Button _newEntry;
@@ -73,7 +74,7 @@ namespace WinFormsApp1
             Serializer.LoadFromFile(this);
 
             //This has been brought into the On_Load Function as it runs before it is rendered
-            MasterPasswordPopup popupWindow = new MasterPasswordPopup();
+            MasterPasswordPopup popupWindow = new MasterPasswordPopup(this);
             popupWindow.ShowDialog();
             popupWindow.BringToFront();
 
