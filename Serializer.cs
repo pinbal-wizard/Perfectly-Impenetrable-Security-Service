@@ -17,7 +17,8 @@ namespace WinFormsApp1
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
-            bytes += "hashnocapfr\n";
+            bytes += Encoding.ASCII.GetString(form.hash);
+            bytes += "\n";
             foreach (PasswordStruct password in PasswordsList)
             {
                 bytes += Encrypt(Serialize(password), form.hash);
@@ -38,9 +39,9 @@ namespace WinFormsApp1
         {
             List<PasswordStruct> PasswordsList = new();
 
-            string encryptedtext = File.ReadAllText(SaveLocation);
-
+            string encryptedtext = File.ReadAllText(SaveLocation); 
             string[] splitEncryptedText = encryptedtext.Split("\n");
+            //form.hash = Encoding.ASCII.GetBytes(splitEncryptedText[0]);
             for(int i  = 1; i < splitEncryptedText.Length; i++)
             {
                 if (splitEncryptedText[i] == "")
@@ -75,7 +76,7 @@ namespace WinFormsApp1
         /// <returns>Base64 string encoded from input</returns>
         private static string Base64Encode(string input)
         {
-            return Convert.ToBase64String(Encoding.ASCII.GetBytes(input));
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(input));
         }
 
         /// <summary>
@@ -85,7 +86,7 @@ namespace WinFormsApp1
         /// <returns>ASCII string decoded from base64</returns>
         private static string Base64Decode(string input)
         {
-            return Encoding.ASCII.GetString(Convert.FromBase64String(input));
+            return Encoding.UTF8.GetString(Convert.FromBase64String(input));
         }
 
 
@@ -109,7 +110,7 @@ namespace WinFormsApp1
         /// <returns>The encrypted form of content</returns>
         private static string Encrypt(string content,byte[] password)
         {
-            //password is already hashed
+            //password is already hashed, 「slight security issue」  
             byte[] bytes = Encoding.UTF8.GetBytes(content);
 
             using (SymmetricAlgorithm crypt = Aes.Create())
@@ -125,10 +126,10 @@ namespace WinFormsApp1
                     cryptoStream.Write(bytes, 0, bytes.Length);
                 }
 
-                string base64IV = Convert.ToBase64String(crypt.IV);
+                string base64InitializationVector = Convert.ToBase64String(crypt.IV);
                 string base64Ciphertext = Convert.ToBase64String(memoryStream.ToArray());
 
-                return base64IV + "!" + base64Ciphertext;
+                return base64InitializationVector + "!" + base64Ciphertext;
             }
         }
 
