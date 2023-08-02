@@ -33,7 +33,7 @@ namespace WinFormsApp1
         /// <summary>
         /// Call Serializer.LoadFromFile() to load PasswordsList from preset file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>0</returns>
         public static int LoadFromFile(MainWindow form)
         {
             List<PasswordStruct> PasswordsList = new();
@@ -59,22 +59,30 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// This Function will serialise a passwordStruct into a string to be saved to disk
-        /// <br></br>***Need to add Encrypt/Decrpt functions
+        /// This Function will serialise a passwordStruct into a string to be saved to be encrypted
         /// </summary>
         /// <param name="password"></param>
-        /// <returns></returns>
+        /// <returns>The serialized form of the input password struct</returns>
         private static string Serialize(PasswordStruct password)
         {
             string text = string.Format("{0},{1},{2}",Base64Encode(password.WebSite), Base64Encode(password.Username), Base64Encode(password.Password), "\n");
             return text;
         }
-
+        /// <summary>
+        /// Encode to base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Base64 string encoded from input</returns>
         private static string Base64Encode(string input)
         {
             return Convert.ToBase64String(Encoding.ASCII.GetBytes(input));
         }
 
+        /// <summary>
+        /// Decode from base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>ASCII string decoded from base64</returns>
         private static string Base64Decode(string input)
         {
             return Encoding.ASCII.GetString(Convert.FromBase64String(input));
@@ -98,7 +106,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="content"></param>
         /// <param name="password"></param>
-        /// <returns></returns>
+        /// <returns>The encrypted form of content</returns>
         private static string Encrypt(string content,byte[] password)
         {
             //password is already hashed
@@ -129,7 +137,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="content"></param>
         /// <param name=" cryptText"></param>
-        /// <returns></returns>
+        /// <returns>The decrypted form of cryptText</returns>
         public static string Decrypt(string cryptText,byte[] password)
         {
             //password is already hashed
