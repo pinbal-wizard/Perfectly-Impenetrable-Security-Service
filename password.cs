@@ -97,9 +97,17 @@ namespace WinFormsApp1
                 this.SiteLabel.Font = new Font(SiteLabel.Font.Name, SiteLabel.Font.Size, FontStyle.Bold);
             }
             form.Selected = this;
+            //Update lengths
+            foreach (Control ctr in form.InfoDisplay.Controls)
+            {
+                if (ctr.GetType() == typeof(TextBox))
+                {
+                    TextBox txt = (TextBox)ctr;
+                    form.InfoDisplay.TextLength(txt);
+                }
+            }
 
-
-            //Setting info
+                    //Setting info
             form.InfoDisplay.Websitename.Text = WebSite.Split("://").Last();
             form.InfoDisplay.WebsiteLink.Text = WebSite;
             form.InfoDisplay.Username.Text = Username;
