@@ -186,8 +186,7 @@ namespace WinFormsApp1
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (CalcHeight(_sidePanelPasswords) + 30 < this.ClientSize.Height - 45) _sidePanelPasswords.AutoScroll = false;
 
-            //For now this works, will have to make more robust later
-            Selected = (PasswordSideBar)_sidePanelPasswords.Controls[0];
+            if (_sidePanelPasswords.Controls.Count > 0) Selected = (PasswordSideBar)_sidePanelPasswords.Controls[0];
             _sidePanelContainer.Controls.Add(_sidePanelPasswords);
         }
 
