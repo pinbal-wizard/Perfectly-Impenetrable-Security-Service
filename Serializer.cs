@@ -17,8 +17,6 @@ namespace WinFormsApp1
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
-            bytes += Encoding.ASCII.GetString(form.hash);
-            bytes += "\n";
             foreach (PasswordStruct password in PasswordsList)
             {
                 bytes += Encrypt(Serialize(password), form.hash);
@@ -41,15 +39,14 @@ namespace WinFormsApp1
 
             string encryptedtext = File.ReadAllText(SaveLocation); 
             string[] splitEncryptedText = encryptedtext.Split("\n");
-            //form.hash = Encoding.ASCII.GetBytes(splitEncryptedText[0]);
-            for(int i  = 1; i < splitEncryptedText.Length; i++)
-            {
-                if (splitEncryptedText[i] == "")
+            foreach(string text in splitEncryptedText) 
+            { 
+                if (text== "")
                 {
                     continue;
                 }
                 string decryptedText;
-                decryptedText = Decrypt(splitEncryptedText[i], form.hash);
+                decryptedText = Decrypt(text, form.hash);
                 string[] splitText = decryptedText.Split(",");
                 string website = Base64Decode(splitText[0]);
                 string username = Base64Decode(splitText[1]);
@@ -108,7 +105,7 @@ namespace WinFormsApp1
         /// <param name="content"></param>
         /// <param name="password"></param>
         /// <returns>The encrypted form of content</returns>
-        private static string Encrypt(string content,byte[] password)
+        public static string Encrypt(string content,byte[] password)
         {
             //password is already hashed, 「slight security issue」  
             byte[] bytes = Encoding.UTF8.GetBytes(content);
@@ -162,7 +159,14 @@ namespace WinFormsApp1
                 {
                     using (StreamReader streamReader = new StreamReader(cryptoStream))
                     {
-                       content = streamReader.ReadToEnd();
+                        try
+                        {
+                            content = streamReader.ReadToEnd();
+                        }
+                        catch (Exception ex)
+                        {
+                            //gay ass throws error if password is wrong
+                        }
                     }
                 }
             }

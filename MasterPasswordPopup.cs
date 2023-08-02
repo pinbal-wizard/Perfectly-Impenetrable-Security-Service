@@ -80,36 +80,25 @@ namespace WinFormsApp1
             }
         }
         /// <summary>
-        /// Validate if the entered password is correct
+        /// Validate if the entered password is correct by decrypting some text using entered password
         /// </summary>
         /// <returns>True or False</returns>
         private bool ValidatePassword()
         {
             using (HashAlgorithm hash = MD5.Create())
             {
-                string check = "";
-                byte[] key = hash.ComputeHash(Encoding.UTF8.GetBytes(PasswordTextBox.Text));           
-                if (CheckArraySame(key,form.hash))
+                string check = "riddle me this who is the real g";
+                string test = File.ReadAllLines("../../../riddle.txt").First();
+                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(PasswordTextBox.Text));
+                string decypted = Serializer.Decrypt(test, hashpassword);
+                if (decypted == check)
                 {
+                    form.hash = hashpassword;
                     return true;
                 }
+               
             }
             return false;
-        }
-        /// <summary>
-        /// Check of 2 byte arrays are the same, needed because a simple == check on arrays only checks if the refrence(pointer) is the same(which it will not be)
-        /// </summary>
-        /// <param name="array1"></param>
-        /// <param name="array2"></param>
-        /// <returns>True or False</returns>
-        private bool CheckArraySame(byte[] array1, byte[] array2)
-        {
-            if (array1.Length != array2.Length) return false;
-            for(int i = 0; i < array1.Length; i++)
-            {
-                if (array1[i] != array2[i]) return false;
-            }
-            return true;
         }
     }
 }
