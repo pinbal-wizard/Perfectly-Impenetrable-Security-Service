@@ -20,9 +20,10 @@ namespace WinFormsApp1
         public TextBox WebsiteLink { get; set; }
         public TextBox UsernameLabel { get; set; }
         public TextBox Username { get; set; }
-        public TextBox PasswordLabel { get; set; }
-        public Panel PasswordPanel { get; set; }
+        public FlowLayoutPanel UsernamePanel { get; set; }
+        public TextBox PasswordLabel { get; set; }        
         public TextBox Password { get; set; }
+        public FlowLayoutPanel PasswordPanel { get; set; }
         public Label Divider2 { get; set; }
         public Button HideButton { get; set; }
 
@@ -85,10 +86,9 @@ namespace WinFormsApp1
             UsernameLabel.Text = "Username";
             UsernameLabel.Margin = new Padding(0);
             UsernameLabel.Font = new Font("Arial", 7);
-            Username = new TextBox();
-            Username.Text = "Boe Jiden";
-            Username.Font = new Font("Arial", 10);
-            Username.Margin = new Padding(0, 0, 0, 40);
+
+            //Seperate panel (like a div) for username
+            InitUsernamePanel();
 
             //Password Label
             PasswordLabel = new TextBox();
@@ -126,7 +126,7 @@ namespace WinFormsApp1
             this.Controls.Add(WebsiteLinkLabel);
             this.Controls.Add(WebsiteLink);
             this.Controls.Add(UsernameLabel);
-            this.Controls.Add(Username);
+            this.Controls.Add(UsernamePanel);
             this.Controls.Add(PasswordLabel);
             this.Controls.Add(PasswordPanel);
             this.Controls.Add(Divider2);
@@ -160,6 +160,25 @@ namespace WinFormsApp1
             //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
             //failing means something broke, nothing happening is not something breaking
         }
+        /// <summary>
+        /// Will initalise the username panel
+        /// </summary>
+        private void InitUsernamePanel()
+        {
+            Username = new TextBox();
+            Username.Text = "Boe Jiden";
+            Username.Font = new Font("Arial", 10);
+            Username.Margin = new Padding(0, 0, 0, 40);
+            Username.BorderStyle = BorderStyle.None;
+            Username.BackColor = BackColor;
+            Username.ReadOnly = true;
+
+            UsernamePanel = new FlowLayoutPanel();
+            UsernamePanel.Margin = new Padding(0, 0, 0,0);
+            UsernamePanel.AutoSize = true;
+            UsernamePanel.Controls.Add(Username);
+
+        }
 
         /// <summary>
         /// Will initalise the password panel
@@ -170,11 +189,9 @@ namespace WinFormsApp1
             Password = new TextBox();
             Password.Text = "●●●●●●●●";
             Password.Font = new Font("Arial", 9);
-            Password.Location = new Point(0, 1);
             Password.TextChanged += PasswordHideToggled;
+            Password.Margin = new Padding(0, 2, 0, 0);
             Password.AutoSize = true;
-            int sidePanelWidth = 200;
-            int Padding = 80;
             Password.MaximumSize = new Size(400, 400000);
             Password.BorderStyle = BorderStyle.None;
             Password.BackColor = BackColor;
@@ -183,8 +200,7 @@ namespace WinFormsApp1
             //Button to hide and unhide password
             HideButton = new Button();
             HideButton.Size = new Size(23, 23);
-            //Xpos is always offsett by the password width, means that it will never overlap
-            HideButton.Location = new Point(Password.Size.Width, 0);
+            HideButton.Margin = new Padding(10, 0, 0, 0);
             HideButton.Click += Hide_Click;
             HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
             HideButton.ImageAlign = ContentAlignment.TopCenter;
@@ -194,7 +210,7 @@ namespace WinFormsApp1
             HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
             HideButton.AutoSize = true;
             //Container Panel
-            PasswordPanel = new Panel();
+            PasswordPanel = new FlowLayoutPanel();
             PasswordPanel.Margin = new Padding(0, 0, 0, 40);
             PasswordPanel.AutoSize = true;
             PasswordPanel.Controls.Add(Password);
