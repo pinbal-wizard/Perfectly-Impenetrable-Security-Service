@@ -40,7 +40,7 @@ namespace WinFormsApp1
             string encryptedtext = File.ReadAllText(SaveLocation);
 
             string[] splitEncryptedText = encryptedtext.Split("\n");
-            for(int i  = 1; i < splitEncryptedText.Length; i++)
+            for(int i  = 0; i < splitEncryptedText.Length; i++)
             {
                 if (splitEncryptedText[i] == "")
                 {
