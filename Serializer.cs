@@ -17,7 +17,6 @@ namespace WinFormsApp1
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
-            bytes += "hashnocapfr\n";
             foreach (PasswordStruct password in PasswordsList)
             {
                 bytes += Encrypt(Serialize(password), form.hash);
