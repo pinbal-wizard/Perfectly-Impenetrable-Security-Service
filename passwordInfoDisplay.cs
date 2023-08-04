@@ -30,8 +30,8 @@ namespace WinFormsApp1
 
         Label Test;
         public Button EditButton;
-        public Button cancelButton;
         public Button saveButton;
+        public Button cancelButton;
         public string RealPassword { get; set; }
         public bool IsHidden { get; set; }
         private MainWindow form;
@@ -112,8 +112,8 @@ namespace WinFormsApp1
             Divider2.Width = 100;
             Divider2.Margin = new Padding(0);
             InitEditButton();
-            InitCancelButton();
             InitSaveButton();
+            InitCancelButton();
            
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - 200;
@@ -212,6 +212,7 @@ namespace WinFormsApp1
             Username.BorderStyle = BorderStyle.None;
             Username.BackColor = BackColor;
             Username.ReadOnly = true;
+            TextLength(Username);
 
             UsernamePanel = new FlowLayoutPanel();
             UsernamePanel.Margin = new Padding(0, 0, 0,0);
@@ -236,6 +237,7 @@ namespace WinFormsApp1
             Password.BorderStyle = BorderStyle.None;
             Password.BackColor = BackColor;
             Password.ReadOnly = true;
+            TextLength(Password);
 
             //Button to hide and unhide password
             HideButton = new Button();
@@ -315,7 +317,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void saveButton_Click(Object sender, EventArgs e)
         {
-            MessageBox.Show("Save button clicked");
+            throw new NotImplementedException();
         }
         /// <summary>
         /// updates position of hide button
