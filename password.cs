@@ -103,8 +103,12 @@ namespace WinFormsApp1
             form.InfoDisplay.Websitename.Text = WebSite.Split("://").Last();
             form.InfoDisplay.WebsiteLink.Text = WebSite;
             form.InfoDisplay.Username.Text = Username;
-            form.InfoDisplay.Password.Text = "●●●●●●●●";
-            form.InfoDisplay.RealPassword = Password;
+            form.InfoDisplay.Password.Text = Password;
+            form.InfoDisplay.Password.PasswordChar = '●';
+            form.InfoDisplay.TextLength(form.InfoDisplay.WebsiteLink);
+            form.InfoDisplay.TextLength(form.InfoDisplay.Websitename);
+            form.InfoDisplay.TextLength(form.InfoDisplay.Username);
+            form.InfoDisplay.TextLength(form.InfoDisplay.Password);
         }
     }
 }

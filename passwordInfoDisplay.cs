@@ -156,6 +156,11 @@ namespace WinFormsApp1
             }
             
         }
+
+        private void fixLength()
+        {
+
+        }
         /// <summary>
         /// **Will open browser**
         /// </summary>
@@ -228,7 +233,8 @@ namespace WinFormsApp1
         {
             //Actuall password, hidden initially
             Password = new TextBox();
-            Password.Text = "●●●●●●●●";
+            Password.Text = RealPassword;
+            Password.PasswordChar = '●';
             Password.Font = new Font("Arial", 9);
             Password.TextChanged += PasswordHideToggled;
             Password.Margin = new Padding(0, 2, 0, 0);
@@ -251,6 +257,7 @@ namespace WinFormsApp1
             HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
             HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
             HideButton.AutoSize = true;
+
             //Container Panel
             PasswordPanel = new FlowLayoutPanel();
             PasswordPanel.Margin = new Padding(0, 0, 0, 40);
@@ -266,16 +273,21 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void EditButton_Click(object sender, EventArgs e)
         {
+            // Change websitename textbox to be editable
+            WebsiteLink.ReadOnly = false;
+            WebsiteLink.BackColor = Color.White;
+            TextLength(WebsiteLink);
+
             // Changing username textbox to be editable
             Username.ReadOnly = false;
             Username.BackColor = Color.White;
-            Username.AutoSize = true;
+            TextLength(Username);
 
             // Do the same thing to the password textbox
             Password.ReadOnly = false;
             Password.BackColor = Color.White;
-            Password.AutoSize = true;
-
+            TextLength(Password);
+            
             // Update the position of the "Cancel" and "Save" buttons
             saveButton.Location = new Point(EditButton.Right, EditButton.Top);
             cancelButton.Location = new Point(saveButton.Left, saveButton.Bottom + 10);
@@ -293,10 +305,15 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void cancelButton_Click(Object sender, EventArgs e) 
         {
+            //Revert website link textbox to read-only
+            WebsiteLink.ReadOnly = true;
+            WebsiteLink.BackColor = BackColor;
+            TextLength(WebsiteLink);
+
             //Revert the username textbox to read-only
             Username.ReadOnly = true;
             Username.BackColor = BackColor;
-            Username.AutoSize = true;
+            TextLength(Username);
 
             //Revert the password textbox to read-only and set it to the original size
             Password.ReadOnly = true;
@@ -341,11 +358,12 @@ namespace WinFormsApp1
             IsHidden = !IsHidden;
             if (IsHidden == true)
             {
-                Password.Text = "●●●●●●●●";
+                Password.PasswordChar = '●';
+
             }
             else
             {
-                Password.Text = RealPassword;
+                Password.PasswordChar = '\0';
             }
         }
         /// <summary>
