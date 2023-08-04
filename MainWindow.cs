@@ -104,9 +104,10 @@ namespace WinFormsApp1
             //Check if scrolling needed now
             //25v MessageBox.Show(sidePanelContainer.Controls[0].Height.ToString());
             //Height of searchbar section is 45
-            _sidePanelContainer.Width = this.ClientSize.Width / 10 * 2;
+            int Percent20 = this.ClientSize.Width / 5;
+            _sidePanelContainer.Width = Percent20;
             _sidePanelPasswords.Height = this.ClientSize.Height - 45;
-            _sidePanelPasswords.Width = this.ClientSize.Width / 10 * 2;
+            _sidePanelPasswords.Width = Percent20;
             _searchBar.Width = _sidePanelContainer.Width - _searchBar.Margin.Right;
             _sidePanelPasswords.AutoScroll = true;
 
@@ -114,18 +115,17 @@ namespace WinFormsApp1
 
             foreach (Control password in _sidePanelPasswords.Controls)
             {
-                password.MinimumSize = new Size((ClientSize.Width / 10 * 2), password.Height);
+                password.MinimumSize = new Size(Percent20, password.Height);
             }
 
 
             //Update side divider relies on side panel being first
-            //How tf is it that during init this is control[0] but after the add button is in first place
             this.Controls[0].Height = this.ClientSize.Height;
-            this.Controls[0].Location= new Point(this.ClientSize.Width / 10 * 2, this.Controls[0].Location.Y);
+            this.Controls[0].Location= new Point(Percent20+1, this.Controls[0].Location.Y);
 
             //InfoDisplay update width and height
-            InfoDisplay.Location = new Point(this.ClientSize.Width / 10 * 2, 0);
-            InfoDisplay.Width = this.ClientSize.Width - this.ClientSize.Width / 10 * 2;
+            InfoDisplay.Location = new Point(Percent20, 0);
+            InfoDisplay.Width = this.ClientSize.Width - Percent20;
             InfoDisplay.Height = this.ClientSize.Height;
         }
 
@@ -156,7 +156,7 @@ namespace WinFormsApp1
             _sidePanelContainer = new FlowLayoutPanel();
             //ClientSize height is the height of the inner bit that is the actual form, normal height is the total window size, not useful
             _sidePanelContainer.Height = this.ClientSize.Height;
-            _sidePanelContainer.Width = 200;
+            _sidePanelContainer.Width = this.ClientSize.Width/5;
 
             //no scroling
             _sidePanelContainer.AutoScroll = false;
@@ -172,6 +172,7 @@ namespace WinFormsApp1
             //Side panel init
             _sidePanelPasswords = new FlowLayoutPanel();
             _sidePanelPasswords.Height = this.ClientSize.Height - 40;
+            _sidePanelPasswords.Width = _sidePanelContainer.Width;
             //Disable horizontal scroll bars, setting autoscroll to false first is important
             _sidePanelPasswords.AutoScroll = false;
             _sidePanelPasswords.HorizontalScroll.Enabled = false;
