@@ -41,11 +41,7 @@ namespace WinFormsApp1
                 form.hash = key;
                  
             }
-
-
-
         }
-
 
 
         private void InputTextBox_TextChanged(object sender, EventArgs e)
