@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace WinFormsApp1
 {
@@ -14,9 +15,12 @@ namespace WinFormsApp1
     {
         private MasterPasswordPopup masterPasswordPopupInstance;
         private string newTypedPasscodeValue;
+        private MainWindow form;
 
-        public ChangePasscodePopup()
+        public ChangePasscodePopup(MainWindow form)
         {
+            this.form = form;
+            InitializeComponent();
         }
 
         public ChangePasscodePopup(MasterPasswordPopup masterPasswordPopupInstance)
@@ -28,7 +32,16 @@ namespace WinFormsApp1
         private void button1_Click(object sender, EventArgs e)
         {
             string passcode = newTypedPasscodeValue;
-            masterPasswordPopupInstance.password = passcode;
+            //compute hash of new passcode
+            //set form.hash to the new password
+
+            using (HashAlgorithm hash = MD5.Create())
+            {
+                byte[] key = hash.ComputeHash(Encoding.UTF8.GetBytes(newTypedPasscodeValue));
+                form.hash = key;
+                 
+            }
+
 
 
         }

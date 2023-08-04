@@ -295,27 +295,11 @@ namespace WinFormsApp1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ChangePasscodePopup changePasscodeForm = new ChangePasscodePopup();
+            ChangePasscodePopup changePasscodeForm = new ChangePasscodePopup(this);
 
+            changePasscodeForm.ShowDialog();
 
-            if (passFlag == false)
-            {
-                MasterPasswordPopup popupWindow = new MasterPasswordPopup(this);
-                popupWindow.ShowDialog();
-                popupWindow.BringToFront();
-                return;
-            }
-
-            else if (passFlag == true)
-            {
-
-
-                changePasscodeForm.Show();
-
-
-            }
-
-
+            changePasscodeForm.DialogResult = DialogResult.OK;
 
 
         }
