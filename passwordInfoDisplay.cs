@@ -157,10 +157,6 @@ namespace WinFormsApp1
             
         }
 
-        private void fixLength()
-        {
-
-        }
         /// <summary>
         /// **Will open browser**
         /// </summary>
