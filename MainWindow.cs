@@ -21,7 +21,7 @@ namespace WinFormsApp1
         public byte[] hash = { 95, 77, 204, 59, 90, 167, 101, 214, 29, 131, 39, 222, 184, 130, 207, 153 };
         private FlowLayoutPanel _sidePanelContainer;
         private FlowLayoutPanel _sidePanelPasswords;
-        private Button _newEntry;
+        private Button _newEntryButton;
         private TextBox _searchBar;
 
         public PasswordSideBar? Selected;
@@ -104,18 +104,28 @@ namespace WinFormsApp1
             //Check if scrolling needed now
             //25v MessageBox.Show(sidePanelContainer.Controls[0].Height.ToString());
             //Height of searchbar section is 45
-            _sidePanelContainer.Height = this.ClientSize.Height;
+            _sidePanelContainer.Width = this.ClientSize.Width / 10 * 2;
             _sidePanelPasswords.Height = this.ClientSize.Height - 45;
+            _sidePanelPasswords.Width = this.ClientSize.Width / 10 * 2;
+            _searchBar.Width = _sidePanelContainer.Width - _searchBar.Margin.Right;
             _sidePanelPasswords.AutoScroll = true;
+
             if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height-115) _sidePanelPasswords.AutoScroll = false;
+
+            foreach (Control password in _sidePanelPasswords.Controls)
+            {
+                password.MinimumSize = new Size((ClientSize.Width / 10 * 2), password.Height);
+            }
 
 
             //Update side divider relies on side panel being first
             //How tf is it that during init this is control[0] but after the add button is in first place
             this.Controls[0].Height = this.ClientSize.Height;
-        
+            this.Controls[0].Location= new Point(this.ClientSize.Width / 10 * 2, this.Controls[0].Location.Y);
+
             //InfoDisplay update width and height
-            InfoDisplay.Width = this.ClientSize.Width - 200;
+            InfoDisplay.Location = new Point(this.ClientSize.Width / 10 * 2, 0);
+            InfoDisplay.Width = this.ClientSize.Width - this.ClientSize.Width / 10 * 2;
             InfoDisplay.Height = this.ClientSize.Height;
         }
 
@@ -124,13 +134,14 @@ namespace WinFormsApp1
         /// </summary>
         private void InitNewEntry()
         {
-            _newEntry = new Button();
-            _newEntry.Location = new Point(this.ClientSize.Width - 100, 10);
-            _newEntry.Click += OpenPasswordEntry_Click;
-            _newEntry.Text = "Add";
-            _newEntry.AutoSize = true;
-            _newEntry.Height = 40;
-            this.Controls.Add(_newEntry);
+            _newEntryButton = new Button();
+            _newEntryButton.Anchor = AnchorStyles.Right | AnchorStyles.Top;
+            _newEntryButton.Location = new Point(ClientSize.Width - _newEntryButton.Width - _newEntryButton.Padding.Left, 10);
+            _newEntryButton.Click += OpenPasswordEntry_Click;
+            _newEntryButton.Text = "Add";
+            _newEntryButton.AutoSize = true;
+            _newEntryButton.Height = 40;
+            this.Controls.Add(_newEntryButton);
         }
 
 
@@ -258,7 +269,7 @@ namespace WinFormsApp1
             divider.BorderStyle = BorderStyle.Fixed3D;
             divider.AutoSize = false;
             divider.Height = 2;
-            divider.Width = 200;
+            divider.Width = 2000;
             return divider;
         }
 
