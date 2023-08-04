@@ -86,6 +86,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MasterPasswordPopup";
             this.Text = "Form2";
+            this.Resize += new System.EventHandler(this.MasterPasswordPopup_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 
