@@ -108,7 +108,7 @@ namespace WinFormsApp1
             _sidePanelContainer.Width = Percent20;
             _sidePanelPasswords.Height = this.ClientSize.Height - 45;
             _sidePanelPasswords.Width = Percent20;
-            _searchBar.Width = _sidePanelContainer.Width - _searchBar.Margin.Right;
+            _searchBar.Width = _sidePanelContainer.Width - _searchBar.Margin.Right-_searchBar.Margin.Left;
             _sidePanelPasswords.AutoScroll = true;
 
             if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height-115) _sidePanelPasswords.AutoScroll = false;
@@ -163,7 +163,7 @@ namespace WinFormsApp1
             //Searchbar
             _searchBar = new TextBox();
             _searchBar.Margin = new Padding(12, 10, 18, 10);
-            _searchBar.Width = 170;
+            _searchBar.Width = _sidePanelContainer.Width - _searchBar.Margin.Right - _searchBar.Margin.Left;
             _searchBar.TextChanged += SearchPasswords;
 
             //Add top elements
@@ -172,7 +172,7 @@ namespace WinFormsApp1
             //Side panel init
             _sidePanelPasswords = new FlowLayoutPanel();
             _sidePanelPasswords.Height = this.ClientSize.Height - 40;
-            _sidePanelPasswords.Width = _sidePanelContainer.Width;
+            _sidePanelPasswords.Width = this.ClientSize.Width / 5;
             //Disable horizontal scroll bars, setting autoscroll to false first is important
             _sidePanelPasswords.AutoScroll = false;
             _sidePanelPasswords.HorizontalScroll.Enabled = false;
@@ -286,7 +286,7 @@ namespace WinFormsApp1
             divider.AutoSize = false;
             divider.Height = this.Height;
             divider.Width = 2;
-            divider.Location = new Point(201, 0);
+            divider.Location = new Point(this.ClientSize.Width/5+1, 0);
             return divider;
         }
 

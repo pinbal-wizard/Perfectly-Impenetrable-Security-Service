@@ -74,7 +74,7 @@ namespace WinFormsApp1
             this.Controls.Add(this.SiteLabel);
             this.Controls.Add(this.UsernameLabel);
             
-            this.MinimumSize= new Size(200,0);
+            this.MinimumSize= new Size(form.ClientSize.Width/5, 0);
             this.AutoSize = true;
         }
 
