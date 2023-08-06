@@ -193,9 +193,9 @@ namespace WinFormsApp1
             passwords.Add(new password("https://typingclub.com", "thetruecool", "password123"));*/
 
             //Add password panels and dividers below them
-            foreach (PasswordStruct pass in _passwordsList)
+            for (int i  = 0; i < _passwordsList.Count; i++)
             {
-                _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass, this));
+                _sidePanelPasswords.Controls.Add(new PasswordSideBar(_passwordsList[i],i ,this));
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
             }
             //if content is less than height disable scrolling, fixes anoying extra scrolling
@@ -216,7 +216,7 @@ namespace WinFormsApp1
             {
                 if (pass.WebSite.Contains(_searchBar.Text) || pass.Username.Contains(_searchBar.Text))
                 {
-                    _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass, this));
+                    _sidePanelPasswords.Controls.Add(new PasswordSideBar(pass,_passwordsList.IndexOf(pass), this));
                     _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
                 }
             }
@@ -248,7 +248,7 @@ namespace WinFormsApp1
 
                 //Displaying new entry
 
-                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, this));
+                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p,_passwordsList.IndexOf(p), this));
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
 
 

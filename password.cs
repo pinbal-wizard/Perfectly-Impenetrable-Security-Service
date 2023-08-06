@@ -13,9 +13,9 @@ namespace WinFormsApp1
     /// </summary>
     public struct PasswordStruct
     {
-        public string WebSite { get;}
-        public string Username { get;}
-        public string Password { get;}
+        public string WebSite { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public PasswordStruct(string Website, string Username, string Password)
         {
             this.WebSite = Website;
@@ -31,29 +31,31 @@ namespace WinFormsApp1
     public class PasswordSideBar : FlowLayoutPanel
     {
         private MainWindow form;
-        public string WebSite { get; }
-        public string Username { get; }
-        public string Password { get; }
-        public Label SiteLabel { get; }
+        public string WebSite { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public Label SiteLabel { get; set; }
         public Label UsernameLabel { get; }
+        public PasswordStruct passwordbase { get; set; }
+        public int index { get;set; }
 
         /// <summary>
         /// The Constructor for the Siderbar class uses a PasswordsStruct as a base 
         /// </summary>
         /// <param name="passwordbase"></param>
         /// <param name="form"></param>
-        public PasswordSideBar(PasswordStruct passwordbase, MainWindow form)
+        public PasswordSideBar(PasswordStruct passwordbase, int index,MainWindow form)
         {
             //Set info from password struct
             this.WebSite = passwordbase.WebSite;
             this.Username = passwordbase.Username;
             this.Password = passwordbase.Password;
             this.form = form;
-
+            this.index = index;
 
             //Label to display site name
             SiteLabel = new Label();
-            SiteLabel.Text = WebSite.Split("://").Last(); ;
+            SiteLabel.Text = WebSite.Split("://").Last();
             SiteLabel.Padding = new Padding(12,0,18,0);
             SiteLabel.Font = new Font("Arial",10);
             SiteLabel.AutoSize = true; 
@@ -76,6 +78,12 @@ namespace WinFormsApp1
             
             this.MinimumSize= new Size(form.ClientSize.Width/5, 0);
             this.AutoSize = true;
+        }
+
+        public void UpdateDisplay()
+        {
+            SiteLabel.Text = WebSite.Split("://").Last();
+            UsernameLabel.Text = Username;
         }
 
 
@@ -111,8 +119,12 @@ namespace WinFormsApp1
             form.InfoDisplay.Websitename.Text = WebSite.Split("://").Last();
             form.InfoDisplay.WebsiteLink.Text = WebSite;
             form.InfoDisplay.Username.Text = Username;
-            form.InfoDisplay.Password.Text = "●●●●●●●●";
-            form.InfoDisplay.RealPassword = Password;
+            form.InfoDisplay.Password.Text = Password;
+            form.InfoDisplay.Password.PasswordChar = '●';
+            form.InfoDisplay.TextLength(form.InfoDisplay.WebsiteLink);
+            form.InfoDisplay.TextLength(form.InfoDisplay.Websitename);
+            form.InfoDisplay.TextLength(form.InfoDisplay.Username);
+            form.InfoDisplay.TextLength(form.InfoDisplay.Password);
         }
     }
 }
