@@ -104,10 +104,12 @@ namespace WinFormsApp1
 
         private void MasterPasswordPopup_SizeChanged(object sender, EventArgs e)
         {
-            this.PasswordTextBox.Location = new Point((ClientSize.Width / 2) - this.PasswordTextBox.Width, ClientSize.Height / 2);
-            this.EnterPassLabel.Location = new Point((ClientSize.Width / 2) - this.EnterPassLabel.Width / 2, (ClientSize.Height / 2) - (this.EnterPassLabel.Height));
-            this.SubmitPassBtn.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right + this.ShowPasswordButton.Width + this.ShowPasswordButton.Margin.Right, ClientSize.Height / 2);
-            this.ShowPasswordButton.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right, ClientSize.Height / 2);
+            int HalfWidth = ClientSize.Width / 2;
+            int HalfHeight = ClientSize.Height / 2;
+            this.PasswordTextBox.Location = new Point(HalfWidth - this.PasswordTextBox.Width, HalfHeight);
+            this.EnterPassLabel.Location = new Point(HalfWidth - this.EnterPassLabel.Width / 2, HalfHeight - (this.EnterPassLabel.Height));
+            this.SubmitPassBtn.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right + this.ShowPasswordButton.Width + this.ShowPasswordButton.Margin.Right, HalfHeight);
+            this.ShowPasswordButton.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right, HalfHeight);
         }
 
     }
