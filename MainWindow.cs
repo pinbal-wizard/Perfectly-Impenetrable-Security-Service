@@ -24,6 +24,7 @@ namespace WinFormsApp1
         private Button _newEntry;
         private TextBox _searchBar;
 
+
         public PasswordSideBar? Selected;
         public PasswordInfoDisplay InfoDisplay;
 
@@ -171,6 +172,9 @@ namespace WinFormsApp1
             //Wrap is for scrolling to work
             _sidePanelPasswords.WrapContents = false;
 
+
+            
+
             //Example entrys will later pull from file load
             /*passwords.Add(new password("https://google.com", "thetruecool", "password123"));
             passwords.Add(new password("https://yandex.com", "thetruecool", "password123"));
@@ -190,6 +194,13 @@ namespace WinFormsApp1
             if (_sidePanelPasswords.Controls.Count > 0) Selected = (PasswordSideBar)_sidePanelPasswords.Controls[0];
             _sidePanelContainer.Controls.Add(_sidePanelPasswords);
         }
+
+        private void copyPassword(object sender, EventArgs e)
+        {
+            // Implement what you want to happen when the button is clicked
+            // This can include opening a dialog for adding a new password entry, for example.
+        }
+
 
         private void SearchPasswords(object? sender, EventArgs e)
         {
@@ -243,13 +254,39 @@ namespace WinFormsApp1
                 _sidePanelPasswords.Height = this.ClientSize.Height - 45;
                 _sidePanelPasswords.AutoScroll = true;
                 if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height - 115) _sidePanelPasswords.AutoScroll = false;
+
+                Button copyButton = new Button();
+                copyButton.Text = "Copy";
+                copyButton.Margin = new Padding(12, 10, 18, 10);
+                copyButton.Width = 170;
+                copyButton.Click += CopyButtonClick;
+
+                // Add the "Copy" button along with other controls
+                _sidePanelContainer.Controls.Add(copyButton);
+                _sidePanelContainer.Controls.Add(_searchBar);
+                _sidePanelContainer.Controls.Add(AddSidePanelDivider());
+                // ... other controls
+                _sidePanelContainer.Controls.Add(_sidePanelPasswords);
+                _sidePanelContainer.Controls.Add(copyButton);
+                _sidePanelContainer.Controls.Add(_searchBar);
+                _sidePanelContainer.Controls.Add(AddSidePanelDivider());
+                // ... other controls
+                _sidePanelContainer.Controls.Add(_sidePanelPasswords);
+
+
+
+
+
             }
 
             
 
 
         }
-
+        private void CopyButtonClick(object sender, EventArgs e)
+        {
+            
+        }
 
         /// <summary>
         /// Adds A Horisontal Side Panel Divider
