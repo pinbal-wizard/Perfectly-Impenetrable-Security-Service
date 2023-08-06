@@ -17,7 +17,6 @@ namespace WinFormsApp1
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
-            bytes += "hashnocapfr\n";
             foreach (PasswordStruct password in PasswordsList)
             {
                 bytes += Encrypt(Serialize(password), form.hash);
@@ -33,22 +32,21 @@ namespace WinFormsApp1
         /// <summary>
         /// Call Serializer.LoadFromFile() to load PasswordsList from preset file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>0</returns>
         public static int LoadFromFile(MainWindow form)
         {
             List<PasswordStruct> PasswordsList = new();
 
-            string encryptedtext = File.ReadAllText(SaveLocation);
-
+            string encryptedtext = File.ReadAllText(SaveLocation); 
             string[] splitEncryptedText = encryptedtext.Split("\n");
-            for(int i  = 1; i < splitEncryptedText.Length; i++)
-            {
-                if (splitEncryptedText[i] == "")
+            foreach(string text in splitEncryptedText) 
+            { 
+                if (text== "")
                 {
                     continue;
                 }
                 string decryptedText;
-                decryptedText = Decrypt(splitEncryptedText[i], form.hash);
+                decryptedText = Decrypt(text, form.hash);
                 string[] splitText = decryptedText.Split(",");
                 string website = Base64Decode(splitText[0]);
                 string username = Base64Decode(splitText[1]);
@@ -59,25 +57,33 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// This Function will serialise a passwordStruct into a string to be saved to disk
-        /// <br></br>***Need to add Encrypt/Decrpt functions
+        /// This Function will serialise a passwordStruct into a string to be saved to be encrypted
         /// </summary>
         /// <param name="password"></param>
-        /// <returns></returns>
+        /// <returns>The serialized form of the input password struct</returns>
         private static string Serialize(PasswordStruct password)
         {
             string text = string.Format("{0},{1},{2}",Base64Encode(password.WebSite), Base64Encode(password.Username), Base64Encode(password.Password), "\n");
             return text;
         }
-
+        /// <summary>
+        /// Encode to base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Base64 string encoded from input</returns>
         private static string Base64Encode(string input)
         {
-            return Convert.ToBase64String(Encoding.ASCII.GetBytes(input));
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(input));
         }
 
+        /// <summary>
+        /// Decode from base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>ASCII string decoded from base64</returns>
         private static string Base64Decode(string input)
         {
-            return Encoding.ASCII.GetString(Convert.FromBase64String(input));
+            return Encoding.UTF8.GetString(Convert.FromBase64String(input));
         }
 
 
@@ -98,10 +104,10 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="content"></param>
         /// <param name="password"></param>
-        /// <returns></returns>
-        private static string Encrypt(string content,byte[] password)
+        /// <returns>The encrypted form of content</returns>
+        public static string Encrypt(string content,byte[] password)
         {
-            //password is already hashed
+            //password is already hashed, 「slight security issue」  
             byte[] bytes = Encoding.UTF8.GetBytes(content);
 
             using (SymmetricAlgorithm crypt = Aes.Create())
@@ -117,10 +123,10 @@ namespace WinFormsApp1
                     cryptoStream.Write(bytes, 0, bytes.Length);
                 }
 
-                string base64IV = Convert.ToBase64String(crypt.IV);
+                string base64InitializationVector = Convert.ToBase64String(crypt.IV);
                 string base64Ciphertext = Convert.ToBase64String(memoryStream.ToArray());
 
-                return base64IV + "!" + base64Ciphertext;
+                return base64InitializationVector + "!" + base64Ciphertext;
             }
         }
 
@@ -129,7 +135,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="content"></param>
         /// <param name=" cryptText"></param>
-        /// <returns></returns>
+        /// <returns>The decrypted form of cryptText</returns>
         public static string Decrypt(string cryptText,byte[] password)
         {
             //password is already hashed
@@ -153,7 +159,14 @@ namespace WinFormsApp1
                 {
                     using (StreamReader streamReader = new StreamReader(cryptoStream))
                     {
-                       content = streamReader.ReadToEnd();
+                        try
+                        {
+                            content = streamReader.ReadToEnd();
+                        }
+                        catch (Exception ex)
+                        {
+                            //gay ass throws error if password is wrong
+                        }
                     }
                 }
             }

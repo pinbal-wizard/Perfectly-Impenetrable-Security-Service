@@ -71,17 +71,19 @@ namespace WinFormsApp1
         /// <returns></returns>
         private void MainWindow_Load(object sender, EventArgs e)
         {
-            Serializer.LoadFromFile(this);
-
             //This has been brought into the On_Load Function as it runs before it is rendered
             MasterPasswordPopup popupWindow = new MasterPasswordPopup(this);
             popupWindow.ShowDialog();
             popupWindow.BringToFront();
-
-            if(popupWindow.DialogResult != DialogResult.OK)
+            if (popupWindow.DialogResult != DialogResult.OK)
             {
-                Application.Exit();   
+                Application.Exit();
             }
+            Serializer.LoadFromFile(this);
+
+           
+
+           
 
             //Basic Load
             this.DoubleBuffered = true;
