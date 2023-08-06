@@ -13,9 +13,9 @@ namespace WinFormsApp1
     /// </summary>
     public struct PasswordStruct
     {
-        public string WebSite { get;}
-        public string Username { get;}
-        public string Password { get;}
+        public string WebSite { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
         public PasswordStruct(string Website, string Username, string Password)
         {
             this.WebSite = Website;
@@ -36,6 +36,7 @@ namespace WinFormsApp1
         public string Password { get; }
         public Label SiteLabel { get; }
         public Label UsernameLabel { get; }
+        public PasswordStruct passwordbase { get; set; }
 
         /// <summary>
         /// The Constructor for the Siderbar class uses a PasswordsStruct as a base 

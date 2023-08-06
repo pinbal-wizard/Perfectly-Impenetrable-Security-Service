@@ -330,7 +330,35 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void saveButton_Click(Object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            string newWebsite = Websitename.Text;
+            string newUsername = Username.Text;
+            string newPassword = Password.Text;
+
+            PasswordStruct newInfo = new PasswordStruct(newWebsite, newUsername, newPassword);
+            form.Selected.passwordbase = newInfo;
+
+            Serializer.SaveToFile(this.form);
+
+            //Revert website link textbox to read-only
+            WebsiteLink.ReadOnly = true;
+            WebsiteLink.BackColor = BackColor;
+            TextLength(WebsiteLink);
+
+            //Revert the username textbox to read-only
+            Username.ReadOnly = true;
+            Username.BackColor = BackColor;
+            TextLength(Username);
+
+            //Revert the password textbox to read-only and set it to the original size
+            Password.ReadOnly = true;
+            Password.BackColor = BackColor;
+            Password.AutoSize = false;
+            Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
+
+            //Change the visibility of the edit button and the cancel button
+            EditButton.Visible = true;
+            cancelButton.Visible = false;
+            saveButton.Visible = false;
         }
         /// <summary>
         /// updates position of hide button
