@@ -87,9 +87,16 @@ namespace WinFormsApp1
         {
             using (HashAlgorithm hash = MD5.Create())
             {
-                string check = "";
-                byte[] key = hash.ComputeHash(Encoding.UTF8.GetBytes(PasswordTextBox.Text));           
-                if (CheckArraySame(key,form.hash))
+                byte[] inputKey = hash.ComputeHash(Encoding.UTF8.GetBytes(PasswordTextBox.Text));
+
+                // Read the saved passcode from the text file
+                string filePath = @"C:\Users\rkpas\OneDrive\Documents\C#\Perfectly-Impenetrable-Security-Service\Perfectly-Impenetrable-Security-Service\MasterPassword.txt";
+                string savedPasscode = File.ReadAllText(filePath);
+
+                // Calculate the hash of the saved passcode
+                byte[] savedKey = hash.ComputeHash(Encoding.UTF8.GetBytes(savedPasscode));
+
+                if (CheckArraySame(inputKey, savedKey))
                 {
                     return true;
                 }

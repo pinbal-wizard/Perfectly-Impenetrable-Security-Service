@@ -244,6 +244,10 @@ namespace WinFormsApp1
                 _sidePanelPasswords.AutoScroll = true;
                 if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height - 115) _sidePanelPasswords.AutoScroll = false;
             }
+
+            
+
+
         }
 
 
@@ -301,7 +305,7 @@ namespace WinFormsApp1
 
             changePasscodeForm.DialogResult = DialogResult.OK;
 
-
+            
         }
     }
 }

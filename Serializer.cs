@@ -17,7 +17,6 @@ namespace WinFormsApp1
 
             FileStream Save = File.OpenWrite(SaveLocation);
             string bytes = "";
-            bytes += "hashnocapfr\n";
             foreach (PasswordStruct password in PasswordsList)
             {
                 bytes += Encrypt(Serialize(password), form.hash);
@@ -149,13 +148,27 @@ namespace WinFormsApp1
                 crypt.Key = password;
                 crypt.IV = InitializationVector;
                 // Seed and construct the transformation used for decrypting
-                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))
+
+                try
                 {
-                    using (StreamReader streamReader = new StreamReader(cryptoStream))
+                    using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))
                     {
-                       content = streamReader.ReadToEnd();
+                        using (StreamReader streamReader = new StreamReader(cryptoStream))
+                        {
+                            content = streamReader.ReadToEnd();
+                        }
                     }
                 }
+
+                catch (CryptographicException ex)
+                {
+                    MessageBox.Show("An error occurred during decryption:\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                }
+
+
+
+
             }
             return content;
         }

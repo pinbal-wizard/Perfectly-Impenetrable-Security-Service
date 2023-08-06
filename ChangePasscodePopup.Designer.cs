@@ -70,6 +70,7 @@
             this.Controls.Add(this.button1);
             this.Name = "ChangePasscodePopup";
             this.Text = "ChangePasscodePopup";
+            this.Load += new System.EventHandler(this.ChangePasscodePopup_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

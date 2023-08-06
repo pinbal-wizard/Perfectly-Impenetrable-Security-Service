@@ -41,12 +41,37 @@ namespace WinFormsApp1
                 form.hash = key;
                  
             }
+            WriteToFile(newTypedPasscodeValue);
+            this.Close();
         }
 
 
         private void InputTextBox_TextChanged(object sender, EventArgs e)
         {
             newTypedPasscodeValue = InputTextBox.Text;
+        }
+
+        private void ChangePasscodePopup_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void WriteToFile(string passcode)
+        {
+            string filePath = @"C:\Users\rkpas\OneDrive\Documents\C#\Perfectly-Impenetrable-Security-Service\Perfectly-Impenetrable-Security-Service\MasterPassword.txt";
+
+            try
+            {
+                File.WriteAllText(filePath, passcode);
+                MessageBox.Show("Password saved and updated");
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("an error occured!");
+            }
+
         }
     }
 }
