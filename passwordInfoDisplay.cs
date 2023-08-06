@@ -112,9 +112,9 @@ namespace WinFormsApp1
 
 
             //Width is rest of the form.
-            this.Width = form.ClientSize.Width - 200;
+            this.Width = form.ClientSize.Width - form.ClientSize.Width/5;
             this.Height = form.ClientSize.Height;
-            this.Location = new Point(200, 0);
+            this.Location = new Point(form.ClientSize.Width/5, 0);
             this.Padding = new Padding(40, 0, 40, 0);
             this.FlowDirection = FlowDirection.TopDown;
             this.AutoScroll = true;
