@@ -58,7 +58,7 @@ namespace WinFormsApp1
 
         private void WriteToFile(string passcode)
         {
-            string filePath = @"C:\Users\rkpas\OneDrive\Documents\C#\Perfectly-Impenetrable-Security-Service\Perfectly-Impenetrable-Security-Service\MasterPassword.txt";
+            string filePath = "../../../MasterPassword.txt";
 
             try
             {

@@ -89,8 +89,8 @@ namespace WinFormsApp1
             {
                 byte[] inputKey = hash.ComputeHash(Encoding.UTF8.GetBytes(PasswordTextBox.Text));
 
-                // Read the saved passcode from the text file
-                string filePath = @"C:\Users\rkpas\OneDrive\Documents\C#\Perfectly-Impenetrable-Security-Service\Perfectly-Impenetrable-Security-Service\MasterPassword.txt";
+                // Read the saved passcode from text file
+                string filePath = "../../../MasterPassword.txt";
                 string savedPasscode = File.ReadAllText(filePath);
 
                 // Calculate the hash of the saved passcode
