@@ -155,20 +155,27 @@ namespace WinFormsApp1
                 crypt.Key = password;
                 crypt.IV = InitializationVector;
                 // Seed and construct the transformation used for decrypting
+
+
                 using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))
                 {
                     using (StreamReader streamReader = new StreamReader(cryptoStream))
                     {
+
                         try
                         {
+
                             content = streamReader.ReadToEnd();
                         }
                         catch (Exception ex)
                         {
                             //gay ass throws error if password is wrong
                         }
+
                     }
                 }
+
+              
             }
             return content;
         }

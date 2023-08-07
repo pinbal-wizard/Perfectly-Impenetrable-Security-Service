@@ -22,7 +22,7 @@ namespace WinFormsApp1
         {
             InitializeComponent();
             MasterPasswordPopup_SizeChanged(this, null);
-            PasswordTextBox.PasswordChar = '*'; // Censor the password by default
+            PasswordTextBox.PasswordChar = '●'; // Censor the password by default
             this.form = form;
             this.AcceptButton = SubmitPassBtn;
         }

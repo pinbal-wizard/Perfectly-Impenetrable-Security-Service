@@ -12,8 +12,7 @@ using System.Security.Cryptography;
 namespace WinFormsApp1
 {
     public partial class ChangePasscodePopup : Form
-    {
-        private MasterPasswordPopup masterPasswordPopupInstance;
+    {     
         private string newTypedPasscodeValue;
         private MainWindow form;
 
@@ -25,8 +24,7 @@ namespace WinFormsApp1
 
         public ChangePasscodePopup(MasterPasswordPopup masterPasswordPopupInstance)
         {
-            InitializeComponent();
-            this.masterPasswordPopupInstance = masterPasswordPopupInstance;
+            InitializeComponent();          
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -37,10 +35,15 @@ namespace WinFormsApp1
 
             using (HashAlgorithm hash = MD5.Create())
             {
-                byte[] key = hash.ComputeHash(Encoding.UTF8.GetBytes(newTypedPasscodeValue));
-                form.hash = key;
-                 
+                string riddle = File.ReadAllLines("../../../riddle.txt").First();
+                byte[] hashpassword = form.hash;
+                string decypted = Serializer.Decrypt(riddle, hashpassword);
+                byte[] newhash = hash.ComputeHash(Encoding.UTF8.GetBytes(newTypedPasscodeValue));
+                string encryptedRiddle = Serializer.Encrypt(decypted, newhash);
+                File.WriteAllText("../../../riddle.txt", encryptedRiddle);
+
             }
+            this.Close();
         }
 
 
@@ -48,5 +51,7 @@ namespace WinFormsApp1
         {
             newTypedPasscodeValue = InputTextBox.Text;
         }
+
+
     }
 }
