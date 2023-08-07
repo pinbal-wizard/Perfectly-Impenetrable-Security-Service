@@ -27,6 +27,7 @@ namespace WinFormsApp1
         public FlowLayoutPanel PasswordPanel { get; set; }
         public Label Divider2 { get; set; }
         public Button HideButton { get; set; }
+        
 
         Label Test;
 

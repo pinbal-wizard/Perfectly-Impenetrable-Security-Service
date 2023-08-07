@@ -30,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
+            this.SuspendLayout();           
             // 
             // MainWindow
             // 

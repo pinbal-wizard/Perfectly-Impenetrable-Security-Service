@@ -26,6 +26,7 @@ namespace WinFormsApp1
 
         public PasswordSideBar? Selected;
         public PasswordInfoDisplay InfoDisplay;
+        public Button ChangeMasterPassword { get; set; }
 
         /// <summary>
         /// Readonly Property for reading the list of PasswordsList
@@ -93,10 +94,24 @@ namespace WinFormsApp1
             InfoDisplay = new PasswordInfoDisplay(this);
             this.Controls.Add(AddVerticalDivider());
             InitNewEntry();
+            InitChangeMasterPassword();
             this.Controls.Add(_sidePanelContainer);
             this.Controls.Add(InfoDisplay);
             this.FormClosing += MainWindow_Deactivate;
 
+        }
+
+        private void InitChangeMasterPassword()
+        {
+            ChangeMasterPassword = new Button();
+            this.ChangeMasterPassword.Location = new System.Drawing.Point(579, 27);
+            this.ChangeMasterPassword.Name = "ChangeMasterPassword";
+            this.ChangeMasterPassword.Size = new System.Drawing.Size(197, 23);
+            this.ChangeMasterPassword.TabIndex = 0;
+            this.ChangeMasterPassword.Text = "Change Master Password";
+            this.ChangeMasterPassword.UseVisualStyleBackColor = true;
+            this.ChangeMasterPassword.Click += ChangeMasterPassword_Click;
+            this.Controls.Add(ChangeMasterPassword);
         }
 
 
@@ -184,13 +199,6 @@ namespace WinFormsApp1
             _sidePanelPasswords.FlowDirection = FlowDirection.TopDown;
             //Wrap is for scrolling to work
             _sidePanelPasswords.WrapContents = false;
-
-            //Example entrys will later pull from file load
-            /*passwords.Add(new password("https://google.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://yandex.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://outlook.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://github.com", "thetruecool", "password123"));
-            passwords.Add(new password("https://typingclub.com", "thetruecool", "password123"));*/
 
             //Add password panels and dividers below them
             for (int i  = 0; i < _passwordsList.Count; i++)
@@ -305,6 +313,22 @@ namespace WinFormsApp1
                 height += ctr.Height;
             }
             return height;
+        }
+
+        /// <summary>
+        /// Opens the form to change the master password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChangeMasterPassword_Click(object sender, EventArgs e)
+        {
+            ChangePasscodePopup changePasscodeForm = new ChangePasscodePopup(this);
+
+            changePasscodeForm.ShowDialog();
+
+            changePasscodeForm.DialogResult = DialogResult.OK;
+
+
         }
     }
 }
