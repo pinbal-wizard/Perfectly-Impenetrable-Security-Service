@@ -88,6 +88,7 @@ namespace WinFormsApp1
                 string decypted = Serializer.Decrypt(riddle, hashpassword);
                 byte[] newhash = hash.ComputeHash(Encoding.UTF8.GetBytes(newPasswordConfirmTextBox.Text));
                 string encryptedRiddle = Serializer.Encrypt(decypted, newhash);
+                form.hash = newhash;
                 File.WriteAllText("../../../riddle.txt", encryptedRiddle);
             }
             this.Close();
