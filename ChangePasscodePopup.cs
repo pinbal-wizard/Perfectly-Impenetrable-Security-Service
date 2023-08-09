@@ -157,6 +157,7 @@ namespace WinFormsApp1
                 string test = File.ReadAllLines("../../../riddle.txt").First();
                 byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(oldPasswordTextBox.Text));
                 string decypted = Serializer.Decrypt(test, hashpassword);
+                form.hash = hashpassword;
                 if (decypted == check)
                 {
                     form.hash = hashpassword;
