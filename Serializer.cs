@@ -20,13 +20,14 @@ namespace WinFormsApp1
             List<PasswordStruct> PasswordsList = form.PasswordsList;
 
             FileStream Save = File.OpenWrite(SaveLocation);
-            List<String> bytes = new();
-
+            string bytes = "";
             foreach (PasswordStruct password in PasswordsList)
             {
-                bytes.Add(Serialize(password));
+                bytes += Encrypt(Serialize(password), form.hash);
+                bytes += "\n";
             }
-            Save.Write(Encoding.ASCII.GetBytes(String.Join(",", bytes)));
+
+            Save.Write(Encoding.UTF8.GetBytes(bytes));
             Save.Close();
 
             return 0;
@@ -35,48 +36,60 @@ namespace WinFormsApp1
         /// <summary>
         /// Call Serializer.LoadFromFile() to load PasswordsList from preset file
         /// </summary>
-        /// <returns></returns>
+        /// <returns>0</returns>
         public static int LoadFromFile(MainWindow form)
         {
             return -1;
 
             List<PasswordStruct> PasswordsList = new();
 
-            string encryptedtext = File.ReadAllText(SaveLocation);
-
-            string[] splitEncryptedText = encryptedtext.Split("\n\n\n");
-            foreach (string text in splitEncryptedText)
-            {
-                //MessageBox.Show(text);  //debug line
-                if (text == "")
+            string encryptedtext = File.ReadAllText(SaveLocation); 
+            string[] splitEncryptedText = encryptedtext.Split("\n");
+            foreach(string text in splitEncryptedText) 
+            { 
+                if (text== "")
                 {
                     continue;
                 }
-                string URL = text.Split("\n")[0], UserName = text.Split("\n")[1], Password = text.Split("\n")[2];
-                form.AddEntry(URL, UserName, Password);
+                string decryptedText;
+                decryptedText = Decrypt(text, form.hash);
+                string[] splitText = decryptedText.Split(",");
+                string website = Base64Decode(splitText[0]);
+                string username = Base64Decode(splitText[1]);
+                string password = Base64Decode(splitText[2]);
+                form.AddEntry(website, username, password);
             }
             return 0;
         }
 
         /// <summary>
-        /// This Function will serialise a passwordStruct into a string to be saved to disk
-        /// <br></br>***Need to add Encrypt/Decrpt functions
+        /// This Function will serialise a passwordStruct into a string to be saved to be encrypted
         /// </summary>
         /// <param name="password"></param>
-        /// <returns></returns>
+        /// <returns>The serialized form of the input password struct</returns>
         private static string Serialize(PasswordStruct password)
         {
-            if (password.Password == ""|| password.WebSite == "" || password.Username == "")
-            {
-                return "";
-            }
-
-            List<String> array = new();
-            array.Add("{" + password.WebSite + "}");
-            array.Add("{" + password.Username + "}");
-            array.Add("{" + password.Password + "}");
-            string text = String.Concat(String.Concat( "{" ,String.Join(",",array)),"}"); //God awful line plz fix
+            string text = string.Format("{0},{1},{2}",Base64Encode(password.WebSite), Base64Encode(password.Username), Base64Encode(password.Password), "\n");
             return text;
+        }
+        /// <summary>
+        /// Encode to base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>Base64 string encoded from input</returns>
+        private static string Base64Encode(string input)
+        {
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(input));
+        }
+
+        /// <summary>
+        /// Decode from base64
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns>ASCII string decoded from base64</returns>
+        private static string Base64Decode(string input)
+        {
+            return Encoding.UTF8.GetString(Convert.FromBase64String(input));
         }
 
 
@@ -93,57 +106,85 @@ namespace WinFormsApp1
         }
 
 
-        public static string EncryptString(string key, string plainText)
+        /// <summary>
+        /// Encrypts a peice of plaintext, should be called after properly formating with Serializer
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="password"></param>
+        /// <returns>The encrypted form of content</returns>
+        public static string Encrypt(string content,byte[] password)
         {
-            byte[] iv = new byte[16];
-            byte[] array;
+            //password is already hashed, 「slight security issue」  
+            byte[] bytes = Encoding.UTF8.GetBytes(content);
 
-            using (Aes aes = Aes.Create())
+            using (SymmetricAlgorithm crypt = Aes.Create())
+            using (HashAlgorithm hash = MD5.Create())
+            using (MemoryStream memoryStream = new MemoryStream())
             {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
+                crypt.Key = password;
+                crypt.GenerateIV();
 
-                ICryptoTransform encryptor = aes.CreateEncryptor(aes.Key, aes.IV);
-
-                using (MemoryStream memoryStream = new MemoryStream())
+                using (CryptoStream cryptoStream = new CryptoStream(
+                    memoryStream, crypt.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, encryptor, CryptoStreamMode.Write))
-                    {
-                        using (StreamWriter streamWriter = new StreamWriter((Stream)cryptoStream))
-                        {
-                            streamWriter.Write(plainText);
-                        }
-
-                        array = memoryStream.ToArray();
-                    }
+                    cryptoStream.Write(bytes, 0, bytes.Length);
                 }
-            }
 
-            return Convert.ToBase64String(array);
+                string base64InitializationVector = Convert.ToBase64String(crypt.IV);
+                string base64Ciphertext = Convert.ToBase64String(memoryStream.ToArray());
+
+                return base64InitializationVector + "!" + base64Ciphertext;
+            }
         }
 
-        public static string DecryptString(string key, string cipherText)
+        /// <summary>
+        /// Dencrypts a peice of encrypted text
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name=" cryptText"></param>
+        /// <returns>The decrypted form of cryptText</returns>
+        public static string Decrypt(string cryptText,byte[] password)
         {
-            byte[] iv = new byte[16];
-            byte[] buffer = Convert.FromBase64String(cipherText);
+            //password is already hashed
+            string content = String.Empty;
 
-            using (Aes aes = Aes.Create())
-            {
-                aes.Key = Encoding.UTF8.GetBytes(key);
-                aes.IV = iv;
-                ICryptoTransform decryptor = aes.CreateDecryptor(aes.Key, aes.IV);
+            string[] splitCryptText = cryptText.Split("!");
+            string base64CipherText = splitCryptText[1];
+            string base64InitializationVector = splitCryptText[0];
 
-                using (MemoryStream memoryStream = new MemoryStream(buffer))
+            byte[] CipherText = Convert.FromBase64String(base64CipherText);
+            byte[] InitializationVector = Convert.FromBase64String(base64InitializationVector);
+
+            using (SymmetricAlgorithm crypt = Aes.Create())
+            using (HashAlgorithm hash = MD5.Create())
+            using (MemoryStream memoryStream = new MemoryStream(CipherText)) {
+
+                crypt.Key = password;
+                crypt.IV = InitializationVector;
+                // Seed and construct the transformation used for decrypting
+
+
+                using (CryptoStream cryptoStream = new CryptoStream(memoryStream, crypt.CreateDecryptor(), CryptoStreamMode.Read))
                 {
-                    using (CryptoStream cryptoStream = new CryptoStream((Stream)memoryStream, decryptor, CryptoStreamMode.Read))
+                    using (StreamReader streamReader = new StreamReader(cryptoStream))
                     {
-                        using (StreamReader streamReader = new StreamReader((Stream)cryptoStream))
+
+                        try
                         {
-                            return streamReader.ReadToEnd();
+
+                            content = streamReader.ReadToEnd();
                         }
+                        catch (Exception ex)
+                        {
+                            //gay ass throws error if password is wrong
+                        }
+
                     }
                 }
+
+              
             }
+            return content;
         }
     }
 }
