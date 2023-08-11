@@ -208,6 +208,7 @@ namespace WinFormsApp1
             InfoDisplay.Location = new Point(Percent20, 0);
             InfoDisplay.Width = (this.ClientSize.Width - Percent20);
             InfoDisplay.Height = this.ClientSize.Height;
+            InfoDisplay.Password.MaximumSize = new Size(Percent20, 4000);
 
             _sidePanelContainer.Width = Percent20;
 
