@@ -13,7 +13,7 @@ namespace WinFormsApp1
     /// <summary>
     /// Form for adding new PasswordStruct and or PasswordSideBar Tiles
     /// </summary>
-    public partial class PasswordEntry : Form
+    public partial class NewPasswordEntry : Form
     {
         private string websiteName;
         private string username;
@@ -50,7 +50,7 @@ namespace WinFormsApp1
         }
 
 
-        public PasswordEntry()
+        public NewPasswordEntry()
         {
             websiteName = string.Empty;
             username = string.Empty;

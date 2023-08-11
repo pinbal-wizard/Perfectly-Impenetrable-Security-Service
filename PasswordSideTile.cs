@@ -28,7 +28,7 @@ namespace WinFormsApp1
     /// <summary>
     /// Class for how the Password Tiles are shown in the list of tiles as well as an extention of the PasswordStuct
     /// </summary>
-    public class PasswordSideBar : FlowLayoutPanel
+    public class PasswordSideTile : FlowLayoutPanel
     {
         private MainWindow form;
         public string WebSite { get; set; }
@@ -44,7 +44,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="passwordbase"></param>
         /// <param name="form"></param>
-        public PasswordSideBar(PasswordStruct passwordbase, int index,MainWindow form)
+        public PasswordSideTile(PasswordStruct passwordbase, int index,MainWindow form)
         {
             //Set info from password struct
             this.WebSite = passwordbase.WebSite;

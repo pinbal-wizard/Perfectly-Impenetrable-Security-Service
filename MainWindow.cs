@@ -26,7 +26,7 @@ namespace WinFormsApp1
         private Button _changeMasterPasswordButton;
 
 
-        public PasswordSideBar? Selected;
+        public PasswordSideTile? Selected;
         public PasswordInfoDisplay InfoDisplay;
         public Button ChangeMasterPassword { get; }
 
@@ -170,7 +170,7 @@ namespace WinFormsApp1
             //if content is less than height disable scrolling, fixes anoying extra scrolling
             if (CalcHeight(_sidePanelPasswords) + 30 < this.ClientSize.Height - 45) _sidePanelPasswords.AutoScroll = false;
 
-            if (_sidePanelPasswords.Controls is null) Selected = (PasswordSideBar)_sidePanelPasswords.Controls[0];
+            if (_sidePanelPasswords.Controls is null) Selected = (PasswordSideTile)_sidePanelPasswords.Controls[0];
             
             _sidePanelContainer.Controls.Add(_sidePanelPasswords);
             this.Controls.Add(_sidePanelContainer);
@@ -236,7 +236,7 @@ namespace WinFormsApp1
         {
             for (int i = 0; i < passwordToAdd.Count; i++)
             {
-                _sidePanelPasswords.Controls.Add(new PasswordSideBar(passwordToAdd[i], i, this));
+                _sidePanelPasswords.Controls.Add(new PasswordSideTile(passwordToAdd[i], i, this));
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
             }
         }
@@ -323,7 +323,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void ChangeMasterPasswordButton_Click(object sender, EventArgs e)
         {
-            ChangePasscodePopup changePasscodeForm = new ChangePasscodePopup(this);
+            ChangeMasterPasswordPopup changePasscodeForm = new ChangeMasterPasswordPopup(this);
             changePasscodeForm.ShowDialog();
             changePasscodeForm.DialogResult = DialogResult.OK;
         }
@@ -331,7 +331,7 @@ namespace WinFormsApp1
 
         private void NewEntryButton_Click(object? sender, EventArgs e)
         {
-            PasswordEntry passwordEntryForm = new PasswordEntry();
+            NewPasswordEntry passwordEntryForm = new NewPasswordEntry();
 
             //Getting info from the entry form
             if (passwordEntryForm.ShowDialog() == DialogResult.OK)
@@ -347,7 +347,7 @@ namespace WinFormsApp1
 
                 //Displaying new entry
 
-                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, _passwordsList.IndexOf(p), this));
+                _sidePanelPasswords.Controls.Add(new PasswordSideTile(p, _passwordsList.IndexOf(p), this));
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
 
                 MainWindow_Resize(this, EventArgs.Empty);

@@ -11,7 +11,7 @@ using System.Security.Cryptography;
 
 namespace WinFormsApp1
 {
-    public partial class ChangePasscodePopup : Form
+    public partial class ChangeMasterPasswordPopup : Form
     {     
         private MainWindow form;
         private FlowLayoutPanel panel;
@@ -31,7 +31,7 @@ namespace WinFormsApp1
         private Button Confirm;
 
 
-        public ChangePasscodePopup(MainWindow form)
+        public ChangeMasterPasswordPopup(MainWindow form)
         {
             this.form = form;
             InitializeComponent();

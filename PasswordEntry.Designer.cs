@@ -1,6 +1,6 @@
 ﻿namespace WinFormsApp1
 {
-    partial class PasswordEntry
+    partial class NewPasswordEntry
     {
         /// <summary>
         /// Required designer variable.
