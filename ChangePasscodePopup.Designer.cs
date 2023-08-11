@@ -39,8 +39,6 @@
 
         #endregion
 
-        private Button button1;
-        private TextBox InputTextBox;
-        private Label label1;
+
     }
 }
