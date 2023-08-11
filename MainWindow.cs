@@ -42,6 +42,32 @@ namespace WinFormsApp1
         public MainWindow()
         {
             InitializeComponent();
+
+            this.SuspendLayout();
+            //This has been brought into the On_Load Function as it runs before it is rendered
+            MasterPasswordPopup popupWindow = new MasterPasswordPopup(this);
+            popupWindow.ShowDialog();
+            if (popupWindow.DialogResult != DialogResult.OK)
+            {
+                Application.Exit();
+            }
+            Serializer.LoadFromFile(this);
+
+            //Basic Load
+            this.Controls.Add(AddVerticalDivider());
+            InitializeSidePanel();
+
+            InitializeNewEntryButton();
+
+            InitializeChangeMasterPasswordButton();
+
+            IntializeInfoDisplay();
+
+            this.DoubleBuffered = true;
+            this.ClientSizeChanged += MainWindow_Resize;
+            this.FormClosing += MainWindow_Deactivate;
+
+            this.ResumeLayout();
         }
 
 
@@ -66,54 +92,16 @@ namespace WinFormsApp1
         }
 
 
-        /// <summary>
-        /// Main Function to Load the MainWindow form
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        /// <returns></returns>
-        private void MainWindow_Load(object sender, EventArgs e)
-        {
-            this.SuspendLayout();
-            //This has been brought into the On_Load Function as it runs before it is rendered
-            MasterPasswordPopup popupWindow = new MasterPasswordPopup(this);
-            popupWindow.ShowDialog();
-            if (popupWindow.DialogResult != DialogResult.OK)
-            {
-                Application.Exit();
-            }
-            Serializer.LoadFromFile(this);
-
-            //Basic Load
-            this.Controls.Add(AddVerticalDivider());
-            InitializeSidePanel();
-            this.Controls.Add(_sidePanelContainer);
-
-            IntializeInfoDisplay();
-
-            InitializeNewEntryButton();
-            InitChangeMasterPasswordButton();
-
-            
-
-            this.DoubleBuffered = true;
-            this.ClientSizeChanged += FormResized;
-            this.FormClosing += MainWindow_Deactivate;
-
-            this.ResumeLayout();
-        }
-
-        private void InitChangeMasterPasswordButton()
+        private void InitializeChangeMasterPasswordButton()
         {
             _changeMasterPasswordButton = new Button();
             this._changeMasterPasswordButton.AutoSize = true;
             this._changeMasterPasswordButton.Anchor = AnchorStyles.Right | AnchorStyles.Top;
             this._changeMasterPasswordButton.Name = "ChangeMasterPassword";
-            this._changeMasterPasswordButton.TabIndex = 0;
             this._changeMasterPasswordButton.Text = "Change Master Password";
             this._changeMasterPasswordButton.UseVisualStyleBackColor = true;
             this._changeMasterPasswordButton.Click += ChangeMasterPasswordButton_Click;
-            this._changeMasterPasswordButton.Location = new Point(this.ClientSize.Width - _changeMasterPasswordButton.Width - _newEntryButton.Width, 10);
+            this._changeMasterPasswordButton.Location = new Point(this.ClientSize.Width - _changeMasterPasswordButton.Width , _newEntryButton.Height + 25 );
             this.Controls.Add(_changeMasterPasswordButton);
         }
 
@@ -124,8 +112,8 @@ namespace WinFormsApp1
         private int InitializeNewEntryButton()
         {
             _newEntryButton = new Button();
-            _newEntryButton.Click += InitializeNewEntryButton_Click;
-            _newEntryButton.Text = "Add";
+            _newEntryButton.Click += NewEntryButton_Click;
+            _newEntryButton.Text = "Add New Entry";
             _newEntryButton.AutoSize = true;
             _newEntryButton.Anchor = AnchorStyles.Right | AnchorStyles.Top;
             _newEntryButton.Location = new Point(ClientSize.Width - _newEntryButton.Width - _newEntryButton.Padding.Left, 10);
@@ -152,7 +140,7 @@ namespace WinFormsApp1
             //Searchbar
             _searchBar = new TextBox();
             _searchBar.Margin = new Padding(12, 10, 18, 10);
-            _searchBar.Width -= _searchBar.Margin.Right - _searchBar.Margin.Left;
+            _searchBar.Width = _sidePanelContainer.Width - _searchBar.Margin.Right - _searchBar.Margin.Left;
             _searchBar.TextChanged += SearchPasswords;
 
             //Add top elements
@@ -185,6 +173,8 @@ namespace WinFormsApp1
             if (_sidePanelPasswords.Controls is null) Selected = (PasswordSideBar)_sidePanelPasswords.Controls[0];
 
             _sidePanelContainer.Controls.Add(_sidePanelPasswords);
+
+            this.Controls.Add(_sidePanelContainer);
         }
 
 
@@ -201,65 +191,13 @@ namespace WinFormsApp1
             InfoDisplay.Height = this.ClientSize.Height;
 
             this.Controls.Add(InfoDisplay);
-            this.Controls.SetChildIndex(InfoDisplay, 100);
-        }
-
-        /// <summary>
-        /// Very good form
-        /// </summary>
-        private void InitializeNewEntryButton_Click(object? sender, EventArgs e)
-        {
-            PasswordEntry passwordEntryForm = new PasswordEntry();
-
-            //Getting info from the entry form
-            if (passwordEntryForm.ShowDialog() == DialogResult.OK)
-            {
-                string websiteName = passwordEntryForm.WebsiteName;
-                string username = passwordEntryForm.Username;
-                string password = passwordEntryForm.Password;
-
-
-                //Adding the info
-                PasswordStruct p = new PasswordStruct(websiteName, username, password);
-                _passwordsList.Add(p);
-
-                //Displaying new entry
-
-                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, _passwordsList.IndexOf(p), this));
-                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
-
-
-                //update sidepanel scroll bars, same stuff as in form_resized
-                _sidePanelContainer.Height = this.ClientSize.Height;
-                _sidePanelPasswords.Height = this.ClientSize.Height - 45;
-                _sidePanelPasswords.AutoScroll = true;
-                if (CalcHeight(_sidePanelPasswords) < this.ClientSize.Height - 115) _sidePanelPasswords.AutoScroll = false;
-
-                Button copyButton = new Button();
-                copyButton.Text = "Copy";
-                copyButton.Margin = new Padding(12, 10, 18, 10);
-                copyButton.Width = 170;
-                copyButton.Click += CopyButton_Click;
-
-                // Add the "Copy" button along with other controls
-                _sidePanelContainer.Controls.Add(copyButton);
-                _sidePanelContainer.Controls.Add(_searchBar);
-                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
-                // ... other controls   
-                _sidePanelContainer.Controls.Add(_sidePanelPasswords);
-                _sidePanelContainer.Controls.Add(copyButton);
-                _sidePanelContainer.Controls.Add(_searchBar);
-                _sidePanelContainer.Controls.Add(AddSidePanelDivider());
-                // ... other controls
-                _sidePanelContainer.Controls.Add(_sidePanelPasswords);
-            }
         }
 
 
         /// <summary>
         /// Function resisied non autosizeable controls
         /// </summary>
-        private void FormResized(object? sender, EventArgs e)
+        private void MainWindow_Resize(object? sender, EventArgs e)
         {
             //Sidepanel
             //Check if scrolling needed now
@@ -291,6 +229,10 @@ namespace WinFormsApp1
         }
 
 
+        /// <summary>
+        /// Adds a list of Password Structs 
+        /// </summary>
+        /// <param name="passwordToAdd"></param>
         private void AddPasswordTiles(List<PasswordStruct> passwordToAdd)
         {
             for (int i = 0; i < passwordToAdd.Count; i++)
@@ -341,6 +283,7 @@ namespace WinFormsApp1
             return divider;
         }
 
+
         /// <summary>
         /// Add Full Height Vertical Divider
         /// </summary>
@@ -357,6 +300,7 @@ namespace WinFormsApp1
             return divider;
         }
 
+
         /// <summary>
         ///returns height of a panels content, there may be a better way to get this
         /// </summary>
@@ -372,6 +316,7 @@ namespace WinFormsApp1
             return height;
         }
 
+
         /// <summary>
         /// Opens the form to change the master password
         /// </summary>
@@ -382,6 +327,32 @@ namespace WinFormsApp1
             ChangePasscodePopup changePasscodeForm = new ChangePasscodePopup(this);
             changePasscodeForm.ShowDialog();
             changePasscodeForm.DialogResult = DialogResult.OK;
+        }
+
+
+        private void NewEntryButton_Click(object? sender, EventArgs e)
+        {
+            PasswordEntry passwordEntryForm = new PasswordEntry();
+
+            //Getting info from the entry form
+            if (passwordEntryForm.ShowDialog() == DialogResult.OK)
+            {
+                string websiteName = passwordEntryForm.WebsiteName;
+                string username = passwordEntryForm.Username;
+                string password = passwordEntryForm.Password;
+
+
+                //Adding the info
+                PasswordStruct p = new PasswordStruct(websiteName, username, password);
+                _passwordsList.Add(p);
+
+                //Displaying new entry
+
+                _sidePanelPasswords.Controls.Add(new PasswordSideBar(p, _passwordsList.IndexOf(p), this));
+                _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
+
+                MainWindow_Resize(this, EventArgs.Empty);
+            }
         }
 
         private void CopyButton_Click(object sender, EventArgs e)
