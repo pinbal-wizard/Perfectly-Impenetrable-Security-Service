@@ -35,7 +35,6 @@
             this.Load += ChangePasscodePopup_Load;
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
