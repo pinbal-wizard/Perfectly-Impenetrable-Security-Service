@@ -99,6 +99,7 @@ namespace WinFormsApp1
                 }
                
             }
+            PasswordTextBox.Clear();
             return false;
         }
 

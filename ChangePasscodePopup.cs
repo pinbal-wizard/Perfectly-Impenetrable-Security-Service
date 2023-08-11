@@ -164,6 +164,7 @@ namespace WinFormsApp1
                 }
 
             }
+            oldPasswordTextBox.Clear();
             return false;
         }
     }
