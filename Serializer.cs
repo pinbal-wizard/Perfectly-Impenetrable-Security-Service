@@ -39,8 +39,6 @@ namespace WinFormsApp1
         /// <returns>0</returns>
         public static int LoadFromFile(MainWindow form)
         {
-            return -1;
-
             List<PasswordStruct> PasswordsList = new();
 
             string encryptedtext = File.ReadAllText(SaveLocation); 
