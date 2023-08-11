@@ -1,5 +1,9 @@
 ﻿using System.Text;
 using System.Security.Cryptography;
+using System.Windows.Forms;
+using System.Text.Json.Nodes;
+using System.Xml;
+
 namespace WinFormsApp1
 {
     /// <summary>
@@ -35,6 +39,8 @@ namespace WinFormsApp1
         /// <returns>0</returns>
         public static int LoadFromFile(MainWindow form)
         {
+            return -1;
+
             List<PasswordStruct> PasswordsList = new();
 
             string encryptedtext = File.ReadAllText(SaveLocation); 
@@ -98,6 +104,7 @@ namespace WinFormsApp1
         {
             throw new NotImplementedException();
         }
+
 
         /// <summary>
         /// Encrypts a peice of plaintext, should be called after properly formating with Serializer

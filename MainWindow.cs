@@ -171,9 +171,8 @@ namespace WinFormsApp1
             if (CalcHeight(_sidePanelPasswords) + 30 < this.ClientSize.Height - 45) _sidePanelPasswords.AutoScroll = false;
 
             if (_sidePanelPasswords.Controls is null) Selected = (PasswordSideBar)_sidePanelPasswords.Controls[0];
-
+            
             _sidePanelContainer.Controls.Add(_sidePanelPasswords);
-
             this.Controls.Add(_sidePanelContainer);
         }
 
