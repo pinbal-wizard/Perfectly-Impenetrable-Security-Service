@@ -29,6 +29,8 @@ namespace WinFormsApp1
         public Button HideButton { get; set; }
         
 
+        public Button CopyPassButton { get; set; }
+
         Label Test;
 
         public Button EditButton;
@@ -118,7 +120,12 @@ namespace WinFormsApp1
             InitEditButton();
             InitSaveButton();
             InitCancelButton();
-           
+
+            CopyPassButton = new Button();
+            CopyPassButton.Text = "Copy Password";
+            CopyPassButton.Margin = new Padding(0,10,10,10);
+            CopyPassButton.AutoSize = true;
+            CopyPassButton.Click += CopyPassButton_Click;
 
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - form.ClientSize.Width/5;
@@ -138,7 +145,9 @@ namespace WinFormsApp1
             this.Controls.Add(UsernamePanel);
             this.Controls.Add(PasswordLabel);
             this.Controls.Add(PasswordPanel);
+            this.Controls.Add(CopyPassButton);
             this.Controls.Add(Divider2);
+            
 
             this.Controls.Add(EditButton);
             this.Controls.Add(cancelButton);
@@ -266,6 +275,7 @@ namespace WinFormsApp1
             PasswordPanel.AutoSize = true;
             PasswordPanel.Controls.Add(Password);
             PasswordPanel.Controls.Add(HideButton);
+            PasswordPanel.Controls.Add(CopyPassButton);
         }
 
         /// <summary>
@@ -415,6 +425,12 @@ namespace WinFormsApp1
             WhatLengthAmI.Width = Test.Width;
             this.Controls.Remove(Test);
            
+        }
+
+        private void CopyPassButton_Click (object? sender, EventArgs e)
+        {
+            Clipboard.SetText(this.Password.Text);
+
         }
     }
 }

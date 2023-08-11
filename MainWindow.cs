@@ -356,7 +356,7 @@ namespace WinFormsApp1
 
         private void CopyButton_Click(object sender, EventArgs e)
         {
-
+            Clipboard.SetText("Pafhgsdiug");   
         }
     }
 }
