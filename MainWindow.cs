@@ -239,7 +239,7 @@ namespace WinFormsApp1
                 copyButton.Text = "Copy";
                 copyButton.Margin = new Padding(12, 10, 18, 10);
                 copyButton.Width = 170;
-                copyButton.Click += CopyButtonClick;
+                copyButton.Click += CopyButton_Click;
 
                 // Add the "Copy" button along with other controls
                 _sidePanelContainer.Controls.Add(copyButton);
@@ -384,7 +384,7 @@ namespace WinFormsApp1
             changePasscodeForm.DialogResult = DialogResult.OK;
         }
 
-        private void CopyButtonClick(object sender, EventArgs e)
+        private void CopyButton_Click(object sender, EventArgs e)
         {
 
         }

@@ -78,6 +78,7 @@ namespace WinFormsApp1
             
             this.MinimumSize= new Size(form.ClientSize.Width/5, 0);
             this.AutoSize = true;
+
         }
 
         public void UpdateDisplay()
