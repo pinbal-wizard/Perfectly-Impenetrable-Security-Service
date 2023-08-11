@@ -353,10 +353,5 @@ namespace WinFormsApp1
                 MainWindow_Resize(this, EventArgs.Empty);
             }
         }
-
-        private void CopyButton_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText("Pafhgsdiug");   
-        }
     }
 }
