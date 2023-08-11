@@ -61,7 +61,7 @@ namespace WinFormsApp1
         private void HidePassword()
         {
             // Censor the password with asterisks
-            PasswordTextBox.PasswordChar = '*';
+            PasswordTextBox.PasswordChar = '●';
         }
         /// <summary>
         /// Runs on button click and enter press.
