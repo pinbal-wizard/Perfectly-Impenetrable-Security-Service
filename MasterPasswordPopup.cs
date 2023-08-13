@@ -22,13 +22,23 @@ namespace WinFormsApp1
         public MasterPasswordPopup(MainWindow form)
         {
             this._form = form;
-            this.AcceptButton = _submitPassBtn;
 
             InitializeComponent();
             _masterPasswordPopup_SizeChanged(this, EventArgs.Empty);
             _passwordTextBox.PasswordChar = '●'; // Censor the password by default
+
+            this.AcceptButton = _submitPassBtn;
+            this.Load += _onLoad;
         }
 
+
+        private void _onLoad(object sender, EventArgs e)
+        {
+            if (_validatePassword() == 2)
+            {
+                this.DialogResult = DialogResult.Yes;
+            }
+        }
 
         /// <summary>
         /// Set password textbox char to null char so it is shown
@@ -52,21 +62,27 @@ namespace WinFormsApp1
         /// Validate if the entered password is correct by decrypting some text using entered password
         /// </summary>
         /// <returns>True or False</returns>
-        private bool _validatePassword()
+        private int _validatePassword()
         {
             using (HashAlgorithm hash = MD5.Create())
             {
                 string check = "riddle me this who is the real g";
-                string test = File.ReadAllLines("../../../riddle.txt").First();
+                string text = File.ReadAllText("../../../riddle.txt");
+
+                if (text == "")
+                {
+                    return 2;
+                }
+
                 byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(_passwordTextBox.Text));
-                string decypted = Serializer.Decrypt(test, hashpassword);
+                string decypted = Serializer.Decrypt(text, hashpassword);
                 if (decypted == check)
                 {
                     _form.hash = hashpassword;
-                    return true;
+                    return 0;
                 }
             }
-            return false;
+            return 1;
         }
 
         private void _masterPasswordPopup_SizeChanged(object sender, EventArgs e)
@@ -108,13 +124,15 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void _submitPassBtn_Click(object sender, EventArgs e)
         {
-            if (_validatePassword())
+            int result = _validatePassword();
+            if (result == 0)
             {
                 this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("Password is incorrect");
+                _passwordTextBox.Text = string.Empty;
             }
         }
     }

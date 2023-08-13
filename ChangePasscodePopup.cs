@@ -155,7 +155,7 @@ namespace WinFormsApp1
             using (HashAlgorithm hash = MD5.Create())
             {
                 string check = "riddle me this who is the real g";
-                string test = File.ReadAllLines("../../../riddle.txt").First();
+                string test = File.ReadAllText("../../../riddle.txt");
                 byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(oldPasswordTextBox.Text));
                 string decypted = Serializer.Decrypt(test, hashpassword);
                 if (decypted == check)

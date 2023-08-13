@@ -8,6 +8,7 @@ using System.Drawing;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 using System.Security.Policy;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace WinFormsApp1
 {
@@ -47,7 +48,7 @@ namespace WinFormsApp1
             //This has been brought into the On_Load Function as it runs before it is rendered
             MasterPasswordPopup popupWindow = new MasterPasswordPopup(this);
             popupWindow.ShowDialog();
-            if (popupWindow.DialogResult != DialogResult.OK)
+            if (popupWindow.DialogResult != DialogResult.OK & popupWindow.DialogResult != DialogResult.Yes)
             {
                 Environment.Exit(1);
             }
@@ -55,6 +56,9 @@ namespace WinFormsApp1
             if (Serializer.LoadFromFile(this) == 2)
             {
                 MessageBox.Show("Welcome to our password Manager");
+
+                MessageBox.Show("We recommend that you press the change master password to add a master password you will use to login");
+                MessageBox.Show("To Begin Please Press the add new Entry to add your first password");
             }
 
             //Basic Load
@@ -71,6 +75,11 @@ namespace WinFormsApp1
             this.ClientSizeChanged += MainWindow_Resize;
             this.FormClosing += MainWindow_Deactivate;
 
+            if (_sidePanelPasswords.Controls.Count != 0)
+            {
+                PasswordSideTile firstPasswordEntry = (PasswordSideTile)_sidePanelPasswords.Controls[0];
+                firstPasswordEntry.PasswordInfo_Click(this, EventArgs.Empty);
+            }
             this.ResumeLayout();
         }
 
@@ -313,7 +322,6 @@ namespace WinFormsApp1
         {
             ChangeMasterPasswordPopup changePasscodeForm = new ChangeMasterPasswordPopup(this);
             changePasscodeForm.ShowDialog();
-            changePasscodeForm.DialogResult = DialogResult.OK;
         }
 
         private void NewEntryButton_Click(object? sender, EventArgs e)
