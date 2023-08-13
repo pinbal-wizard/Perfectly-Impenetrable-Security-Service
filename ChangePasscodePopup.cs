@@ -82,8 +82,7 @@ namespace WinFormsApp1
             //change it
             using (HashAlgorithm hash = MD5.Create())
             {
-
-                string riddle = File.ReadAllLines("../../../riddle.txt").First();
+                string riddle = File.ReadAllText("../../../riddle.txt");
                 byte[] hashpassword = form.hash;
                 string decypted = Serializer.Decrypt(riddle, hashpassword);
                 byte[] newhash = hash.ComputeHash(Encoding.UTF8.GetBytes(newPasswordConfirmTextBox.Text));
@@ -155,9 +154,14 @@ namespace WinFormsApp1
             using (HashAlgorithm hash = MD5.Create())
             {
                 string check = "riddle me this who is the real g";
-                string test = File.ReadAllText("../../../riddle.txt");
+                string text = File.ReadAllText("../../../riddle.txt");
+
+                if (text == "")
+                {
+                    return true;
+                }
                 byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(oldPasswordTextBox.Text));
-                string decypted = Serializer.Decrypt(test, hashpassword);
+                string decypted = Serializer.Decrypt(text, hashpassword);
                 if (decypted == check)
                 {                    
                     return true;
