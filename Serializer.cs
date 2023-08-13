@@ -11,7 +11,8 @@ namespace WinFormsApp1
     /// </summary>
     internal static class Serializer
     {
-        private static string SaveLocation = "../../../Shadow.png";
+        private static string _saveLocation = "../../../Shadow.png";
+
         ///<summary>
         ///Call Serializer.SaveToFile() To save all current PasswordsList to file. Also runs whenever the form is closed
         ///</summary>
@@ -19,7 +20,7 @@ namespace WinFormsApp1
         {
             List<PasswordStruct> PasswordsList = form.PasswordsList;
 
-            FileStream Save = File.OpenWrite(SaveLocation);
+            FileStream Save = File.OpenWrite(_saveLocation);
             string bytes = "";
             foreach (PasswordStruct password in PasswordsList)
             {
@@ -41,7 +42,7 @@ namespace WinFormsApp1
         {
             List<PasswordStruct> PasswordsList = new();
 
-            string encryptedtext = File.ReadAllText(SaveLocation);
+            string encryptedtext = File.ReadAllText(_saveLocation);
 
             if (encryptedtext == "")
             {
@@ -76,6 +77,7 @@ namespace WinFormsApp1
             string text = string.Format("{0},{1},{2}",Base64Encode(password.WebSite), Base64Encode(password.Username), Base64Encode(password.Password), "\n");
             return text;
         }
+
         /// <summary>
         /// Encode to base64
         /// </summary>
@@ -95,20 +97,6 @@ namespace WinFormsApp1
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(input));
         }
-
-
-        /// <summary>
-        /// This Function Will deserialse a string into its passwordstruct item
-        /// <br></br>***Need to add Encrypt/Decrpt functions
-        /// </summary>
-        /// <param name="password"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        private static byte[] DeSerialise(PasswordStruct password)
-        {
-            throw new NotImplementedException();
-        }
-
 
         /// <summary>
         /// Encrypts a peice of plaintext, should be called after properly formating with Serializer
