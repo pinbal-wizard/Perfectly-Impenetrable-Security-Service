@@ -61,7 +61,7 @@
             this._submitPassBtn.TabIndex = 2;
             this._submitPassBtn.Text = "Submit";
             this._submitPassBtn.UseVisualStyleBackColor = true;
-            this._submitPassBtn.Click += new System.EventHandler(this._submitPassBtn_Click);
+            this._submitPassBtn.Click += new System.EventHandler(this.SubmitPassBtn_Click);
             // 
             // ShowPasswordButton
             // 
@@ -72,7 +72,7 @@
             this._showPasswordButton.TabIndex = 3;
             this._showPasswordButton.Text = "Show";
             this._showPasswordButton.UseVisualStyleBackColor = true;
-            this._showPasswordButton.Click += new System.EventHandler(this._showPasswordButton_Click);
+            this._showPasswordButton.Click += new System.EventHandler(this.ShowPasswordButton_Click);
             // 
             // MasterPasswordPopup
             // 
@@ -86,7 +86,7 @@
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MasterPasswordPopup";
             this.Text = "Form2";
-            this.Resize += new System.EventHandler(this._masterPasswordPopup_SizeChanged);
+            this.Resize += new System.EventHandler(this.MasterPasswordPopup_SizeChanged);
             this.ResumeLayout(false);
             this.PerformLayout();
 

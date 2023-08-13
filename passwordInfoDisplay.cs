@@ -81,7 +81,7 @@
             WebsiteLink = new TextBox();
             WebsiteLink.Text = "This will be where the URL will be";
             WebsiteLink.ForeColor = Color.Blue;
-            WebsiteLink.Click += _websiteLink_Click;
+            WebsiteLink.Click += WebsiteLink_Click;
             WebsiteLink.Margin = new Padding(0, 0, 0, 40);
 
             //Username Stuff
@@ -91,7 +91,7 @@
             _usernameLabel.Font = new Font("Arial", 7);
 
             //Seperate panel (like a div) for username
-            _initUsernamePanel();
+            InitUsernamePanel();
 
             //Password Label
             _passwordLabel = new TextBox();
@@ -100,7 +100,7 @@
             _passwordLabel.Margin = new Padding(0);
 
             //Seperate panel (like a div) for password and button so that they can be on the same y level
-            _InitPasswordPanel();
+            InitPasswordPanel();
 
             //Cool bottom divider
             _divider2 = new Label();
@@ -111,13 +111,13 @@
             _divider2.Width = 100;
             _divider2.Margin = new Padding(0);
 
-            _initEditButtons();
+            InitEditButtons();
 
             _copyPasswordButton = new Button();
             _copyPasswordButton.Text = "Copy Password";
             _copyPasswordButton.Margin = new Padding(0,10,10,10);
             _copyPasswordButton.AutoSize = true;
-            _copyPasswordButton.Click += _copyPassButton_Click;
+            _copyPasswordButton.Click += CopyPassButton_Click;
 
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - form.ClientSize.Width/5;
@@ -163,7 +163,7 @@
         /// <summary>
         /// Will initalise the username panel
         /// </summary>
-        private void _initUsernamePanel()
+        private void InitUsernamePanel()
         {
             Username = new TextBox();
             Username.Text = "This will be the Username";
@@ -183,37 +183,37 @@
         /// <summary>
         /// Initializing the edit button
         /// </summary>
-        private void _initEditButtons()
+        private void InitEditButtons()
         {
             _editButton = new Button();
             _editButton.Text = "Edit";
             _editButton.AutoSize = true;
-            _editButton.Click += new EventHandler(_editButton_Click);
+            _editButton.Click += new EventHandler(EditButton_Click);
 
             _saveButton = new Button();
             _saveButton.Text = "Save";
             _saveButton.AutoSize = true;
             _saveButton.Visible = false;
-            _saveButton.Click += new EventHandler(_saveButton_Click);
+            _saveButton.Click += new EventHandler(SaveButton_Click);
 
             _cancelButton = new Button();
             _cancelButton.Text = "Cancel";
             _cancelButton.AutoSize = true;
             _cancelButton.Visible = false;
-            _cancelButton.Click += new EventHandler(_cancelButton_Click);
+            _cancelButton.Click += new EventHandler(CancelButton_Click);
         }
 
         /// <summary>
         /// Will initalise the password panel
         /// </summary>
-        private void _InitPasswordPanel()
+        private void InitPasswordPanel()
         {
             //Actuall password, hidden initially
             Password = new TextBox();
             Password.Text = _realPassword;
             Password.PasswordChar = '●';
             Password.Font = new Font("Arial", 9);
-            Password.TextChanged += _passwordHideToggled;
+            Password.TextChanged += PasswordHideToggled;
             Password.Margin = new Padding(0, 2, 0, 0);
             Password.AutoSize = true;
             Password.MaximumSize = new Size(400, 400000);
@@ -227,7 +227,7 @@
             _hidePasswordButton = new Button();
             _hidePasswordButton.Size = new Size(23, 23);
             _hidePasswordButton.Margin = new Padding(10, 0, 0, 0);
-            _hidePasswordButton.Click += _hidePasswordButton_Click;
+            _hidePasswordButton.Click += HidePasswordButton_Click;
             _hidePasswordButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
             _hidePasswordButton.ImageAlign = ContentAlignment.TopCenter;
             _hidePasswordButton.FlatStyle = FlatStyle.Flat;
@@ -252,7 +252,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _passwordHideToggled(object? sender, EventArgs e)
+        private void PasswordHideToggled(object? sender, EventArgs e)
         {
             TextLength(Password);
             _hidePasswordButton.Location = new Point(Password.Size.Width, 0);
@@ -280,7 +280,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _hidePasswordButton_Click(object? sender, EventArgs e)
+        private void HidePasswordButton_Click(object? sender, EventArgs e)
         {
             //simple hide unhide code
             _isPasswordHidden = !_isPasswordHidden;
@@ -294,7 +294,7 @@
             }
         }
 
-        private void _copyPassButton_Click (object? sender, EventArgs e)
+        private void CopyPassButton_Click (object? sender, EventArgs e)
         {
             Clipboard.SetText(this.Password.Text);
         }
@@ -304,7 +304,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _websiteLink_Click(object? sender, EventArgs e)
+        private void WebsiteLink_Click(object? sender, EventArgs e)
         {
             //If i wanted it to crash i would try to access the negitive index of an array
             //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
@@ -316,7 +316,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _editButton_Click(object sender, EventArgs e)
+        private void EditButton_Click(object sender, EventArgs e)
         {
             // Change websitename textbox to be editable
             WebsiteLink.ReadOnly = false;
@@ -348,7 +348,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _cancelButton_Click(Object sender, EventArgs e)
+        private void CancelButton_Click(Object sender, EventArgs e)
         {
             //Revert website link textbox to read-only
             WebsiteLink.ReadOnly = true;
@@ -377,7 +377,7 @@
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _saveButton_Click(Object sender, EventArgs e)
+        private void SaveButton_Click(Object sender, EventArgs e)
         {
             string newWebsite = Websitename.Text;
             string newUsername = Username.Text;

@@ -13,50 +13,48 @@ namespace WinFormsApp1
 {
     public partial class ChangeMasterPasswordPopup : Form
     {     
-        private MainWindow form;
-        private FlowLayoutPanel panel;
-        private FlowLayoutPanel oldPasswordDiv;        
-        private FlowLayoutPanel newPasswordDiv;
-        private FlowLayoutPanel newPasswordConfirmDiv;
+        private MainWindow _form;
 
-        private Label oldPasswordLabel;
-        private TextBox oldPasswordTextBox;
+        private FlowLayoutPanel _panel;
+        private FlowLayoutPanel _oldPasswordDiv;        
+        private FlowLayoutPanel _newPasswordDiv;
+        private FlowLayoutPanel _newPasswordConfirmDiv;
+
+        private Label _oldPasswordLabel;
+        private TextBox _oldPasswordTextBox;
         
-        private Label newPasswordLabel;
-        private TextBox newPasswordTextBox;
+        private Label _newPasswordLabel;
+        private TextBox _newPasswordTextBox;
 
-        private Label newPasswordConfirmLabel;
-        private TextBox newPasswordConfirmTextBox;
+        private Label _newPasswordConfirmLabel;
+        private TextBox _newPasswordConfirmTextBox;
 
-        private Button Confirm;
+        private Button _confirm;
 
 
         public ChangeMasterPasswordPopup(MainWindow form)
         {
-            this.form = form;
+            this._form = form;
             InitializeComponent();
-        }
-        private void ChangePasscodePopup_Load(object sender, EventArgs e)
-        {
-            oldPasswordDivInit();            
-            newPasswordDivInit();
-            newPasswordConfirmDivInit();
-            panel = new FlowLayoutPanel();
-            panel.AutoSize = true;
-            panel.FlowDirection = FlowDirection.TopDown;
-            panel.Padding = new Padding(50, 0, 0, 0);
-            panel.Controls.Add(oldPasswordDiv);
-            panel.Controls.Add(newPasswordDiv);
-            panel.Controls.Add(newPasswordConfirmDiv);
 
-            Confirm = new Button();
-            Confirm.Text = "OK";
-            Confirm.AutoSize = true;
-            Confirm.Click += Confirm_Click;
-            panel.Controls.Add(Confirm);
-            this.AcceptButton = Confirm;
+            PasswordDivInit();
 
-            Controls.Add(panel);
+            _panel = new FlowLayoutPanel();
+            _panel.AutoSize = true;
+            _panel.FlowDirection = FlowDirection.TopDown;
+            _panel.Padding = new Padding(50, 0, 0, 0);
+            _panel.Controls.Add(_oldPasswordDiv);
+            _panel.Controls.Add(_newPasswordDiv);
+            _panel.Controls.Add(_newPasswordConfirmDiv);
+
+            _confirm = new Button();
+            _confirm.Text = "OK";
+            _confirm.AutoSize = true;
+            _confirm.Click += Confirm_Click;
+            _panel.Controls.Add(_confirm);
+            this.AcceptButton = _confirm;
+
+            Controls.Add(_panel);
         }
 
         private void Confirm_Click(object? sender, EventArgs e)
@@ -68,13 +66,13 @@ namespace WinFormsApp1
                 return;
             }
             //check if they are the same
-            if (newPasswordTextBox.Text != newPasswordConfirmTextBox.Text)
+            if (_newPasswordTextBox.Text != _newPasswordConfirmTextBox.Text)
             {
                 MessageBox.Show("New paswords do not match");
                 return;
             }
             //confirmed they are same so only need to check one
-            if(newPasswordTextBox.Text == String.Empty || newPasswordTextBox.Text == "\n")
+            if(_newPasswordTextBox.Text == String.Empty || _newPasswordTextBox.Text == "\n")
             {
                 MessageBox.Show("Can not have a blank password");
                 return;
@@ -83,70 +81,62 @@ namespace WinFormsApp1
             using (HashAlgorithm hash = MD5.Create())
             {
                 string riddle = File.ReadAllText("../../../riddle.txt");
-                byte[] hashpassword = form.hash;
+                byte[] hashpassword = _form.hash;
                 string decypted = Serializer.Decrypt(riddle, hashpassword);
-                byte[] newhash = hash.ComputeHash(Encoding.UTF8.GetBytes(newPasswordConfirmTextBox.Text));
+                byte[] newhash = hash.ComputeHash(Encoding.UTF8.GetBytes(_newPasswordConfirmTextBox.Text));
                 string encryptedRiddle = Serializer.Encrypt(decypted, newhash);
-                form.hash = newhash;
+                _form.hash = newhash;
                 File.WriteAllText("../../../riddle.txt", encryptedRiddle);
             }
             this.Close();
         }
 
-        private void oldPasswordDivInit()
+        private void PasswordDivInit()
         {
-            oldPasswordLabel = new Label();
-            oldPasswordLabel.Text = "Enter Current Password";
-            oldPasswordLabel.Margin = new Padding(10, 2, 40, 0);
-            oldPasswordLabel.AutoSize = true;            
+            _oldPasswordLabel = new Label();
+            _oldPasswordLabel.Text = "Enter Current Password";
+            _oldPasswordLabel.Margin = new Padding(10, 2, 40, 0);
+            _oldPasswordLabel.AutoSize = true;            
 
-            oldPasswordTextBox = new TextBox();
-            oldPasswordTextBox.PasswordChar = '●';
+            _oldPasswordTextBox = new TextBox();
+            _oldPasswordTextBox.PasswordChar = '●';
 
-            oldPasswordDiv = new FlowLayoutPanel();
-            oldPasswordDiv.FlowDirection = FlowDirection.LeftToRight;
-            oldPasswordDiv.Margin = new Padding(0, 20, 0, 20);
-            oldPasswordDiv.AutoSize = true;        
-            oldPasswordDiv.Controls.Add(oldPasswordLabel);
-            oldPasswordDiv.Controls.Add(oldPasswordTextBox);
-        }
+            _oldPasswordDiv = new FlowLayoutPanel();
+            _oldPasswordDiv.FlowDirection = FlowDirection.LeftToRight;
+            _oldPasswordDiv.Margin = new Padding(0, 20, 0, 20);
+            _oldPasswordDiv.AutoSize = true;        
+            _oldPasswordDiv.Controls.Add(_oldPasswordLabel);
+            _oldPasswordDiv.Controls.Add(_oldPasswordTextBox);
 
-        
+            _newPasswordLabel = new Label();
+            _newPasswordLabel.Text = "Enter New Password";
+            _newPasswordLabel.AutoSize = true;
+            _newPasswordLabel.Margin = new Padding(10, 2, 60, 0);
 
-        private void newPasswordDivInit()
-        {
-            newPasswordLabel = new Label();
-            newPasswordLabel.Text = "Enter New Password";
-            newPasswordLabel.AutoSize = true;
-            newPasswordLabel.Margin = new Padding(10, 2, 60, 0);
+            _newPasswordTextBox = new TextBox();
+            _newPasswordTextBox.PasswordChar = '●';
 
-            newPasswordTextBox = new TextBox();
-            newPasswordTextBox.PasswordChar = '●';
+            _newPasswordDiv = new FlowLayoutPanel();
+            _newPasswordDiv.FlowDirection = FlowDirection.LeftToRight;
+            _newPasswordDiv.Margin = new Padding(0, 0, 0, 20);
+            _newPasswordDiv.AutoSize = true;
+            _newPasswordDiv.Controls.Add(_newPasswordLabel);
+            _newPasswordDiv.Controls.Add(_newPasswordTextBox);
 
-            newPasswordDiv = new FlowLayoutPanel();
-            newPasswordDiv.FlowDirection = FlowDirection.LeftToRight;
-            newPasswordDiv.Margin = new Padding(0, 0, 0, 20);
-            newPasswordDiv.AutoSize = true;
-            newPasswordDiv.Controls.Add(newPasswordLabel);
-            newPasswordDiv.Controls.Add(newPasswordTextBox);
-        }
+            _newPasswordConfirmLabel = new Label();
+            _newPasswordConfirmLabel.Text = "Confirm New Password";
+            _newPasswordConfirmLabel.Margin = new Padding(10, 2, 42, 0);
+            _newPasswordConfirmLabel.AutoSize = true;
 
-        private void newPasswordConfirmDivInit()
-        {
-            newPasswordConfirmLabel = new Label();
-            newPasswordConfirmLabel.Text = "Confirm New Password";
-            newPasswordConfirmLabel.Margin = new Padding(10,2, 42, 0);
-            newPasswordConfirmLabel.AutoSize = true;
-            
-            newPasswordConfirmTextBox = new TextBox();
-            newPasswordConfirmTextBox.PasswordChar = '●';
+            _newPasswordConfirmTextBox = new TextBox();
+            _newPasswordConfirmTextBox.PasswordChar = '●';
 
-            newPasswordConfirmDiv = new FlowLayoutPanel();
-            newPasswordConfirmDiv.FlowDirection = FlowDirection.LeftToRight;
-            newPasswordConfirmDiv.Margin = new Padding(0, 0, 0, 20);
-            newPasswordConfirmDiv.AutoSize = true;
-            newPasswordConfirmDiv.Controls.Add(newPasswordConfirmLabel);
-            newPasswordConfirmDiv.Controls.Add(newPasswordConfirmTextBox);
+            _newPasswordConfirmDiv = new FlowLayoutPanel();
+            _newPasswordConfirmDiv.FlowDirection = FlowDirection.LeftToRight;
+            _newPasswordConfirmDiv.Margin = new Padding(0, 0, 0, 20);
+            _newPasswordConfirmDiv.AutoSize = true;
+            _newPasswordConfirmDiv.Controls.Add(_newPasswordConfirmLabel);
+            _newPasswordConfirmDiv.Controls.Add(_newPasswordConfirmTextBox);
         }
 
         private bool ValidatePassword()
@@ -160,7 +150,7 @@ namespace WinFormsApp1
                 {
                     return true;
                 }
-                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(oldPasswordTextBox.Text));
+                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(_oldPasswordTextBox.Text));
                 string decypted = Serializer.Decrypt(text, hashpassword);
                 if (decypted == check)
                 {                    

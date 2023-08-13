@@ -24,17 +24,17 @@ namespace WinFormsApp1
             this._form = form;
 
             InitializeComponent();
-            _masterPasswordPopup_SizeChanged(this, EventArgs.Empty);
+            MasterPasswordPopup_SizeChanged(this, EventArgs.Empty);
             _passwordTextBox.PasswordChar = '●'; // Censor the password by default
 
             this.AcceptButton = _submitPassBtn;
-            this.Load += _onLoad;
+            this.Load += OnLoad;
         }
 
 
-        private void _onLoad(object sender, EventArgs e)
+        private void OnLoad(object sender, EventArgs e)
         {
-            if (_validatePassword() == 2)
+            if (ValidatePassword() == 2)
             {
                 this.DialogResult = DialogResult.Yes;
             }
@@ -43,7 +43,7 @@ namespace WinFormsApp1
         /// <summary>
         /// Set password textbox char to null char so it is shown
         /// </summary>
-        private void _showPassword()
+        private void ShowPassword()
         {
             // Show the password in letters
             _passwordTextBox.PasswordChar = '\0'; // Set to '\0' (null character) to show letters
@@ -52,7 +52,7 @@ namespace WinFormsApp1
         /// <summary>
         /// Set password textbox char to ● to hide it
         /// </summary>
-        private void _hidePassword()
+        private void HidePassword()
         {
             // Censor the password with asterisks
             _passwordTextBox.PasswordChar = '●';
@@ -62,7 +62,7 @@ namespace WinFormsApp1
         /// Validate if the entered password is correct by decrypting some text using entered password
         /// </summary>
         /// <returns>True or False</returns>
-        private int _validatePassword()
+        private int ValidatePassword()
         {
             using (HashAlgorithm hash = MD5.Create())
             {
@@ -85,7 +85,7 @@ namespace WinFormsApp1
             return 1;
         }
 
-        private void _masterPasswordPopup_SizeChanged(object sender, EventArgs e)
+        private void MasterPasswordPopup_SizeChanged(object sender, EventArgs e)
         {
             int halfWidth = ClientSize.Width / 2;
             int halfHeight = ClientSize.Height / 2;
@@ -100,18 +100,18 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _showPasswordButton_Click(object sender, EventArgs e)
+        private void ShowPasswordButton_Click(object sender, EventArgs e)
         {
             _isPasswordShown = !_isPasswordShown;
 
             if (_isPasswordShown)
             {
-                _showPassword();
+                ShowPassword();
                 _showPasswordButton.Text = "Hide Password";
             }
             else
             {
-                _hidePassword();
+                HidePassword();
                 _showPasswordButton.Text = "Show Password";
             }
         }
@@ -122,9 +122,9 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void _submitPassBtn_Click(object sender, EventArgs e)
+        private void SubmitPassBtn_Click(object sender, EventArgs e)
         {
-            int result = _validatePassword();
+            int result = ValidatePassword();
             if (result == 0)
             {
                 this.DialogResult = DialogResult.OK;
