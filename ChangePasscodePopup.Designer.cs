@@ -32,7 +32,6 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(461, 213);
-            this.Load += _changePasscodePopup_Load;
             this.ResumeLayout(false);
             this.PerformLayout();
         }
