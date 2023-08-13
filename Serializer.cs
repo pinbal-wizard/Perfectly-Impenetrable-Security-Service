@@ -41,7 +41,13 @@ namespace WinFormsApp1
         {
             List<PasswordStruct> PasswordsList = new();
 
-            string encryptedtext = File.ReadAllText(SaveLocation); 
+            string encryptedtext = File.ReadAllText(SaveLocation);
+
+            if (encryptedtext == "")
+            {
+                return 2;
+            }
+
             string[] splitEncryptedText = encryptedtext.Split("\n");
             foreach(string text in splitEncryptedText) 
             { 

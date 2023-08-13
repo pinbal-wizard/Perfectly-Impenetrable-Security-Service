@@ -383,6 +383,12 @@
             string newUsername = Username.Text;
             string newPassword = Password.Text;
 
+            if (_form.Selected == null)
+            {
+                MessageBox.Show("Please Create a Password Before Editing");
+                return;
+            }
+
             PasswordStruct newInfo = new PasswordStruct(newWebsite, newUsername, newPassword);
             _form.Selected.passwordbase = newInfo;
             _form.Selected.WebSite = newWebsite;
@@ -413,6 +419,8 @@
             _editButton.Visible = true;
             _cancelButton.Visible = false;
             _saveButton.Visible = false;
+
+            return;
         }
 
         #endregion 

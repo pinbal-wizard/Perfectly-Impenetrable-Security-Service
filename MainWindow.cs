@@ -51,7 +51,11 @@ namespace WinFormsApp1
             {
                 Application.Exit();
             }
-            Serializer.LoadFromFile(this);
+
+            if (Serializer.LoadFromFile(this) == 2)
+            {
+                MessageBox.Show("Welcome to our password Manager");
+            }
 
             //Basic Load
             this.Controls.Add(AddVerticalDivider());
@@ -70,7 +74,6 @@ namespace WinFormsApp1
             this.ResumeLayout();
         }
 
-
         /// <summary>
         /// Public Function for adding PasswordsList to the list off PasswordsList
         /// <br></br>***Will need to be change to be more secure to complete other backlog tasks***
@@ -82,15 +85,7 @@ namespace WinFormsApp1
             return 0;
         }
 
-
-        /// <summary>
-        /// Saves PasswordsList to file as form is closed
-        /// </summary>
-        private void MainWindow_Deactivate(object? sender, EventArgs e)
-        {
-            Serializer.SaveToFile(this);
-        }
-
+        #region Initialize Function
 
         private void InitializeChangeMasterPasswordButton()
         {
@@ -104,7 +99,6 @@ namespace WinFormsApp1
             this._changeMasterPasswordButton.Location = new Point(this.ClientSize.Width - _changeMasterPasswordButton.Width , _newEntryButton.Height + 25 );
             this.Controls.Add(_changeMasterPasswordButton);
         }
-
 
         /// <summary>
         /// Initailses The Button for entering new entries
@@ -120,7 +114,6 @@ namespace WinFormsApp1
             this.Controls.Add(_newEntryButton);
             return 0;
         }
-
 
         /// <summary>
         /// Initalises the sidePanel       
@@ -176,7 +169,6 @@ namespace WinFormsApp1
             this.Controls.Add(_sidePanelContainer);
         }
 
-
         /// <summary>
         /// Function looks empty this is for default entries and stuff
         /// </summary>
@@ -192,6 +184,7 @@ namespace WinFormsApp1
             this.Controls.Add(InfoDisplay);
         }
 
+        #endregion
 
         /// <summary>
         /// Function resisied non autosizeable controls
@@ -227,6 +220,13 @@ namespace WinFormsApp1
             this.Controls[0].Location = new Point(Percent20 + 1, this.Controls[0].Location.Y);
         }
 
+        /// <summary>
+        /// Saves PasswordsList to file as form is closed
+        /// </summary>
+        private void MainWindow_Deactivate(object? sender, EventArgs e)
+        {
+            Serializer.SaveToFile(this);
+        }
 
         /// <summary>
         /// Adds a list of Password Structs 
@@ -240,14 +240,6 @@ namespace WinFormsApp1
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
             }
         }
-
-
-        private void CopyPassword(object sender, EventArgs e)
-        {
-            // Implement what you want to happen when the button is clicked
-            // This can include opening a dialog for adding a new password entry, for example.
-        }
-
 
         private void SearchPasswords(object? sender, EventArgs e)
         {
@@ -266,7 +258,6 @@ namespace WinFormsApp1
             _sidePanelContainer.ResumeLayout(true);
         }
 
-
         /// <summary>
         /// Adds A Horisontal Side Panel Divider
         /// </summary>
@@ -281,7 +272,6 @@ namespace WinFormsApp1
             divider.Width = 2000;
             return divider;
         }
-
 
         /// <summary>
         /// Add Full Height Vertical Divider
@@ -299,7 +289,6 @@ namespace WinFormsApp1
             return divider;
         }
 
-
         /// <summary>
         ///returns height of a panels content, there may be a better way to get this
         /// </summary>
@@ -315,7 +304,6 @@ namespace WinFormsApp1
             return height;
         }
 
-
         /// <summary>
         /// Opens the form to change the master password
         /// </summary>
@@ -327,7 +315,6 @@ namespace WinFormsApp1
             changePasscodeForm.ShowDialog();
             changePasscodeForm.DialogResult = DialogResult.OK;
         }
-
 
         private void NewEntryButton_Click(object? sender, EventArgs e)
         {
