@@ -49,7 +49,7 @@ namespace WinFormsApp1
             popupWindow.ShowDialog();
             if (popupWindow.DialogResult != DialogResult.OK)
             {
-                Application.Exit();
+                Environment.Exit(1);
             }
 
             if (Serializer.LoadFromFile(this) == 2)
