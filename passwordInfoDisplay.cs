@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Text;
-
-namespace WinFormsApp1
+﻿namespace WinFormsApp1
 {
     /// <summary>
     /// Main info display div
@@ -16,30 +7,32 @@ namespace WinFormsApp1
     public class PasswordInfoDisplay : FlowLayoutPanel
     {
         public TextBox Websitename { get; set; }
-        public Label Divider { get; set; }
-        public TextBox WebsiteLinkLabel { get; set; }
         public TextBox WebsiteLink { get; set; }
-        public TextBox UsernameLabel { get; set; }
-        public TextBox Username { get; set; }
-        public FlowLayoutPanel UsernamePanel { get; set; }
-        public TextBox PasswordLabel { get; set; }        
         public TextBox Password { get; set; }
-        public FlowLayoutPanel PasswordPanel { get; set; }
-        public Label Divider2 { get; set; }
-        public Button HideButton { get; set; }
-        
+        public TextBox Username { get; set; }
 
-        public Button CopyPassButton { get; set; }
 
-        Label Test;
+        private Label _divider;//Line underneath Website Name 
+        private Label _divider2; //Line underneath Password
+        private Label Test; //bruh
 
-        public Button EditButton;
-        public Button saveButton;
-        public Button cancelButton;
+        private TextBox _websiteLinkLabel;
+        private TextBox _usernameLabel;
+        private TextBox _passwordLabel;
 
-        public string RealPassword { get; set; }
-        public bool IsHidden { get; set; }
-        private MainWindow form;
+        private FlowLayoutPanel _usernamePanel;
+        private FlowLayoutPanel _passwordPanel;
+
+        private Button _editButton;
+        private Button _saveButton;
+        private Button _cancelButton;
+
+        private Button _hidePasswordButton;
+        private Button _copyPasswordButton;
+
+        private string _realPassword;
+        private bool _isPasswordHidden;
+        private readonly MainWindow _form;
 
         /// <summary>
         /// FlowLayoutPanel with flow direction of top to bottom
@@ -52,80 +45,79 @@ namespace WinFormsApp1
         /// <param name="form"></param>
         public PasswordInfoDisplay(MainWindow form)
         {
-            this.form = form;
+            this._form = form;
             this.DoubleBuffered = true;
             //Password hidden or not
-            IsHidden = true;
+            _isPasswordHidden = true;
+
             //TestLabel for width
             Test = new Label();
 
-
             //Below is example default info so that it is not empty when you first open it
-            RealPassword = "wake up";
+            _realPassword = "Password";
 
             //Website top title
             Websitename = new TextBox();
-            Websitename.Text = "example.com";
+            Websitename.Text = "Please Make A Password Entry -->";
             Websitename.Font = new Font("Arial", 13, FontStyle.Bold);
             Websitename.Margin = new Padding(0, 30, 0, 15);
             TextLength(Websitename);
 
             //Cool divider, padding 40 to create space bettwen it and things below
-            Divider = new Label();
-            Divider.Text = string.Empty;
-            Divider.BorderStyle = BorderStyle.Fixed3D;
-            Divider.AutoSize = false;
-            Divider.Height = 2;
-            Divider.Width = 400;
-            Divider.Margin = new Padding(0, 0, 0, 40);
+            _divider = new Label();
+            _divider.Text = string.Empty;
+            _divider.BorderStyle = BorderStyle.Fixed3D;
+            _divider.AutoSize = false;
+            _divider.Height = 2;
+            _divider.Width = 400;
+            _divider.Margin = new Padding(0, 0, 0, 40);
 
             //Website link Label and actual link, link will actually work in future
-            WebsiteLinkLabel = new TextBox();
-            WebsiteLinkLabel.Text = "Website Address";
-            WebsiteLinkLabel.Font = new Font("Arial", 7);
-            WebsiteLinkLabel.Margin = new Padding(0);
+            _websiteLinkLabel = new TextBox();
+            _websiteLinkLabel.Text = "Website Address";
+            _websiteLinkLabel.Font = new Font("Arial", 7);
+            _websiteLinkLabel.Margin = new Padding(0);
+
             WebsiteLink = new TextBox();
-            WebsiteLink.Text = "https://example.com";
+            WebsiteLink.Text = "This will be where the URL will be";
             WebsiteLink.ForeColor = Color.Blue;
-            WebsiteLink.Click += WebsiteLink_Click;
+            WebsiteLink.Click += _websiteLink_Click;
             WebsiteLink.Margin = new Padding(0, 0, 0, 40);
 
             //Username Stuff
-            UsernameLabel = new TextBox();
-            UsernameLabel.Text = "Username";
-            UsernameLabel.Margin = new Padding(0);
-            UsernameLabel.Font = new Font("Arial", 7);
+            _usernameLabel = new TextBox();
+            _usernameLabel.Text = "Username";
+            _usernameLabel.Margin = new Padding(0);
+            _usernameLabel.Font = new Font("Arial", 7);
 
             //Seperate panel (like a div) for username
-            InitUsernamePanel();
+            _initUsernamePanel();
 
             //Password Label
-            PasswordLabel = new TextBox();
-            PasswordLabel.Text = "Password";
-            PasswordLabel.Font = new Font("Arial", 7);
-            PasswordLabel.Margin = new Padding(0);
+            _passwordLabel = new TextBox();
+            _passwordLabel.Text = "Password";
+            _passwordLabel.Font = new Font("Arial", 7);
+            _passwordLabel.Margin = new Padding(0);
 
             //Seperate panel (like a div) for password and button so that they can be on the same y level
-            InitPasswordPanel();
+            _InitPasswordPanel();
 
             //Cool bottom divider
-            Divider2 = new Label();
-            Divider2.Text = string.Empty;
-            Divider2.BorderStyle = BorderStyle.Fixed3D;
-            Divider2.AutoSize = false;
-            Divider2.Height = 2;
-            Divider2.Width = 100;
-            Divider2.Margin = new Padding(0);
+            _divider2 = new Label();
+            _divider2.Text = string.Empty;
+            _divider2.BorderStyle = BorderStyle.Fixed3D;
+            _divider2.AutoSize = false;
+            _divider2.Height = 2;
+            _divider2.Width = 100;
+            _divider2.Margin = new Padding(0);
 
-            InitEditButton();
-            InitSaveButton();
-            InitCancelButton();
+            _initEditButtons();
 
-            CopyPassButton = new Button();
-            CopyPassButton.Text = "Copy Password";
-            CopyPassButton.Margin = new Padding(0,10,10,10);
-            CopyPassButton.AutoSize = true;
-            CopyPassButton.Click += CopyPassButton_Click;
+            _copyPasswordButton = new Button();
+            _copyPasswordButton.Text = "Copy Password";
+            _copyPasswordButton.Margin = new Padding(0,10,10,10);
+            _copyPasswordButton.AutoSize = true;
+            _copyPasswordButton.Click += _copyPassButton_Click;
 
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - form.ClientSize.Width/5;
@@ -138,20 +130,18 @@ namespace WinFormsApp1
 
             //Add items to the infodisplay
             this.Controls.Add(Websitename);
-            this.Controls.Add(Divider);
-            this.Controls.Add(WebsiteLinkLabel);
+            this.Controls.Add(_divider);
+            this.Controls.Add(_websiteLinkLabel);
             this.Controls.Add(WebsiteLink);
-            this.Controls.Add(UsernameLabel);
-            this.Controls.Add(UsernamePanel);
-            this.Controls.Add(PasswordLabel);
-            this.Controls.Add(PasswordPanel);
-            this.Controls.Add(CopyPassButton);
-            this.Controls.Add(Divider2);
-            
-
-            this.Controls.Add(EditButton);
-            this.Controls.Add(cancelButton);
-            this.Controls.Add(saveButton);
+            this.Controls.Add(_usernameLabel);
+            this.Controls.Add(_usernamePanel);
+            this.Controls.Add(_passwordLabel);
+            this.Controls.Add(_passwordPanel);
+            this.Controls.Add(_divider2);
+            this.Controls.Add(_copyPasswordButton);
+            this.Controls.Add(_editButton);
+            this.Controls.Add(_cancelButton);
+            this.Controls.Add(_saveButton);
 
             //Levels of optimisation you would never find in autogenerated code
             foreach(Control ctr in Controls)
@@ -164,31 +154,19 @@ namespace WinFormsApp1
                     txt.BackColor = BackColor;
                     txt.ReadOnly = true;
                     TextLength(txt);
-
-
                 }
             }
-            
         }
 
-        /// <summary>
-        /// **Will open browser**
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void WebsiteLink_Click(object? sender, EventArgs e)
-        {
-            //If i wanted it to crash i would try to access the negitive index of an array
-            //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
-            //failing means something broke, nothing happening is not something breaking
-        }
+        #region Init Functions
+
         /// <summary>
         /// Will initalise the username panel
         /// </summary>
-        private void InitUsernamePanel()
+        private void _initUsernamePanel()
         {
             Username = new TextBox();
-            Username.Text = "Boe Jiden";
+            Username.Text = "This will be the Username";
             Username.Font = new Font("Arial", 10);
             Username.Margin = new Padding(0, 0, 0, 40);
             Username.BorderStyle = BorderStyle.None;
@@ -196,57 +174,46 @@ namespace WinFormsApp1
             Username.ReadOnly = true;
             TextLength(Username);
 
-            UsernamePanel = new FlowLayoutPanel();
-            UsernamePanel.Margin = new Padding(0, 0, 0,0);
-            UsernamePanel.AutoSize = true;
-            UsernamePanel.Controls.Add(Username);
-
+            _usernamePanel = new FlowLayoutPanel();
+            _usernamePanel.Margin = new Padding(0, 0, 0,0);
+            _usernamePanel.AutoSize = true;
+            _usernamePanel.Controls.Add(Username);
         }
 
         /// <summary>
         /// Initializing the edit button
         /// </summary>
-        private void InitEditButton()
+        private void _initEditButtons()
         {
-            EditButton = new Button();
-            EditButton.Text = "Edit";
-            EditButton.AutoSize = true;
-            EditButton.Click += new EventHandler(EditButton_Click);
-        }
+            _editButton = new Button();
+            _editButton.Text = "Edit";
+            _editButton.AutoSize = true;
+            _editButton.Click += new EventHandler(_editButton_Click);
 
-        private void InitSaveButton()
-        {
-            saveButton = new Button();
-            saveButton.Text = "Save";
-            saveButton.AutoSize = true;
-            saveButton.Visible = false;
-            saveButton.Click += new EventHandler(saveButton_Click);
-        }
+            _saveButton = new Button();
+            _saveButton.Text = "Save";
+            _saveButton.AutoSize = true;
+            _saveButton.Visible = false;
+            _saveButton.Click += new EventHandler(_saveButton_Click);
 
-        /// <summary>
-        /// Initializing the cancel button, visibility is set to false until called upon
-        /// </summary>
-        private void InitCancelButton()
-        {
-            cancelButton = new Button();
-            cancelButton.Text = "Cancel";
-            cancelButton.AutoSize = true;
-            cancelButton.Visible = false;
-            cancelButton.Click += new EventHandler(cancelButton_Click);
+            _cancelButton = new Button();
+            _cancelButton.Text = "Cancel";
+            _cancelButton.AutoSize = true;
+            _cancelButton.Visible = false;
+            _cancelButton.Click += new EventHandler(_cancelButton_Click);
         }
-
 
         /// <summary>
         /// Will initalise the password panel
         /// </summary>
-        private void InitPasswordPanel()
+        private void _InitPasswordPanel()
         {
             //Actuall password, hidden initially
             Password = new TextBox();
-            Password.Text = RealPassword;
+            Password.Text = _realPassword;
             Password.PasswordChar = '●';
             Password.Font = new Font("Arial", 9);
-            Password.TextChanged += PasswordHideToggled;
+            Password.TextChanged += _passwordHideToggled;
             Password.Margin = new Padding(0, 2, 0, 0);
             Password.AutoSize = true;
             Password.MaximumSize = new Size(400, 400000);
@@ -257,25 +224,91 @@ namespace WinFormsApp1
 
 
             //Button to hide and unhide password
-            HideButton = new Button();
-            HideButton.Size = new Size(23, 23);
-            HideButton.Margin = new Padding(10, 0, 0, 0);
-            HideButton.Click += Hide_Click;
-            HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
-            HideButton.ImageAlign = ContentAlignment.TopCenter;
-            HideButton.FlatStyle = FlatStyle.Flat;
-            HideButton.FlatAppearance.BorderSize = 0;
-            HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
-            HideButton.AutoSize = true;
+            _hidePasswordButton = new Button();
+            _hidePasswordButton.Size = new Size(23, 23);
+            _hidePasswordButton.Margin = new Padding(10, 0, 0, 0);
+            _hidePasswordButton.Click += _hidePasswordButton_Click;
+            _hidePasswordButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
+            _hidePasswordButton.ImageAlign = ContentAlignment.TopCenter;
+            _hidePasswordButton.FlatStyle = FlatStyle.Flat;
+            _hidePasswordButton.FlatAppearance.BorderSize = 0;
+            _hidePasswordButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            _hidePasswordButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            _hidePasswordButton.AutoSize = true;
 
             //Container Panel
-            PasswordPanel = new FlowLayoutPanel();
-            PasswordPanel.Margin = new Padding(0, 0, 0, 40);
-            PasswordPanel.AutoSize = true;
-            PasswordPanel.Controls.Add(Password);
-            PasswordPanel.Controls.Add(HideButton);
-            PasswordPanel.Controls.Add(CopyPassButton);
+            _passwordPanel = new FlowLayoutPanel();
+            _passwordPanel.Margin = new Padding(0, 0, 0, 40);
+            _passwordPanel.AutoSize = true;
+            _passwordPanel.Controls.Add(Password);
+            _passwordPanel.Controls.Add(_hidePasswordButton);
+            _passwordPanel.Controls.Add(_copyPasswordButton);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// updates position of hide button
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _passwordHideToggled(object? sender, EventArgs e)
+        {
+            TextLength(Password);
+            _hidePasswordButton.Location = new Point(Password.Size.Width, 0);
+        }
+
+        /// <summary>
+        /// Set text box length to correct ammout.
+        /// Little bit of a hack
+        /// </summary>
+        /// <param name="WhatLengthAmI"></param>
+        public void TextLength(TextBox WhatLengthAmI)
+        {
+            Test.Text = WhatLengthAmI.Text;
+            Test.Font = WhatLengthAmI.Font;
+            Test.AutoSize = true;
+            this.Controls.Add(Test);
+            WhatLengthAmI.Width = Test.Width;
+            this.Controls.Remove(Test);
+        }
+
+        #region Click Events
+
+        /// <summary>
+        /// Will either show or or hide the real password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _hidePasswordButton_Click(object? sender, EventArgs e)
+        {
+            //simple hide unhide code
+            _isPasswordHidden = !_isPasswordHidden;
+            if (_isPasswordHidden == true)
+            {
+                Password.PasswordChar = '●';
+            }
+            else
+            {
+                Password.PasswordChar = '\0';
+            }
+        }
+
+        private void _copyPassButton_Click (object? sender, EventArgs e)
+        {
+            Clipboard.SetText(this.Password.Text);
+        }
+
+        /// <summary>
+        /// **Will open browser**
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _websiteLink_Click(object? sender, EventArgs e)
+        {
+            //If i wanted it to crash i would try to access the negitive index of an array
+            //Must fail silently because its not failing okay i will comit hate crime if this crashes the form while testing
+            //failing means something broke, nothing happening is not something breaking
         }
 
         /// <summary>
@@ -283,7 +316,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void EditButton_Click(object sender, EventArgs e)
+        private void _editButton_Click(object sender, EventArgs e)
         {
             // Change websitename textbox to be editable
             WebsiteLink.ReadOnly = false;
@@ -299,15 +332,15 @@ namespace WinFormsApp1
             Password.ReadOnly = false;
             Password.BackColor = Color.White;
             TextLength(Password);
-            
+
             // Update the position of the "Cancel" and "Save" buttons
-            saveButton.Location = new Point(EditButton.Right, EditButton.Top);
-            cancelButton.Location = new Point(saveButton.Left, saveButton.Bottom + 10);
+            _saveButton.Location = new Point(_editButton.Right, _editButton.Top);
+            _cancelButton.Location = new Point(_saveButton.Left, _saveButton.Bottom + 10);
 
             // Show both buttons 
-            saveButton.Visible = true;
-            cancelButton.Visible = true;
-            EditButton.Visible = false;
+            _saveButton.Visible = true;
+            _cancelButton.Visible = true;
+            _editButton.Visible = false;
         }
 
         /// <summary>
@@ -315,7 +348,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void cancelButton_Click(Object sender, EventArgs e) 
+        private void _cancelButton_Click(Object sender, EventArgs e)
         {
             //Revert website link textbox to read-only
             WebsiteLink.ReadOnly = true;
@@ -334,9 +367,9 @@ namespace WinFormsApp1
             Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
 
             //Change the visibility of the edit button and the cancel button
-            EditButton.Visible = true;
-            cancelButton.Visible = false;
-            saveButton.Visible = false;
+            _editButton.Visible = true;
+            _cancelButton.Visible = false;
+            _saveButton.Visible = false;
         }
 
         /// <summary>
@@ -344,21 +377,21 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void saveButton_Click(Object sender, EventArgs e)
+        private void _saveButton_Click(Object sender, EventArgs e)
         {
             string newWebsite = Websitename.Text;
             string newUsername = Username.Text;
             string newPassword = Password.Text;
 
             PasswordStruct newInfo = new PasswordStruct(newWebsite, newUsername, newPassword);
-            form.Selected.passwordbase = newInfo;
-            form.Selected.WebSite = newWebsite;
-            form.Selected.Username = newUsername;
-            form.Selected.Password = newPassword;
+            _form.Selected.passwordbase = newInfo;
+            _form.Selected.WebSite = newWebsite;
+            _form.Selected.Username = newUsername;
+            _form.Selected.Password = newPassword;
 
-            form.PasswordsList[form.Selected.index] = newInfo;
+            _form.PasswordsList[_form.Selected.index] = newInfo;
 
-            form.Selected.UpdateDisplay();
+            _form.Selected.UpdateDisplay();
 
             //Revert website link textbox to read-only
             WebsiteLink.ReadOnly = true;
@@ -377,60 +410,11 @@ namespace WinFormsApp1
             Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
 
             //Change the visibility of the edit button and the cancel button
-            EditButton.Visible = true;
-            cancelButton.Visible = false;
-            saveButton.Visible = false;
-        }
-        /// <summary>
-        /// updates position of hide button
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void PasswordHideToggled(object? sender, EventArgs e)
-        {
-            TextLength(Password);
-            HideButton.Location = new Point(Password.Size.Width, 0);
+            _editButton.Visible = true;
+            _cancelButton.Visible = false;
+            _saveButton.Visible = false;
         }
 
-        /// <summary>
-        /// Will either show or or hide the real password
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Hide_Click(object? sender, EventArgs e)
-        {
-            //simple hide unhide code
-            IsHidden = !IsHidden;
-            if (IsHidden == true)
-            {
-                Password.PasswordChar = '●';
-
-            }
-            else
-            {
-                Password.PasswordChar = '\0';
-            }
-        }
-        /// <summary>
-        /// Set text box length to correct ammout.
-        /// Little bit of a hack
-        /// </summary>
-        /// <param name="WhatLengthAmI"></param>
-        public void TextLength(TextBox WhatLengthAmI)
-        {
-            Test.Text = WhatLengthAmI.Text;
-            Test.Font = WhatLengthAmI.Font;
-            Test.AutoSize = true;
-            this.Controls.Add(Test);
-            WhatLengthAmI.Width = Test.Width;
-            this.Controls.Remove(Test);
-           
-        }
-
-        private void CopyPassButton_Click (object? sender, EventArgs e)
-        {
-            Clipboard.SetText(this.Password.Text);
-
-        }
+        #endregion 
     }
 }
