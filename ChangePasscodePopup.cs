@@ -78,7 +78,7 @@ namespace WinFormsApp1
                 return;
             }
             //change it
-            Serializer.ChangeMasterPassword(_form.hash,_newPasswordTextBox.Text);
+            Serializer.ChangeMasterPassword(_form.hash,_newPasswordTextBox.Text, out byte[] ab);
             this.Close();
         }
 

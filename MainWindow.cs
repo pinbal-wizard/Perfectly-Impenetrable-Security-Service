@@ -18,8 +18,9 @@ namespace WinFormsApp1
     public partial class MainWindow : Form
     {
         private List<PasswordStruct> _passwordsList = new List<PasswordStruct>();
-        //currently hash of "password"
-        public byte[] hash = { 95, 77, 204, 59, 90, 167, 101, 214, 29, 131, 39, 222, 184, 130, 207, 153 };
+        //currently hash of "password"         source just trust me bro
+        public byte[] hash = { 095, 077, 204, 059, 090, 167, 101, 214, 029, 131, 039, 222, 184, 130, 207, 153 };
+
         private FlowLayoutPanel _sidePanelContainer;
         private FlowLayoutPanel _sidePanelPasswords;
         private Button _newEntryButton;
