@@ -26,10 +26,8 @@ namespace WinFormsApp1
         private TextBox _searchBar;
         private Button _changeMasterPasswordButton;
 
-
         public PasswordSideTile? Selected;
         public PasswordInfoDisplay InfoDisplay;
-        public Button ChangeMasterPassword { get; }
 
         /// <summary>
         /// Readonly Property for reading the list of PasswordsList
@@ -53,7 +51,7 @@ namespace WinFormsApp1
                 Environment.Exit(1);
             }
 
-            if (Serializer.LoadFromFile(this) == 2)
+            if (Serializer.LoadFromFile(this) == 2 & popupWindow.DialogResult == DialogResult.Yes)
             {
                 MessageBox.Show("Welcome to our password Manager");
 

@@ -34,7 +34,7 @@ namespace WinFormsApp1
 
         private void OnLoad(object sender, EventArgs e)
         {
-            if (Serializer.ValidatePassword("", null) == 2)
+            if (Serializer.ValidatePassword("") == 2)
             {
                 this.DialogResult = DialogResult.Yes;
             }
@@ -97,7 +97,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void SubmitPassBtn_Click(object sender, EventArgs e)
         {
-            int result = Serializer.ValidatePassword(_passwordTextBox.Text, null);
+            int result = Serializer.ValidatePassword(_passwordTextBox.Text);
             if (result == 0)
             {
                 this.DialogResult = DialogResult.OK;

@@ -60,7 +60,7 @@ namespace WinFormsApp1
         private void Confirm_Click(object? sender, EventArgs e)
         {
             //check old
-            if (Serializer.ValidatePassword(_oldPasswordTextBox.Text, null) == 1)
+            if (Serializer.ValidatePassword(_oldPasswordTextBox.Text) == 1)
             {
                 MessageBox.Show("Current password is wrong");
                 return;

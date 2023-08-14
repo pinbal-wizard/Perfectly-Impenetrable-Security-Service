@@ -38,7 +38,7 @@ namespace WinFormsApp1
         /// <summary>
         /// Call Serializer.LoadFromFile() to load PasswordsList from preset file
         /// </summary>
-        /// <returns>0</returns>
+        /// <returns>0 for loaded , 2 for no passwords, 1 for error</returns>
         public static int LoadFromFile(MainWindow form)
         {
             List<PasswordStruct> PasswordsList = new();
@@ -190,7 +190,7 @@ namespace WinFormsApp1
         /// <br></br> Return 0 for correct password, 1 for incorrect, 2 for no password
         /// </summary>
         /// <returns>True or False</returns>
-        public static int ValidatePassword(string passwordText, MainWindow? updateHash)
+        public static int ValidatePassword(string passwordText)
         {
             using (HashAlgorithm hash = MD5.Create())
             {
@@ -198,17 +198,13 @@ namespace WinFormsApp1
 
                 if (riddle == "")
                 {
-                    return 2;
+                    return 2; //no password
                 }
 
                 byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
                 string decyptedRiddle = Serializer.Decrypt(riddle, hashpassword);
                 if (decyptedRiddle == _riddleString)
                 {
-                    if (updateHash != null)
-                    {
-                        updateHash.hash = hashpassword;
-                    }
                     return 0;
                 }
             }
