@@ -34,7 +34,7 @@ namespace WinFormsApp1
 
         private void OnLoad(object sender, EventArgs e)
         {
-            if (ValidatePassword() == 2)
+            if (Serializer.ValidatePassword("", null) == 2)
             {
                 this.DialogResult = DialogResult.Yes;
             }
@@ -56,33 +56,6 @@ namespace WinFormsApp1
         {
             // Censor the password with asterisks
             _passwordTextBox.PasswordChar = '●';
-        }
-
-        /// <summary>
-        /// Validate if the entered password is correct by decrypting some text using entered password
-        /// </summary>
-        /// <returns>True or False</returns>
-        private int ValidatePassword()
-        {
-            using (HashAlgorithm hash = MD5.Create())
-            {
-                string check = "riddle me this who is the real g";
-                string text = File.ReadAllText("../../../riddle.txt");
-
-                if (text == "")
-                {
-                    return 2;
-                }
-
-                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(_passwordTextBox.Text));
-                string decypted = Serializer.Decrypt(text, hashpassword);
-                if (decypted == check)
-                {
-                    _form.hash = hashpassword;
-                    return 0;
-                }
-            }
-            return 1;
         }
 
         private void MasterPasswordPopup_SizeChanged(object sender, EventArgs e)
@@ -124,7 +97,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void SubmitPassBtn_Click(object sender, EventArgs e)
         {
-            int result = ValidatePassword();
+            int result = Serializer.ValidatePassword(_passwordTextBox.Text, null);
             if (result == 0)
             {
                 this.DialogResult = DialogResult.OK;

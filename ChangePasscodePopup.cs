@@ -60,7 +60,7 @@ namespace WinFormsApp1
         private void Confirm_Click(object? sender, EventArgs e)
         {
             //check old
-            if (!ValidatePassword())
+            if (Serializer.ValidatePassword(_oldPasswordTextBox.Text, null) == 1)
             {
                 MessageBox.Show("Current password is wrong");
                 return;
@@ -78,16 +78,7 @@ namespace WinFormsApp1
                 return;
             }
             //change it
-            using (HashAlgorithm hash = MD5.Create())
-            {
-                string riddle = File.ReadAllText("../../../riddle.txt");
-                byte[] hashpassword = _form.hash;
-                string decypted = Serializer.Decrypt(riddle, hashpassword);
-                byte[] newhash = hash.ComputeHash(Encoding.UTF8.GetBytes(_newPasswordConfirmTextBox.Text));
-                string encryptedRiddle = Serializer.Encrypt(decypted, newhash);
-                _form.hash = newhash;
-                File.WriteAllText("../../../riddle.txt", encryptedRiddle);
-            }
+            Serializer.ChangeMasterPassword(_form.hash,_newPasswordTextBox.Text);
             this.Close();
         }
 
@@ -137,28 +128,6 @@ namespace WinFormsApp1
             _newPasswordConfirmDiv.AutoSize = true;
             _newPasswordConfirmDiv.Controls.Add(_newPasswordConfirmLabel);
             _newPasswordConfirmDiv.Controls.Add(_newPasswordConfirmTextBox);
-        }
-
-        private bool ValidatePassword()
-        {
-            using (HashAlgorithm hash = MD5.Create())
-            {
-                string check = "riddle me this who is the real g";
-                string text = File.ReadAllText("../../../riddle.txt");
-
-                if (text == "")
-                {
-                    return true;
-                }
-                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(_oldPasswordTextBox.Text));
-                string decypted = Serializer.Decrypt(text, hashpassword);
-                if (decypted == check)
-                {                    
-                    return true;
-                }
-
-            }
-            return false;
         }
     }
 }

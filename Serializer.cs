@@ -11,6 +11,7 @@ namespace WinFormsApp1
     /// </summary>
     internal static class Serializer
     {
+        private static string _riddleString = "riddle me this who is the real g";
         private static string _saveLocation = "../../../Shadow.png";
 
         ///<summary>
@@ -137,6 +138,11 @@ namespace WinFormsApp1
         /// <returns>The decrypted form of cryptText</returns>
         public static string Decrypt(string cryptText,byte[] password)
         {
+            if (cryptText == "")
+            {
+
+            }
+
             //password is already hashed
             string content = String.Empty;
 
@@ -178,5 +184,49 @@ namespace WinFormsApp1
             }
             return content;
         }
+
+        /// <summary>
+        /// Validate if the entered password is correct by decrypting some text using entered password
+        /// <br></br> Return 0 for correct password, 1 for incorrect, 2 for no password
+        /// </summary>
+        /// <returns>True or False</returns>
+        public static int ValidatePassword(string passwordText, MainWindow? updateHash)
+        {
+            using (HashAlgorithm hash = MD5.Create())
+            {
+                string riddle = File.ReadAllText("../../../riddle.txt");
+
+                if (riddle == "")
+                {
+                    return 2;
+                }
+
+                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(passwordText));
+                string decyptedRiddle = Serializer.Decrypt(riddle, hashpassword);
+                if (decyptedRiddle == _riddleString)
+                {
+                    if (updateHash != null)
+                    {
+                        updateHash.hash = hashpassword;
+                    }
+                    return 0;
+                }
+            }
+            return 1;
+        }
+
+        public static int ChangeMasterPassword(byte[] oldPasswordHash, string newPassword)
+        {
+            using (HashAlgorithm hash = MD5.Create())
+            {
+                string riddle = File.ReadAllText("../../../riddle.txt");
+                byte[] newPasswordHash = hash.ComputeHash(Encoding.UTF8.GetBytes(newPassword));
+
+                string encryptedRiddle = Serializer.Encrypt(_riddleString, newPasswordHash);
+                File.WriteAllText("../../../riddle.txt", encryptedRiddle);
+            }
+            return 1;
+        }
+
     }
 }
