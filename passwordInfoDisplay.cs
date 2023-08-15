@@ -19,6 +19,38 @@ namespace WinFormsApp1
         public Label Divider { get; set; }
         public TextBox WebsiteLinkLabel { get; set; }
         public TextBox WebsiteLink { get; set; }
+
+
+        //This section defines the layout of username and password info, as well as the alignment of the copy buttons
+        //Div here is in refrence to the divs used in html as a way of sectioning content and seperateing them
+        //It is also in refrence to the flowlayout property resembling the nature of htmls divs
+        //UsernamePasswordCopyDiv is the over all container div for everything
+        //The section is then split into the usernamepassword and the copy button
+        //This section into 2 seperate areas means that the copy buttons will always be aligned with each other
+        //The username password div is then split into 2 divs for each section
+        //Diagram:
+        //usernamepasswordcopy div
+        //------------------------------------
+        //|---usernamepassword div--|copy div|
+        //|| Label                  |        |
+        //||------username div------|        |
+        //|||                       |        |
+        //|||  username             |  COPY  |
+        //||------------------------|        |
+        //||  Label                 |        |
+        //||------password div------|        |
+        //|||                       |        |
+        //|||  password  hideButton |  COPY  |
+        //||------------------------|        |
+        //|-------------------------|--------|
+        //------------------------------------
+        public FlowLayoutPanel UsernamePasswordCopyDiv { get; set; }
+        public FlowLayoutPanel UsernamePasswordDiv { get; set; }
+        public FlowLayoutPanel CopyDiv { get; set; }
+        public FlowLayoutPanel UsernameDiv { get; set; }
+        public FlowLayoutPanel PasswordDiv { get; set; }
+        int MagicTextboxMargin { get; set; }
+
         public TextBox UsernameLabel { get; set; }
         public TextBox Username { get; set; }
         public FlowLayoutPanel UsernamePanel { get; set; }
@@ -27,16 +59,12 @@ namespace WinFormsApp1
         public FlowLayoutPanel PasswordPanel { get; set; }
         public Label Divider2 { get; set; }
         public Button HideButton { get; set; }
-        
-
-        public Button CopyPassButton { get; set; }
-
+        public Button CopyUserButton { get; set; }
+        public Button CopyPassButton { get; set; }        
         Label Test;
-
         public Button EditButton;
         public Button saveButton;
         public Button cancelButton;
-
         public string RealPassword { get; set; }
         public bool IsHidden { get; set; }
         private MainWindow form;
@@ -90,23 +118,9 @@ namespace WinFormsApp1
             WebsiteLink.Click += WebsiteLink_Click;
             WebsiteLink.Margin = new Padding(0, 0, 0, 40);
 
-            //Username Stuff
-            UsernameLabel = new TextBox();
-            UsernameLabel.Text = "Username";
-            UsernameLabel.Margin = new Padding(0);
-            UsernameLabel.Font = new Font("Arial", 7);
-
-            //Seperate panel (like a div) for username
-            InitUsernamePanel();
-
-            //Password Label
-            PasswordLabel = new TextBox();
-            PasswordLabel.Text = "Password";
-            PasswordLabel.Font = new Font("Arial", 7);
-            PasswordLabel.Margin = new Padding(0);
-
-            //Seperate panel (like a div) for password and button so that they can be on the same y level
-            InitPasswordPanel();
+            //UsernamePassword Copy Button Conatiner Div(also a very cool div btw)
+            //Purpose is to allow for alignment of the copybuttons in both directions
+            InitUsernamePasswordCopyDiv();
 
             //Cool bottom divider
             Divider2 = new Label();
@@ -120,12 +134,6 @@ namespace WinFormsApp1
             InitEditButton();
             InitSaveButton();
             InitCancelButton();
-
-            CopyPassButton = new Button();
-            CopyPassButton.Text = "Copy Password";
-            CopyPassButton.Margin = new Padding(0,10,10,10);
-            CopyPassButton.AutoSize = true;
-            CopyPassButton.Click += CopyPassButton_Click;
 
             //Width is rest of the form.
             this.Width = form.ClientSize.Width - form.ClientSize.Width/5;
@@ -141,17 +149,9 @@ namespace WinFormsApp1
             this.Controls.Add(Divider);
             this.Controls.Add(WebsiteLinkLabel);
             this.Controls.Add(WebsiteLink);
-            this.Controls.Add(UsernameLabel);
-            this.Controls.Add(UsernamePanel);
-            this.Controls.Add(PasswordLabel);
-            this.Controls.Add(PasswordPanel);
-            this.Controls.Add(CopyPassButton);
-            this.Controls.Add(Divider2);
-            
-
+            this.Controls.Add(UsernamePasswordCopyDiv);
+            this.Controls.Add(Divider2);            
             this.Controls.Add(EditButton);
-            this.Controls.Add(cancelButton);
-            this.Controls.Add(saveButton);
 
             //Levels of optimisation you would never find in autogenerated code
             foreach(Control ctr in Controls)
@@ -163,13 +163,11 @@ namespace WinFormsApp1
                     txt.BorderStyle = BorderStyle.None;
                     txt.BackColor = BackColor;
                     txt.ReadOnly = true;
-                    TextLength(txt);
-
-
                 }
             }
-            
+            TextLenghAll();            
         }
+
 
         /// <summary>
         /// **Will open browser**
@@ -183,10 +181,64 @@ namespace WinFormsApp1
             //failing means something broke, nothing happening is not something breaking
         }
         /// <summary>
-        /// Will initalise the username panel
+        /// Initialises the div storing the username password and copybuttons
         /// </summary>
-        private void InitUsernamePanel()
+        private void InitUsernamePasswordCopyDiv()
         {
+            //Init sub divs
+            InitUsernamePasswordDiv();
+            InitCopyDiv();
+
+            //Make the overall container div for this entire section
+            UsernamePasswordCopyDiv = new FlowLayoutPanel();
+            UsernamePasswordCopyDiv.FlowDirection = FlowDirection.LeftToRight;
+            UsernamePasswordCopyDiv.AutoSize = true;
+            UsernamePasswordCopyDiv.Controls.Add(UsernamePasswordDiv);
+            UsernamePasswordCopyDiv.Controls.Add(CopyDiv);
+        }
+        /// <summary>
+        /// Initialises the div storing the username and password divs
+        /// </summary>
+        private void InitUsernamePasswordDiv()
+        {
+            //Make the username Label
+            UsernameLabel = new TextBox();
+            UsernameLabel.Text = "Username";
+            UsernameLabel.Margin = new Padding(0);
+            UsernameLabel.Font = new Font("Arial", 7);
+            UsernameLabel.BorderStyle = BorderStyle.None;
+            UsernameLabel.BackColor = BackColor;
+            UsernameLabel.ReadOnly = true;
+
+            //Make the password Label
+            PasswordLabel = new TextBox();
+            PasswordLabel.Text = "Password";
+            PasswordLabel.Font = new Font("Arial", 7);
+            PasswordLabel.Margin = new Padding(0);
+            PasswordLabel.BorderStyle = BorderStyle.None;
+            PasswordLabel.BackColor = BackColor;
+            PasswordLabel.ReadOnly = true; 
+
+            //Run subdiv init functions
+            InitUsernameDiv();
+            InitPasswordDiv();
+
+            //Make the username password container div
+            //Items added in the order of Label then div
+            UsernamePasswordDiv = new FlowLayoutPanel();
+            UsernamePasswordDiv.FlowDirection = FlowDirection.TopDown;
+            UsernamePasswordDiv.AutoSize = true;
+            UsernamePasswordDiv.Controls.Add(UsernameLabel);
+            UsernamePasswordDiv.Controls.Add(UsernameDiv);     
+            UsernamePasswordDiv.Controls.Add(PasswordLabel);
+            UsernamePasswordDiv.Controls.Add(PasswordDiv);
+        }
+        /// <summary>
+        /// Initialises the div storing the username
+        /// </summary>
+        private void InitUsernameDiv()
+        {          
+            //Make a username, has a margin bottom of 40 to space it and the password div below it
             Username = new TextBox();
             Username.Text = "Boe Jiden";
             Username.Font = new Font("Arial", 10);
@@ -194,13 +246,78 @@ namespace WinFormsApp1
             Username.BorderStyle = BorderStyle.None;
             Username.BackColor = BackColor;
             Username.ReadOnly = true;
-            TextLength(Username);
 
-            UsernamePanel = new FlowLayoutPanel();
-            UsernamePanel.Margin = new Padding(0, 0, 0,0);
-            UsernamePanel.AutoSize = true;
-            UsernamePanel.Controls.Add(Username);
+            //Make a div to store the Username
+            UsernameDiv = new FlowLayoutPanel();
+            UsernameDiv.Margin = new Padding(0);
+            UsernameDiv.FlowDirection = FlowDirection.LeftToRight;
+            UsernameDiv.AutoSize = true;
+            UsernameDiv.Controls.Add(Username);
+        }
 
+        /// <summary>
+        /// Initialises the div storing the password and Hide Button
+        /// </summary>
+        private void InitPasswordDiv()
+        {            
+            //Make a Password textbox, set the chars to ● for security
+            Password = new TextBox();
+            Password.Text = RealPassword;
+            Password.PasswordChar = '●';
+            Password.Font = new Font("Arial", 9);
+            Password.TextChanged += PasswordHideToggled;
+            Password.Margin = new Padding(0);
+            Password.BorderStyle = BorderStyle.None;
+            Password.BackColor = BackColor;
+            Password.ReadOnly = true;
+
+            //Button to hide and unhide password
+            HideButton = new Button();
+            HideButton.Size = new Size(23, 23);
+            HideButton.Margin = new Padding(10, 0, 0, 0);
+            HideButton.Click += Hide_Click;
+            HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
+            HideButton.ImageAlign = ContentAlignment.TopCenter;
+            HideButton.FlatStyle = FlatStyle.Flat;
+            HideButton.FlatAppearance.BorderSize = 0;
+            HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
+            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
+            HideButton.AutoSize = true;
+
+            //Password Div
+            PasswordDiv = new FlowLayoutPanel();
+            PasswordDiv.FlowDirection = FlowDirection.LeftToRight;
+            PasswordDiv.Margin = new Padding(0);
+            PasswordDiv.AutoSize = true;
+            PasswordDiv.Controls.Add(Password);
+            PasswordDiv.Controls.Add(HideButton);
+        }
+        /// <summary>
+        /// Initialises the div storing the copyButtons
+        /// </summary>
+        private void InitCopyDiv()
+        {
+            //Make a button to copy username
+            CopyUserButton = new Button();
+            CopyUserButton.Text = "Copy Username";
+            CopyUserButton.Margin = new Padding(0, UsernameLabel.Height+MagicTextboxMargin, 0, 0);
+            CopyUserButton.AutoSize = true;
+            CopyUserButton.Click += CopyUserButton_Click;
+
+            //Make a button to copy password
+            CopyPassButton = new Button();
+            CopyPassButton.Text = "Copy Password";
+            CopyPassButton.Margin = new Padding(0,PasswordLabel.Height+ MagicTextboxMargin, 0, 0);
+            CopyPassButton.AutoSize = true;
+            CopyPassButton.Click += CopyPassButton_Click;
+
+            //Make the div to store both of the above copybuttons
+            CopyDiv = new FlowLayoutPanel();
+            CopyDiv.FlowDirection = FlowDirection.TopDown;
+            CopyDiv.Margin = new Padding(0);
+            CopyDiv.AutoSize = true;
+            CopyDiv.Controls.Add(CopyUserButton);
+            CopyDiv.Controls.Add(CopyPassButton);
         }
 
         /// <summary>
@@ -237,68 +354,28 @@ namespace WinFormsApp1
 
 
         /// <summary>
-        /// Will initalise the password panel
-        /// </summary>
-        private void InitPasswordPanel()
-        {
-            //Actuall password, hidden initially
-            Password = new TextBox();
-            Password.Text = RealPassword;
-            Password.PasswordChar = '●';
-            Password.Font = new Font("Arial", 9);
-            Password.TextChanged += PasswordHideToggled;
-            Password.Margin = new Padding(0, 2, 0, 0);
-            Password.AutoSize = true;
-            Password.MaximumSize = new Size(400, 400000);
-            Password.BorderStyle = BorderStyle.None;
-            Password.BackColor = BackColor;
-            Password.ReadOnly = true;
-            TextLength(Password);
-
-
-            //Button to hide and unhide password
-            HideButton = new Button();
-            HideButton.Size = new Size(23, 23);
-            HideButton.Margin = new Padding(10, 0, 0, 0);
-            HideButton.Click += Hide_Click;
-            HideButton.Image = Image.FromFile("..\\..\\..\\assets\\passwordHide.png");
-            HideButton.ImageAlign = ContentAlignment.TopCenter;
-            HideButton.FlatStyle = FlatStyle.Flat;
-            HideButton.FlatAppearance.BorderSize = 0;
-            HideButton.FlatAppearance.MouseOverBackColor = Color.Transparent;
-            HideButton.FlatAppearance.MouseDownBackColor = Color.Transparent;
-            HideButton.AutoSize = true;
-
-            //Container Panel
-            PasswordPanel = new FlowLayoutPanel();
-            PasswordPanel.Margin = new Padding(0, 0, 0, 40);
-            PasswordPanel.AutoSize = true;
-            PasswordPanel.Controls.Add(Password);
-            PasswordPanel.Controls.Add(HideButton);
-            PasswordPanel.Controls.Add(CopyPassButton);
-        }
-
-        /// <summary>
         /// Resest the read-only and the backcolor of the username and password textboxes to make it editable
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void EditButton_Click(object sender, EventArgs e)
-        {
+        {    
+            //You get 20% screen and thats it
+            int Percent20 = form.ClientSize.Width / 5;
             // Change websitename textbox to be editable
             WebsiteLink.ReadOnly = false;
             WebsiteLink.BackColor = Color.White;
-            TextLength(WebsiteLink);
+            WebsiteLink.Width = Percent20;
 
             // Changing username textbox to be editable
             Username.ReadOnly = false;
             Username.BackColor = Color.White;
-            TextLength(Username);
+            Username.Width = Percent20;
 
             // Do the same thing to the password textbox
             Password.ReadOnly = false;
             Password.BackColor = Color.White;
-            TextLength(Password);
+            Password.Width = Percent20;
             
             // Update the position of the "Cancel" and "Save" buttons
             saveButton.Location = new Point(EditButton.Right, EditButton.Top);
@@ -346,6 +423,7 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void saveButton_Click(Object sender, EventArgs e)
         {
+            
             string newWebsite = Websitename.Text;
             string newUsername = Username.Text;
             string newPassword = Password.Text;
@@ -389,7 +467,6 @@ namespace WinFormsApp1
         private void PasswordHideToggled(object? sender, EventArgs e)
         {
             TextLength(Password);
-            HideButton.Location = new Point(Password.Size.Width, 0);
         }
 
         /// <summary>
@@ -404,13 +481,24 @@ namespace WinFormsApp1
             if (IsHidden == true)
             {
                 Password.PasswordChar = '●';
-
             }
             else
             {
                 Password.PasswordChar = '\0';
             }
         }
+
+        /// <summary>
+        /// Sets the Proper TextBoxLength for all Textboxes in infoDisplay
+        /// </summary>
+        public void TextLenghAll()
+        {
+            TextLength(Websitename);
+            TextLength(WebsiteLink);
+            TextLength(Username);
+            TextLength(Password);
+        }
+
         /// <summary>
         /// Set text box length to correct ammout.
         /// Little bit of a hack
@@ -422,15 +510,58 @@ namespace WinFormsApp1
             Test.Font = WhatLengthAmI.Font;
             Test.AutoSize = true;
             this.Controls.Add(Test);
-            WhatLengthAmI.Width = Test.Width;
+            WhatLengthAmI.Width = Test.Width+10;
             this.Controls.Remove(Test);
+            if (WhatLengthAmI.Width < 60) WhatLengthAmI.Width = 60;
            
         }
+        /// <summary>
+        /// Copys username to clipboard
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CopyUserButton_Click(object? sender, EventArgs e)
+        {
+            Clipboard.SetText(this.Username.Text);
+        }
 
+        /// <summary>
+        /// Copys password to clipboard
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CopyPassButton_Click (object? sender, EventArgs e)
         {
             Clipboard.SetText(this.Password.Text);
+        }
 
+        /// <summary>
+        /// Somehow Textboxs in flow layout panels have a minimum bottom margin that is sepperate from the normal margin.
+        /// You cannot remove this in any way or directly read its value.
+        /// As such its value will be calculated through the sutraction of other items
+        /// leaving the remainder to be the height of this magic bottom margin
+        /// </summary>
+        public void MagicMargin()
+        {
+            //Calculate magicmargin
+            int TotalOfDiv = UsernamePasswordDiv.Height;
+            int HeightOfContnets = form.CalcHeight(UsernamePasswordDiv);
+            int differance = TotalOfDiv - HeightOfContnets;
+            //since there are 2 labvles with magic margins we divide by 2
+            MagicTextboxMargin = differance / 2;
+        }
+        /// <summary>
+        /// Ads the proper margins to both of the copybuttons in infoDisplay.cs
+        /// </summary>
+        public void FixCopyMargins()
+        {
+            //Margin of Labels Height + magic number to align with actual username
+            CopyUserButton.Margin = new Padding(0, UsernameLabel.Height + MagicTextboxMargin, 0, 0);
+            //Above already accounts for one instance of Label and magic number
+            //Height of full usernameDiv - the height of the button above gives margin to right below usernamediv
+            //Add Another round of Label and magic number to align with actual password
+            int heightOfUsername = UsernameDiv.Height - CopyUserButton.Height;
+            CopyPassButton.Margin = new Padding(0, heightOfUsername + PasswordLabel.Height + MagicTextboxMargin, 0, 0);
         }
     }
 }

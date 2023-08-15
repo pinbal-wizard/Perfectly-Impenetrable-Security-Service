@@ -65,9 +65,17 @@ namespace WinFormsApp1
 
             this.DoubleBuffered = true;
             this.ClientSizeChanged += MainWindow_Resize;
+            this.Shown += MainWindow_Shown;
             this.FormClosing += MainWindow_Deactivate;
 
             this.ResumeLayout();
+        }
+
+        private void MainWindow_Shown(object? sender, EventArgs e)
+        {
+            InfoDisplay.MagicMargin();
+            InfoDisplay.FixCopyMargins();
+
         }
 
 
@@ -208,6 +216,7 @@ namespace WinFormsApp1
             InfoDisplay.Location = new Point(Percent20, 0);
             InfoDisplay.Width = (this.ClientSize.Width - Percent20);
             InfoDisplay.Height = this.ClientSize.Height;
+            InfoDisplay.Password.MaximumSize = new Size(Percent20, 4000);
 
             _sidePanelContainer.Width = Percent20;
 
@@ -240,14 +249,6 @@ namespace WinFormsApp1
                 _sidePanelPasswords.Controls.Add(AddSidePanelDivider());
             }
         }
-
-
-        private void CopyPassword(object sender, EventArgs e)
-        {
-            // Implement what you want to happen when the button is clicked
-            // This can include opening a dialog for adding a new password entry, for example.
-        }
-
 
         private void SearchPasswords(object? sender, EventArgs e)
         {
@@ -305,7 +306,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="panel"></param>
         /// <returns></returns>
-        private int CalcHeight(Control panel)
+        public int CalcHeight(Control panel)
         {
             int height = 0;
             foreach (Control ctr in panel.Controls)
