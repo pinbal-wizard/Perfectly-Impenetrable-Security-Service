@@ -95,9 +95,22 @@ namespace WinFormsApp1
                 firstPasswordEntry.PasswordInfo_Click(this, EventArgs.Empty);
             }
 
+            this.DoubleBuffered = true;
+            this.ClientSizeChanged += MainWindow_Resize;
+            this.Shown += MainWindow_Shown;
+            this.FormClosing += MainWindow_Deactivate;
+            
             this.FormClosed += MainWindow_Close;
             ResumeLayout();
         }
+
+        private void MainWindow_Shown(object? sender, EventArgs e)
+        {
+            InfoDisplay.MagicMargin();
+            InfoDisplay.FixCopyMargins();
+
+        }
+
 
         /// <summary>
         /// Public Function for adding PasswordsList to the list off PasswordsList
@@ -202,6 +215,7 @@ namespace WinFormsApp1
             InfoDisplay.Location = new Point(Percent20, 0);
             InfoDisplay.Width = (this.ClientSize.Width - Percent20);
             InfoDisplay.Height = this.ClientSize.Height;
+            InfoDisplay.Password.MaximumSize = new Size(Percent20, 4000);
 
             _sidePanelContainer.Width = Percent20;
 
@@ -295,7 +309,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="panel"></param>
         /// <returns></returns>
-        private int CalcHeight(Control panel)
+        public int CalcHeight(Control panel)
         {
             int height = 0;
             foreach (Control ctr in panel.Controls)
