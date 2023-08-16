@@ -19,8 +19,6 @@ namespace WinFormsApp1
         public Label Divider { get; set; }
         public TextBox WebsiteLinkLabel { get; set; }
         public TextBox WebsiteLink { get; set; }
-
-
         //This section defines the layout of username and password info, as well as the alignment of the copy buttons
         //Div here is in refrence to the divs used in html as a way of sectioning content and seperateing them
         //It is also in refrence to the flowlayout property resembling the nature of htmls divs
@@ -68,6 +66,10 @@ namespace WinFormsApp1
         public string RealPassword { get; set; }
         public bool IsHidden { get; set; }
         private MainWindow form;
+
+        string tempWebsitelink { get; set; }
+        string tempUsername { get; set; }
+        string tempPassword { get; set; }
 
         /// <summary>
         /// FlowLayoutPanel with flow direction of top to bottom
@@ -267,7 +269,6 @@ namespace WinFormsApp1
             Password.Text = RealPassword;
             Password.PasswordChar = '●';
             Password.Font = new Font("Arial", 9);
-            Password.TextChanged += PasswordHideToggled;
             Password.Margin = new Padding(0);
             Password.BorderStyle = BorderStyle.None;
             Password.BackColor = BackColor;
@@ -387,6 +388,10 @@ namespace WinFormsApp1
             saveButton.Visible = true;
             cancelButton.Visible = true;
             EditButton.Visible = false;
+
+            tempWebsitelink = WebsiteLink.Text;
+            tempUsername = Username.Text;
+            tempPassword = Password.Text;
         }
 
         /// <summary>
@@ -409,13 +414,16 @@ namespace WinFormsApp1
             //Revert the password textbox to read-only and set it to the original size
             Password.ReadOnly = true;
             Password.BackColor = BackColor;
-            Password.AutoSize = false;
-            Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
+            TextLength(Password);
 
             //Change the visibility of the edit button and the cancel button
             EditButton.Visible = true;
             cancelButton.Visible = false;
             saveButton.Visible = false;
+
+            WebsiteLink.Text = tempWebsitelink;
+            Username.Text = tempUsername;
+            Password.Text = tempPassword;
         }
 
         /// <summary>
@@ -462,9 +470,12 @@ namespace WinFormsApp1
             Password.ReadOnly = true;
             Password.BackColor = BackColor;
             Password.AutoSize = false;
-            Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
-            }
+            TextLength(Password);
 
+            //Change the visibility of the edit button and the cancel button
+            EditButton.Visible = true;
+            cancelButton.Visible = false;
+            saveButton.Visible = false;
         }
         /// <summary>
         /// updates position of hide button
