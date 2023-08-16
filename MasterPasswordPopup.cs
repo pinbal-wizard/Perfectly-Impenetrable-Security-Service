@@ -17,6 +17,7 @@ namespace WinFormsApp1
     public partial class MasterPasswordPopup : Form
     {
         private bool _isPasswordShown = false; // flag to indicate whether the password is visible
+        public byte[] Password;
         private MainWindow _form;
 
         public MasterPasswordPopup(MainWindow form)
@@ -97,9 +98,10 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void SubmitPassBtn_Click(object sender, EventArgs e)
         {
-            int result = Serializer.ValidatePassword(_passwordTextBox.Text);
-            if (result == 0)
+            int result = Serializer.ValidatePassword(_passwordTextBox.Text, out byte[] hashPassword);
+            if (result == 0 & hashPassword != null)
             {
+                _form._hash = hashPassword;
                 this.DialogResult = DialogResult.OK;
             }
             else

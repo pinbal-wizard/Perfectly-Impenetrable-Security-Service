@@ -57,6 +57,11 @@ namespace WinFormsApp1
             Controls.Add(_panel);
         }
 
+        /// <summary>
+        /// Is called when the confirm button is clicked
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Confirm_Click(object? sender, EventArgs e)
         {
             //check old
@@ -78,7 +83,7 @@ namespace WinFormsApp1
                 return;
             }
             //change it
-            Serializer.ChangeMasterPassword(_form.hash,_newPasswordTextBox.Text, out byte[] ab);
+            Serializer.ChangeMasterPassword(_form._hash,_newPasswordTextBox.Text, _form);
             this.Close();
         }
 
