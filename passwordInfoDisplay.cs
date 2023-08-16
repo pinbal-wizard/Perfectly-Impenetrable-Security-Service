@@ -463,11 +463,8 @@ namespace WinFormsApp1
             Password.BackColor = BackColor;
             Password.AutoSize = false;
             Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
+            }
 
-            //Change the visibility of the edit button and the cancel button
-            EditButton.Visible = true;
-            cancelButton.Visible = false;
-            saveButton.Visible = false;
         }
         /// <summary>
         /// updates position of hide button
