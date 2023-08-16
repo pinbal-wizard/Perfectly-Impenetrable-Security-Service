@@ -419,7 +419,7 @@ namespace WinFormsApp1
         }
 
         /// <summary>
-        /// Saves the updated ìnfo into 
+        /// Saves the updated ìnfo into new password struct 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -430,46 +430,41 @@ namespace WinFormsApp1
             if (string.IsNullOrEmpty(Websitename.Text) || string.IsNullOrEmpty(Username.Text) || string.IsNullOrEmpty(Password.Text))
             {
                 MessageBox.Show("Please fill in all fields to finalize edit");
+                return; 
             }
 
             // If not null then save it
-            else
-            {
-                string newWebsite = Websitename.Text;
-                string newUsername = Username.Text;
-                string newPassword = Password.Text;
+            string newWebsite = Websitename.Text;
+            string newUsername = Username.Text;
+            string newPassword = Password.Text;
 
-                PasswordStruct newInfo = new PasswordStruct(newWebsite, newUsername, newPassword);
-                form.Selected.passwordbase = newInfo;
-                form.Selected.WebSite = newWebsite;
-                form.Selected.Username = newUsername;
-                form.Selected.Password = newPassword;
+            PasswordStruct newInfo = new PasswordStruct(newWebsite, newUsername, newPassword);
+            form.Selected.passwordbase = newInfo;
+            form.Selected.WebSite = newWebsite;
+            form.Selected.Username = newUsername;
+            form.Selected.Password = newPassword;
 
-                form.PasswordsList[form.Selected.index] = newInfo;
+            form.PasswordsList[form.Selected.index] = newInfo;
 
-                form.Selected.UpdateDisplay();
+            form.Selected.UpdateDisplay();
 
-                //Revert website link textbox to read-only
-                WebsiteLink.ReadOnly = true;
-                WebsiteLink.BackColor = BackColor;
-                TextLength(WebsiteLink);
+            //Revert website link textbox to read-only
+            WebsiteLink.ReadOnly = true;
+            WebsiteLink.BackColor = BackColor;
+            TextLength(WebsiteLink);
 
-                //Revert the username textbox to read-only
-                Username.ReadOnly = true;
-                Username.BackColor = BackColor;
-                TextLength(Username);
+            //Revert the username textbox to read-only
+            Username.ReadOnly = true;
+            Username.BackColor = BackColor;
+            TextLength(Username);
 
-                //Revert the password textbox to read-only and set it to the original size
-                Password.ReadOnly = true;
-                Password.BackColor = BackColor;
-                Password.AutoSize = false;
-                Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
-
-                //Change the visibility of the edit button and the cancel button
-                EditButton.Visible = true;
-                cancelButton.Visible = false;
-                saveButton.Visible = false;
+            //Revert the password textbox to read-only and set it to the original size
+            Password.ReadOnly = true;
+            Password.BackColor = BackColor;
+            Password.AutoSize = false;
+            Password.Size = Password.GetPreferredSize(new Size(Password.Width, 0));
             }
+
         }
         /// <summary>
         /// updates position of hide button
