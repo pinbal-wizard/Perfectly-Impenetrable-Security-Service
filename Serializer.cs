@@ -131,8 +131,6 @@ namespace WinFormsApp1
             {
                 crypt.Key = password;
                 crypt.GenerateIV();
-                var love = Encoding.Latin1.GetString(crypt.IV);
-                var csharp = Encoding.Latin1.GetString(crypt.Key);
 
                 using (CryptoStream cryptoStream = new CryptoStream(
                     memoryStream, crypt.CreateEncryptor(), CryptoStreamMode.Write))
