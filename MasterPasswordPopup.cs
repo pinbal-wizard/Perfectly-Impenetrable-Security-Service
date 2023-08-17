@@ -16,15 +16,57 @@ namespace WinFormsApp1
     /// </summary>
     public partial class MasterPasswordPopup : Form
     {
-        private bool showPassword = false; // flag to indicate whether the password is visible
-        private MainWindow form;
+        private bool _isPasswordShown = false; // flag to indicate whether the password is visible
+        public byte[] Password;
+        private MainWindow _form;
+
         public MasterPasswordPopup(MainWindow form)
         {
+            this._form = form;
+
             InitializeComponent();
-            MasterPasswordPopup_SizeChanged(this, null);
-            PasswordTextBox.PasswordChar = '●'; // Censor the password by default
-            this.form = form;
-            this.AcceptButton = SubmitPassBtn;
+            MasterPasswordPopup_SizeChanged(this, EventArgs.Empty);
+            _passwordTextBox.PasswordChar = '●'; // Censor the password by default
+
+            this.AcceptButton = _submitPassBtn;
+            this.Load += OnLoad;
+        }
+
+
+        private void OnLoad(object sender, EventArgs e)
+        {
+            if (Serializer.ValidatePassword("") == 2)
+            {
+                this.DialogResult = DialogResult.Yes;
+            }
+        }
+
+        /// <summary>
+        /// Set password textbox char to null char so it is shown
+        /// </summary>
+        private void ShowPassword()
+        {
+            // Show the password in letters
+            _passwordTextBox.PasswordChar = '\0'; // Set to '\0' (null character) to show letters
+        }
+
+        /// <summary>
+        /// Set password textbox char to ● to hide it
+        /// </summary>
+        private void HidePassword()
+        {
+            // Censor the password with asterisks
+            _passwordTextBox.PasswordChar = '●';
+        }
+
+        private void MasterPasswordPopup_SizeChanged(object sender, EventArgs e)
+        {
+            int halfWidth = ClientSize.Width / 2;
+            int halfHeight = ClientSize.Height / 2;
+            this._passwordTextBox.Location = new Point(halfWidth - this._passwordTextBox.Width, halfHeight);
+            this._enterPassLabel.Location = new Point(halfWidth - this._enterPassLabel.Width / 2, halfHeight - (this._enterPassLabel.Height));
+            this._submitPassBtn.Location = new Point(this._passwordTextBox.Location.X + this._passwordTextBox.Width + this._passwordTextBox.Margin.Right + this._showPasswordButton.Width + this._showPasswordButton.Margin.Right, halfHeight);
+            this._showPasswordButton.Location = new Point(this._passwordTextBox.Location.X + this._passwordTextBox.Width + this._passwordTextBox.Margin.Right, halfHeight);
         }
 
         /// <summary>
@@ -34,35 +76,20 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void ShowPasswordButton_Click(object sender, EventArgs e)
         {
-            showPassword = !showPassword;
+            _isPasswordShown = !_isPasswordShown;
 
-            if (showPassword)
+            if (_isPasswordShown)
             {
                 ShowPassword();
-                ShowPasswordButton.Text = "Hide Password";
+                _showPasswordButton.Text = "Hide Password";
             }
             else
             {
                 HidePassword();
-                ShowPasswordButton.Text = "Show Password";
+                _showPasswordButton.Text = "Show Password";
             }
         }
-        /// <summary>
-        /// Set password textbox char to null char so it is shown
-        /// </summary>
-        private void ShowPassword()
-        {
-            // Show the password in letters
-            PasswordTextBox.PasswordChar = '\0'; // Set to '\0' (null character) to show letters
-        }
-        /// <summary>
-        /// Set password textbox char to ● to hide it
-        /// </summary>
-        private void HidePassword()
-        {
-            // Censor the password with asterisks
-            PasswordTextBox.PasswordChar = '●';
-        }
+
         /// <summary>
         /// Runs on button click and enter press.
         /// Handels password validation at a high level
@@ -71,36 +98,17 @@ namespace WinFormsApp1
         /// <param name="e"></param>
         private void SubmitPassBtn_Click(object sender, EventArgs e)
         {
-            if (ValidatePassword())
+            int result = Serializer.ValidatePassword(_passwordTextBox.Text, out byte[] hashPassword);
+            if (result == 0 & hashPassword != null)
             {
+                _form._hash = hashPassword;
                 this.DialogResult = DialogResult.OK;
             }
             else
             {
                 MessageBox.Show("Password is incorrect");
+                _passwordTextBox.Text = string.Empty;
             }
-        }
-        /// <summary>
-        /// Validate if the entered password is correct by decrypting some text using entered password
-        /// </summary>
-        /// <returns>True or False</returns>
-        private bool ValidatePassword()
-        {
-            using (HashAlgorithm hash = MD5.Create())
-            {
-                string check = "riddle me this who is the real g";
-                string test = File.ReadAllLines("../../../riddle.txt").First();
-                byte[] hashpassword = hash.ComputeHash(Encoding.UTF8.GetBytes(PasswordTextBox.Text));
-                string decypted = Serializer.Decrypt(test, hashpassword);
-                if (decypted == check)
-                {
-                    form.hash = hashpassword;
-                    return true;
-                }
-               
-            }
-            PasswordTextBox.Clear();
-            return false;
         }
 
         private void MasterPasswordPopup_SizeChanged(object sender, EventArgs e)
@@ -112,6 +120,5 @@ namespace WinFormsApp1
             this.SubmitPassBtn.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right + this.ShowPasswordButton.Width + this.ShowPasswordButton.Margin.Right, HalfHeight);
             this.ShowPasswordButton.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right, HalfHeight);
         }
-
     }
 }

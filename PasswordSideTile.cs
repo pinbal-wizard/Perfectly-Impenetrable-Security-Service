@@ -94,7 +94,7 @@ namespace WinFormsApp1
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void PasswordInfo_Click(object? sender, EventArgs e)
+        public void PasswordInfo_Click(object? sender, EventArgs e)
         {
             //The panel and the labels both have this function when clicked
             //This is so if you click the text it still updates the infoDisplay

@@ -28,61 +28,61 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.PasswordTextBox = new System.Windows.Forms.TextBox();
-            this.EnterPassLabel = new System.Windows.Forms.Label();
-            this.SubmitPassBtn = new System.Windows.Forms.Button();
-            this.ShowPasswordButton = new System.Windows.Forms.Button();
+            this._passwordTextBox = new System.Windows.Forms.TextBox();
+            this._enterPassLabel = new System.Windows.Forms.Label();
+            this._submitPassBtn = new System.Windows.Forms.Button();
+            this._showPasswordButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // PasswordTextBox
             // 
-            this.PasswordTextBox.Location = new System.Drawing.Point(213, 168);
-            this.PasswordTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.PasswordTextBox.Name = "PasswordTextBox";
-            this.PasswordTextBox.Size = new System.Drawing.Size(141, 31);
-            this.PasswordTextBox.TabIndex = 0;
+            this._passwordTextBox.Location = new System.Drawing.Point(213, 168);
+            this._passwordTextBox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._passwordTextBox.Name = "PasswordTextBox";
+            this._passwordTextBox.Size = new System.Drawing.Size(141, 31);
+            this._passwordTextBox.TabIndex = 0;
             // 
             // EnterPassLabel
             // 
-            this.EnterPassLabel.AutoSize = true;
-            this.EnterPassLabel.Location = new System.Drawing.Point(213, 113);
-            this.EnterPassLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.EnterPassLabel.Name = "EnterPassLabel";
-            this.EnterPassLabel.Size = new System.Drawing.Size(132, 25);
-            this.EnterPassLabel.TabIndex = 1;
-            this.EnterPassLabel.Text = "Enter Password";
+            this._enterPassLabel.AutoSize = true;
+            this._enterPassLabel.Location = new System.Drawing.Point(213, 113);
+            this._enterPassLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this._enterPassLabel.Name = "EnterPassLabel";
+            this._enterPassLabel.Size = new System.Drawing.Size(132, 25);
+            this._enterPassLabel.TabIndex = 1;
+            this._enterPassLabel.Text = "Enter Password";
             // 
             // SubmitPassBtn
             // 
-            this.SubmitPassBtn.Location = new System.Drawing.Point(437, 167);
-            this.SubmitPassBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.SubmitPassBtn.Name = "SubmitPassBtn";
-            this.SubmitPassBtn.Size = new System.Drawing.Size(107, 38);
-            this.SubmitPassBtn.TabIndex = 2;
-            this.SubmitPassBtn.Text = "Submit";
-            this.SubmitPassBtn.UseVisualStyleBackColor = true;
-            this.SubmitPassBtn.Click += new System.EventHandler(this.SubmitPassBtn_Click);
+            this._submitPassBtn.Location = new System.Drawing.Point(437, 167);
+            this._submitPassBtn.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._submitPassBtn.Name = "SubmitPassBtn";
+            this._submitPassBtn.Size = new System.Drawing.Size(107, 38);
+            this._submitPassBtn.TabIndex = 2;
+            this._submitPassBtn.Text = "Submit";
+            this._submitPassBtn.UseVisualStyleBackColor = true;
+            this._submitPassBtn.Click += new System.EventHandler(this.SubmitPassBtn_Click);
             // 
             // ShowPasswordButton
             // 
-            this.ShowPasswordButton.Location = new System.Drawing.Point(364, 167);
-            this.ShowPasswordButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.ShowPasswordButton.Name = "ShowPasswordButton";
-            this.ShowPasswordButton.Size = new System.Drawing.Size(66, 38);
-            this.ShowPasswordButton.TabIndex = 3;
-            this.ShowPasswordButton.Text = "Show";
-            this.ShowPasswordButton.UseVisualStyleBackColor = true;
-            this.ShowPasswordButton.Click += new System.EventHandler(this.ShowPasswordButton_Click);
+            this._showPasswordButton.Location = new System.Drawing.Point(364, 167);
+            this._showPasswordButton.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this._showPasswordButton.Name = "ShowPasswordButton";
+            this._showPasswordButton.Size = new System.Drawing.Size(66, 38);
+            this._showPasswordButton.TabIndex = 3;
+            this._showPasswordButton.Text = "Show";
+            this._showPasswordButton.UseVisualStyleBackColor = true;
+            this._showPasswordButton.Click += new System.EventHandler(this.ShowPasswordButton_Click);
             // 
             // MasterPasswordPopup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(587, 360);
-            this.Controls.Add(this.ShowPasswordButton);
-            this.Controls.Add(this.SubmitPassBtn);
-            this.Controls.Add(this.EnterPassLabel);
-            this.Controls.Add(this.PasswordTextBox);
+            this.Controls.Add(this._showPasswordButton);
+            this.Controls.Add(this._submitPassBtn);
+            this.Controls.Add(this._enterPassLabel);
+            this.Controls.Add(this._passwordTextBox);
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "MasterPasswordPopup";
             this.Text = "Form2";
@@ -94,9 +94,9 @@
 
         #endregion
 
-        private TextBox PasswordTextBox;
-        private Label EnterPassLabel;
-        internal Button SubmitPassBtn;
-        private Button ShowPasswordButton;
+        private TextBox _passwordTextBox;
+        private Label _enterPassLabel;
+        private Button _submitPassBtn;
+        private Button _showPasswordButton;
     }
 }
