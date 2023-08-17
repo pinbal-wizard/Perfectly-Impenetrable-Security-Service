@@ -98,7 +98,6 @@ namespace WinFormsApp1
             this.DoubleBuffered = true;
             this.ClientSizeChanged += MainWindow_Resize;
             this.Shown += MainWindow_Shown;
-            this.FormClosing += MainWindow_Deactivate;
             
             this.FormClosed += MainWindow_Close;
             ResumeLayout();
