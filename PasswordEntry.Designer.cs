@@ -31,6 +31,7 @@
             this.WebsiteNameLabel = new System.Windows.Forms.Label();
             this.UsernameLabel = new System.Windows.Forms.Label();
             this.PasswordLabel = new System.Windows.Forms.Label();
+            this._hidePassword = new Button();
             this.WebsiteNameTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
@@ -80,15 +81,25 @@
             // 
             this.PasswordTextbox.Location = new System.Drawing.Point(191, 158);
             this.PasswordTextbox.Name = "PasswordTextbox";
+            this.PasswordTextbox.PasswordChar = '●';
             this.PasswordTextbox.Size = new System.Drawing.Size(244, 31);
             this.PasswordTextbox.TabIndex = 2;
+            //
+            // Hide Password Button
+            //
+            this._hidePassword.Location = new Point(191+PasswordTextbox.Width+50, 158);
+            this._hidePassword.Text = "Show";
+            this._hidePassword.Size = new Size(100, 31);
+            this._hidePassword.TabIndex = 3;
+            this._hidePassword.UseVisualStyleBackColor = true;
+            this._hidePassword.Click += _hidePassword_Click;
             // 
             // AddEntryButton
             // 
             this.AddEntryButton.Location = new System.Drawing.Point(191, 230);
             this.AddEntryButton.Name = "AddEntryButton";
             this.AddEntryButton.Size = new System.Drawing.Size(112, 34);
-            this.AddEntryButton.TabIndex = 3;
+            this.AddEntryButton.TabIndex = 4;
             this.AddEntryButton.Text = "Add";
             this.AddEntryButton.UseVisualStyleBackColor = true;
             this.AddEntryButton.Click += new System.EventHandler(this.ButtonSave_Click);
@@ -99,7 +110,7 @@
             this.CancelEntryButton.Margin = new System.Windows.Forms.Padding(2);
             this.CancelEntryButton.Name = "CancelEntryButton";
             this.CancelEntryButton.Size = new System.Drawing.Size(111, 35);
-            this.CancelEntryButton.TabIndex = 4;
+            this.CancelEntryButton.TabIndex = 5;
             this.CancelEntryButton.Text = "Cancel";
             this.CancelEntryButton.UseVisualStyleBackColor = true;
             this.CancelEntryButton.Click += new System.EventHandler(this.ButtonCancel_Click);
@@ -112,6 +123,7 @@
             this.Controls.Add(this.CancelEntryButton);
             this.Controls.Add(this.AddEntryButton);
             this.Controls.Add(this.PasswordTextbox);
+            this.Controls.Add(this._hidePassword);
             this.Controls.Add(this.UsernameTextbox);
             this.Controls.Add(this.WebsiteNameTextbox);
             this.Controls.Add(this.PasswordLabel);
@@ -123,12 +135,12 @@
             this.PerformLayout();
 
         }
-
         #endregion
 
         private Label WebsiteNameLabel;
         private Label UsernameLabel;
         private Label PasswordLabel;
+        private Button _hidePassword;
         private TextBox WebsiteNameTextbox;
         private TextBox UsernameTextbox;
         private TextBox PasswordTextbox;
