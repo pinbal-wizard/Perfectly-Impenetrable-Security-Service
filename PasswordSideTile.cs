@@ -80,9 +80,12 @@ namespace WinFormsApp1
             this.AutoSize = true;
 
         }
-
+        /// <summary>
+        /// SideTile displays the website link without the :// part, so on update set it to the bit after that
+        /// </summary>
         public void UpdateDisplay()
         {
+            //split, then last gets actual website name, then update Label
             SiteLabel.Text = WebSite.Split("://").Last();
             UsernameLabel.Text = Username;
         }

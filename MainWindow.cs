@@ -91,23 +91,18 @@ namespace WinFormsApp1
             {
                 IntializeInfoDisplay();
 
+                InfoDisplay.MagicMargin();
+                InfoDisplay.FixCopyMargins();
+
                 PasswordSideTile firstPasswordEntry = (PasswordSideTile)_sidePanelPasswords.Controls[0];
                 firstPasswordEntry.PasswordInfo_Click(this, EventArgs.Empty);
             }
 
             this.DoubleBuffered = true;
             this.ClientSizeChanged += MainWindow_Resize;
-            this.Shown += MainWindow_Shown;
             
             this.FormClosed += MainWindow_Close;
             ResumeLayout();
-        }
-
-        private void MainWindow_Shown(object? sender, EventArgs e)
-        {
-            InfoDisplay.MagicMargin();
-            InfoDisplay.FixCopyMargins();
-
         }
 
 
@@ -355,6 +350,10 @@ namespace WinFormsApp1
                 if (_sidePanelPasswords.Controls.Count == 2)
                 {
                     IntializeInfoDisplay();
+
+                    InfoDisplay.MagicMargin();
+                    InfoDisplay.FixCopyMargins();
+
                     PasswordSideTile firstEntry = (PasswordSideTile)_sidePanelPasswords.Controls[0];
                     firstEntry.PasswordInfo_Click(this, EventArgs.Empty);
                 }
