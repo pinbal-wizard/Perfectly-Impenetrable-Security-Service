@@ -45,6 +45,7 @@ namespace WinFormsApp1
         public static int LoadFromFile(MainWindow form)
         {
             string encryptedtext = File.ReadAllText(_saveLocation);
+            encryptedtext.Replace("\r", "");
 
             if (encryptedtext == "")
             {

@@ -58,6 +58,23 @@ namespace WinFormsApp1
 
             InitializeComponent();
         }
+        /// <summary>
+        /// Hides and unhides the password
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void _hidePassword_Click(object sender, EventArgs e)
+        {
+            if(_hidePassword.Text == "Show")
+            {
+                PasswordTextbox.PasswordChar = '\0';
+                _hidePassword.Text = "Hide";
+                return;
+            }
+            PasswordTextbox.PasswordChar = '●';
+            _hidePassword.Text = "Show";
+        }
+
 
 
         /// <summary>

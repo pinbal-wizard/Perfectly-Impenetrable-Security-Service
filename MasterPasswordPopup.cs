@@ -110,15 +110,5 @@ namespace WinFormsApp1
                 _passwordTextBox.Text = string.Empty;
             }
         }
-
-        private void MasterPasswordPopup_SizeChanged(object sender, EventArgs e)
-        {
-            int HalfWidth = ClientSize.Width / 2;
-            int HalfHeight = ClientSize.Height / 2;
-            this.PasswordTextBox.Location = new Point(HalfWidth - this.PasswordTextBox.Width, HalfHeight);
-            this.EnterPassLabel.Location = new Point(HalfWidth - this.EnterPassLabel.Width / 2, HalfHeight - (this.EnterPassLabel.Height));
-            this.SubmitPassBtn.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right + this.ShowPasswordButton.Width + this.ShowPasswordButton.Margin.Right, HalfHeight);
-            this.ShowPasswordButton.Location = new Point(this.PasswordTextBox.Location.X + this.PasswordTextBox.Width + this.PasswordTextBox.Margin.Right, HalfHeight);
-        }
     }
 }
